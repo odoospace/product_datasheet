@@ -1,0 +1,3 @@
+access_product_technical_info_section_user,product_technical_info.product_technical_info.section,model_product_technical_info_section,base.group_user,1,1,1,1
+access_product_technical_info_group_user,product_technical_info.product_technical_info.group,model_product_technical_info_group,base.group_user,1,1,1,1
+access_product_technical_info_info_user,product_technical_info.product_technical_info.info,model_product_technical_info_info,base.group_user,1,1,1,1
