@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="product_datasheet.action_window">
+            <field name="name">Product Datasheet Info</field>
+            <field name="res_model">product.datasheet.info</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- form view of model -->
+        <record id="product_datasheet_view_form" model="ir.ui.view">
+            <field name="name">Product Datasheet Info</field>
+            <field name="model">product.datasheet.info</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <field name="name"/>
+                        <field name="value"/>
+                        <field name="active"/>
+                        <field name="product_id"/>
+                        <field name="group_id"/>
+                        <field name="section_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="Product Datasheet" id="product_datasheet.menu_root"/>
+        <!-- menu categories -->
+        <menuitem name="Menu" id="product_datasheet.menu_1" parent="product_datasheet.menu_root"/>
+        <!-- actions -->
+        <menuitem name="List" id="product_datasheet.menu_1_list" parent="product_datasheet.menu_1"
+                  action="product_datasheet.action_window"/>
+    </data>
+</odoo>
