@@ -14,6 +14,7 @@ class Product(models.Model):
 
 class Section(models.Model):
     _name = 'product_technical_info.section'
+    _description = "Product Technical Section"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
@@ -28,6 +29,7 @@ class Section(models.Model):
 
 class Group(models.Model):
     _name = 'product_technical_info.group'
+    _description = "Product Technical Group"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
@@ -44,6 +46,7 @@ class Group(models.Model):
 
 class Info(models.Model):
     _name = 'product_technical_info.info'
+    _description = "Product Technical Info"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
