@@ -9,16 +9,16 @@ from datetime import datetime, date
 class Product(models.Model):
     _inherit = 'product.product'
 
-    group_ids = fields.One2many('product_technical_info.info', 'product_id')
+    group_ids = fields.One2many('product.datasheet.info', 'product_id')
 
 
 class Section(models.Model):
-    _name = 'product_technical_info.section'
-    _description = "Product Technical Section"
+    _name = 'product.datasheet.section'
+    _description = "Product Datasheet Section"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
-    group_ids = fields.One2many('product_technical_info.group', 'section_id')
+    group_ids = fields.One2many('product.datasheet.group', 'section_id')
     timestamp = fields.Datetime(default=datetime.now)
     active = fields.Boolean()
     # user_ids = ...
@@ -28,8 +28,8 @@ class Section(models.Model):
 
 
 class Group(models.Model):
-    _name = 'product_technical_info.group'
-    _description = "Product Technical Group"
+    _name = 'product.datasheet.group'
+    _description = "Product Datasheet Group"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
@@ -37,7 +37,7 @@ class Group(models.Model):
     
     active = fields.Boolean()
 
-    section_id = fields.Many2one('product_technical_info.section')
+    section_id = fields.Many2one('product.datasheet.section')
     # user_ids = ...
 
     def write(self):
@@ -45,8 +45,8 @@ class Group(models.Model):
 
 
 class Info(models.Model):
-    _name = 'product_technical_info.info'
-    _description = "Product Technical Info"
+    _name = 'product.datasheet.info'
+    _description = "Product Datasheet Info"
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
@@ -54,8 +54,8 @@ class Info(models.Model):
     timestamp = fields.Datetime(default=datetime.now)
     active = fields.Boolean()
 
-    product_id = fields.Many2one('product.product', string='Product technical info')
-    group_id = fields.Many2one('product_technical_info.group')
+    product_id = fields.Many2one('product.product', string='Product Datasheet info')
+    group_id = fields.Many2one('product.datasheet.group')
     section_id = fields.Many2one(related='group_id.section_id')
     # user_ids = ...
 
