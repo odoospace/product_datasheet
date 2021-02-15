@@ -1,12 +1,12 @@
 {
-    'name': "Heura - Product Tecnical Info",
+    'name': "Heura - Product Datasheet",
 
     'summary': """
-        Module that add extra modification to manage Tecnical Info 
+        Module that add extra modification to manage product datasheets
         """,
 
     'description': """
-        *   add extra modification to manage Tecnical Info
+        *   add extra modification to manage product datasheets
 
     """,
 
@@ -23,7 +23,8 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/templates.xml',
+        # 'views/templates.xml',
+        # 'views/views.xml',
     ],
 }
 
