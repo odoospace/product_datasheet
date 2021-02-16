@@ -34,9 +34,7 @@ class Group(models.Model):
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     timestamp = fields.Datetime.now()
-    
     active = fields.Boolean()
-
     section_id = fields.Many2one('product.datasheet.section')
     # user_ids = ...
 
@@ -55,7 +53,7 @@ class Info(models.Model):
     active = fields.Boolean()
 
     product_id = fields.Many2one('product.product', string='Product Datasheet info')
-    group_id = fields.Many2one('product.datasheet.group')
+    group_id = fields.Many2one('product.datasheet.group', required=True)
     section_id = fields.Many2one(related='group_id.section_id')
     # user_ids = ...
 
