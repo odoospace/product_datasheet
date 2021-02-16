@@ -1,5 +1,5 @@
 {
-    'name': "Heura - Product Datasheet",
+    'name': "Product Datasheet",
 
     'summary': """
         Module that add extra modification to manage product datasheets
@@ -10,8 +10,8 @@
 
     """,
 
-    'author': "Impulzia",
-    'website': "http://impulzia.com",
+    'author': "Impulso Diagonal",
+    'website': "https://impulso.xyz",
 
     # for the full list
     'category': 'Uncategorized',
