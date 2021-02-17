@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_product_user,product_datasheet.product.product,model_product_product,base.group_user,1,1,1,1
+access_product_template_user,product_datasheet.product.template,model_product_template,base.group_user,1,1,1,1
 access_product_datasheet_section_user,product_datasheet.product.datasheet.section,model_product_datasheet_section,base.group_user,1,1,1,1
 access_product_datasheet_group_user,product_datasheet.product.datasheet.group,model_product_datasheet_group,base.group_user,1,1,1,1
 access_product_datasheet_info_user,product_datasheet.product.datasheet.info,model_product_datasheet_info,base.group_user,1,1,1,1
