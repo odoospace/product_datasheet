@@ -7,7 +7,7 @@ from datetime import datetime, date
 
 
 class Product(models.Model):
-    _inherit = 'product.product'
+    _inherit = 'product.template'
 
     group_ids = fields.One2many('product.datasheet.info', 'product_id')
 
@@ -52,7 +52,7 @@ class Info(models.Model):
     timestamp = fields.Datetime.now()
     active = fields.Boolean()
 
-    product_id = fields.Many2one('product.product', string='Product Datasheet info')
+    product_id = fields.Many2one('product.product')
     group_id = fields.Many2one('product.datasheet.group', required=True)
     section_id = fields.Many2one(related='group_id.section_id')
     # user_ids = ...
