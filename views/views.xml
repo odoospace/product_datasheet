@@ -1,23 +1,32 @@
 <odoo>
     <data>
 
-        <!-- actions opening views on models -->
-        <record model="ir.actions.act_window" id="product_datasheet.action_window">
-            <field name="name">Product Datasheet Info</field>
-            <field name="res_model">product.datasheet.info</field>
-            <field name="view_mode">tree,form</field>
+        <record model="ir.ui.view" id="product_datasheet.list">
+            <field name="name">Product Datasheet List</field>
+            <field name="model">product.datasheet.info</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="active"/>
+                    <field name="product_id"/>
+                    <field name="code"/>
+                    <field name="group_id"/>
+                </tree>
+            </field>
         </record>
 
         <!-- form view of model -->
-        <record id="product_datasheet_view_form" model="ir.ui.view">
+        <record id="product_datasheet_view_info_form" model="ir.ui.view">
             <field name="name">Product Datasheet Info</field>
             <field name="model">product.datasheet.info</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form string="Product Datasheet Info">
                     <group>
                         <field name="name"/>
                         <field name="value"/>
                         <field name="active"/>
+                        <field name="code"/>
                         <field name="product_id"/>
                         <field name="group_id"/>
                         <field name="section_id"/>
@@ -26,12 +35,52 @@
             </field>
         </record>
 
-        <!-- Top menu item -->
-        <menuitem name="Product Datasheet" id="product_datasheet.menu_root"/>
-        <!-- menu categories -->
-        <menuitem name="Menu" id="product_datasheet.menu_1" parent="product_datasheet.menu_root"/>
-        <!-- actions -->
-        <menuitem name="List" id="product_datasheet.menu_1_list" parent="product_datasheet.menu_1"
-                  action="product_datasheet.action_window"/>
+        <!-- form view of model -->
+        <record id="product_datasheet_view_section_form" model="ir.ui.view">
+            <field name="name">Product Datasheet Section</field>
+            <field name="model">product.datasheet.section</field>
+            <field name="arch" type="xml">
+                <form string="Product Datasheet Section">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="code"/>
+                        <field name="group_ids"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- form view of model -->
+        <record id="product_datasheet_view_group_form" model="ir.ui.view">
+            <field name="name">Product Datasheet Group</field>
+            <field name="model">product.datasheet.group</field>
+            <field name="arch" type="xml">
+                <form string="Product Datasheet Group">
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="section_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_datasheet_tab" model="ir.ui.view">
+            <field name="name">product.datasheet</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='purchase']" position="after">
+                    <page string="Datasheets" name="datasheets">
+                        <group name="datasheets">
+                            <field name="group_ids"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>
