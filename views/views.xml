@@ -82,5 +82,27 @@
             </field>
         </record>
 
+        <record model="ir.actions.act_window" id="product_datasheet.section_action_window">
+            <field name="name">Product Datasheet Section </field>
+            <field name="res_model">product.datasheet.section</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="product_datasheet.group_action_window">
+            <field name="name">Product Datasheet Group</field>
+            <field name="res_model">product.datasheet.group</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu categories -->
+        <menuitem name="Datasheets" id="product_datasheet.menu_1" parent="purchase.menu_purchase_config"/>
+        <!-- actions -->
+        <menuitem name="Sections" id="product_datasheet.menu_1_list" parent="product_datasheet.menu_1"
+                  action="product_datasheet.section_action_window"/>
+
+        <menuitem name="Groups" id="product_datasheet.menu_2_list" parent="product_datasheet.menu_1"
+                  action="product_datasheet.group_action_window"/>
+
+
     </data>
 </odoo>
