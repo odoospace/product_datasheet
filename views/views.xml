@@ -97,10 +97,10 @@
         <!-- menu categories -->
         <menuitem name="Datasheets" id="product_datasheet.menu_1" parent="purchase.menu_purchase_config"/>
         <!-- actions -->
-        <menuitem name="Sections" id="product_datasheet.menu_1_list" parent="product_datasheet.menu_1"
+        <menuitem name="Sections" id="product_datasheet.menu_sections_list" parent="product_datasheet.menu_1"
                   action="product_datasheet.section_action_window"/>
 
-        <menuitem name="Groups" id="product_datasheet.menu_2_list" parent="product_datasheet.menu_1"
+        <menuitem name="Groups" id="product_datasheet.menu_groups_list" parent="product_datasheet.menu_1"
                   action="product_datasheet.group_action_window"/>
 
 
