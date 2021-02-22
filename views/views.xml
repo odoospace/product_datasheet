@@ -94,15 +94,23 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- menu categories -->
-        <menuitem name="Datasheets" id="product_datasheet.menu_1" parent="purchase.menu_purchase_config"/>
+        <!-- menu categories purchases -->
+        <menuitem name="Datasheets" id="product_datasheet.menu_purchases" parent="purchase.menu_purchase_config"/>
         <!-- actions -->
-        <menuitem name="Sections" id="product_datasheet.menu_sections_list" parent="product_datasheet.menu_1"
+        <menuitem name="Sections" id="product_datasheet.menu_purchases_sections_list" parent="product_datasheet.menu_purchases"
                   action="product_datasheet.section_action_window"/>
 
-        <menuitem name="Groups" id="product_datasheet.menu_groups_list" parent="product_datasheet.menu_1"
+        <menuitem name="Groups" id="product_datasheet.menu_purchases_groups_list" parent="product_datasheet.menu_purchases"
                   action="product_datasheet.group_action_window"/>
 
+        <!-- menu categories sales -->
+        <menuitem name="Datasheets" id="product_datasheet.menu_sales" parent="sale.menu_sale_config"/>
+        <!-- actions -->
+        <menuitem name="Sections" id="product_datasheet.menu_sales_sections_list" parent="product_datasheet.menu_sales"
+                  action="product_datasheet.section_action_window"/>
+
+        <menuitem name="Groups" id="product_datasheet.menu_sales_groups_list" parent="product_datasheet.menu_sales"
+                  action="product_datasheet.group_action_window"/>
 
     </data>
 </odoo>
