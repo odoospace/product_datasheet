@@ -35,23 +35,6 @@
             </field>
         </record>
 
-        <!-- form view of model -->
-        <!--<record id="product_datasheet_view_section_form" model="ir.ui.view">
-            <field name="name">Product Datasheet Section</field>
-            <field name="model">product.datasheet.section</field>
-            <field name="arch" type="xml">
-                <form string="Product Datasheet Section">
-                    <group>
-                        <field name="name"/>
-                        <field name="active"/>
-                        <field name="code"/>
-                        <field name="group_ids"/>
-                    </group>
-                </form>
-            </field>
-        </record>
--->
-
         <record id="product_datasheet_view_section_form" model="ir.ui.view">
             <field name="name">Product Datasheet Section</field>
             <field name="model">product.datasheet.section</field>
