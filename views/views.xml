@@ -42,13 +42,14 @@
                 <form string="Product Datasheet Section">
                     <notebook>
                         <page string="Groups" name="groups">
-                            <group >
+                            <group>
                                 <field name="group_ids" options="{'no_open': True}" nolabel="1">
-                                <tree editable="bottom">
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="active"/>
-                                </tree>
+                                    <tree editable="bottom">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="active"/>
+                                        <field name="timestamp"/>
+                                    </tree>
                                 </field>
                             </group>
                         </page>
@@ -81,7 +82,19 @@
                 <xpath expr="//page[@name='purchase']" position="after">
                     <page string="Datasheets" name="datasheets">
                         <group name="datasheets">
-                            <field name="group_ids"/>
+                            <!--<field name="group_ids"/>-->
+                            <field name="group_ids" options="{'no_open': True}" nolabel="1">
+                                <field name="code"/>
+                                <tree editable="bottom">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="value"/>
+                                    <field name="timestamp"/>
+                                    <field name="active"/>
+                                    <field name="group_id"/>
+                                    <field name="section_id"/>
+                                </tree>
+                            </field>
                         </group>
                     </page>
                 </xpath>
