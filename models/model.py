@@ -19,7 +19,7 @@ class Section(models.Model):
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
-    timestamp = fields.Datetime.now()
+    timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
     # user_ids = ...
 
@@ -33,7 +33,7 @@ class Group(models.Model):
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
-    timestamp = fields.Datetime.now()
+    timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
     section_id = fields.Many2one('product.datasheet.section')
     # user_ids = ...
@@ -49,7 +49,7 @@ class Info(models.Model):
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     value = fields.Char()
-    timestamp = fields.Datetime.now()
+    timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
 
     product_id = fields.Many2one('product.product')
