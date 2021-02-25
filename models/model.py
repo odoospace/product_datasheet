@@ -1,9 +1,7 @@
 from odoo import models, fields, api, _
 from datetime import datetime, date
 
-# TODO: add config menu
-# TODO: add forms and tree views
-# TODO: write historic info  
+# TODO: write historic info
 
 
 class Product(models.Model):
@@ -21,6 +19,7 @@ class Section(models.Model):
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
+
     # user_ids = ...
 
     def write(self):
@@ -36,18 +35,32 @@ class Group(models.Model):
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
     section_id = fields.Many2one('product.datasheet.section')
+
     # user_ids = ...
 
     def write(self):
         pass
 
 
+class Field(models.Model):
+    _name = "product.datasheet.field"
+    _description = "Product Datasheet Field"
+
+    code = fields.Char(required=True)
+    name = fields.Char(required=True, translate=True)
+    type = fields.Selection(
+        [
+            ("integer", "Integer"),
+            ("string", "String"),
+            ("html", "HTML"),
+        ], required=True)
+    info_ids = fields.One2many('product.datasheet.info', 'field_id')
+
+
 class Info(models.Model):
     _name = 'product.datasheet.info'
     _description = "Product Datasheet Info"
 
-    code = fields.Char(required=True)
-    name = fields.Char(required=True, translate=True)
     value = fields.Char()
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
@@ -55,14 +68,9 @@ class Info(models.Model):
     product_id = fields.Many2one('product.product')
     group_id = fields.Many2one('product.datasheet.group', required=True)
     section_id = fields.Many2one(related='group_id.section_id')
+    field_id = fields.Many2one('product.datasheet.field')
+
     # user_ids = ...
 
     def write(self):
         pass
-
-    
-    
-
-
-
-
