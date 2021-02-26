@@ -6,11 +6,10 @@
             <field name="model">product.datasheet.info</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="name"/>
+                    <field name="field_id"/>
                     <field name="value"/>
                     <field name="active"/>
                     <field name="product_id"/>
-                    <field name="code"/>
                     <field name="group_id"/>
                 </tree>
             </field>
@@ -23,10 +22,9 @@
             <field name="arch" type="xml">
                 <form string="Product Datasheet Info">
                     <group>
-                        <field name="name"/>
+                        <field name="field_id"/>
                         <field name="value"/>
                         <field name="active"/>
-                        <field name="code"/>
                         <field name="product_id"/>
                         <field name="group_id"/>
                         <field name="section_id"/>
@@ -86,8 +84,7 @@
                             <field name="group_ids" options="{'no_open': True}" nolabel="1">
                                 <field name="code"/>
                                 <tree editable="bottom">
-                                    <field name="code"/>
-                                    <field name="name"/>
+                                    <field name="field_id"/>
                                     <field name="value"/>
                                     <field name="timestamp"/>
                                     <field name="active"/>
