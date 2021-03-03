@@ -1,5 +1,7 @@
-from odoo import models, fields, api, _
 from datetime import datetime, date
+
+from odoo import models, fields, api, _
+
 
 # TODO: write historic info
 
@@ -16,9 +18,10 @@ class Section(models.Model):
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
-    group_ids = fields.One2many('product.datasheet.group', 'section_id')
-    timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
+    timestamp = fields.Datetime(default=fields.Datetime.now)
+
+    group_ids = fields.One2many('product.datasheet.group', 'section_id')
 
     # user_ids = ...
 
@@ -34,6 +37,7 @@ class Group(models.Model):
     name = fields.Char(required=True, translate=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean()
+
     section_id = fields.Many2one('product.datasheet.section')
 
     # user_ids = ...
@@ -51,10 +55,23 @@ class Field(models.Model):
     type = fields.Selection(
         [
             ("integer", "Integer"),
-            ("string", "String"),
+            ("string", "String)"),
             ("html", "HTML"),
-        ], required=True)
+        ], required=True, translate=True)
+    uom = fields.Selection(
+        [
+            ("gr", _("Gr")),
+            ("µg", _("µg")),
+            ("mg", _("Mg")),
+            ("kcal", _("Kcal")),
+            ("KJ", _("KJ")),
+            ("unidad", _("Unidad")),
+            ("kg", _("Kg")),
+            ("l", _("L")),
+        ], translate=True)
+
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
+    group_ids = fields.One2many('product.datasheet.info', 'group_id')
 
 
 class Info(models.Model):
@@ -67,10 +84,11 @@ class Info(models.Model):
 
     product_id = fields.Many2one('product.product')
     group_id = fields.Many2one('product.datasheet.group', required=True)
-    section_id = fields.Many2one(related='group_id.section_id')
     field_id = fields.Many2one('product.datasheet.field')
+
+    section_id = fields.Many2one(related='group_id.section_id')
 
     # user_ids = ...
 
-    def write(self):
-        pass
+    # def write(self):
+    #     pass
