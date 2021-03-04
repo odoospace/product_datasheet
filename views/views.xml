@@ -84,11 +84,11 @@
                             <field name="group_ids" options="{'no_open': True}" nolabel="1">
                                 <field name="code"/>
                                 <tree editable="bottom">
-                                    <field name="section_id"/>
-                                    <field name="group_id"/>
                                     <field name="field_id"/>
                                     <field name="value"/>
-                                    <field name="active"/>
+                                    <field name="section_id"/>
+                                    <field name="group_id"/>
+                                    <field name="uom"/>
                                     <field name="timestamp"/>
                                 </tree>
                             </field>

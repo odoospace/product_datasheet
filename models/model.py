@@ -87,6 +87,7 @@ class Info(models.Model):
     field_id = fields.Many2one('product.datasheet.field')
 
     section_id = fields.Many2one(related='group_id.section_id')
+    uom = fields.Selection(related='field_id.uom')
 
     # user_ids = ...
 
