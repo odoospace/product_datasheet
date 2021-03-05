@@ -71,7 +71,6 @@ class Field(models.Model):
         ], translate=True)
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
-    group_ids = fields.One2many('product.datasheet.info', 'group_id')
 
 
 class Info(models.Model):
