@@ -83,7 +83,7 @@
                             <field
                                     name="info_ids"
                                     options="{'no_open': True}" nolabel="1"
-                                    context="{'default_info_ids': active_id, 'default_active': True}">
+                                    context="{'default_product_id': active_id, 'default_active': True}">
                                 <field name="code"/>
                                 <tree editable="bottom">
                                     <field name="field_id"/>
