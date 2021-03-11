@@ -7,9 +7,9 @@ from odoo import models, fields, api, _
 
 
 class Product(models.Model):
-    _inherit = 'product.template'
+    _inherit = 'product.product'
 
-    group_ids = fields.One2many('product.datasheet.info', 'product_id')
+    info_ids = fields.One2many('product.datasheet.info', 'product_id')
 
 
 class Section(models.Model):
