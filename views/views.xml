@@ -56,6 +56,33 @@
             </field>
         </record>
 
+        <record id="product_datasheet_view_fields_form" model="ir.ui.view">
+            <field name="name">Product Datasheet Fields</field>
+            <field name="model">product.datasheet.field</field>
+            <field name="arch" type="xml">
+                <form string="Product Datasheet Fields">
+                    <notebook>
+                        <page string="Groups" name="groups">
+                            <group>
+                                <field
+                                        name="info_ids"
+                                        options="{'no_open': True}" nolabel="1"
+                                        context="{'default_info_ids': active_id, 'default_active': True}">
+                                    <tree editable="bottom">
+                                        <field name="field_id"/>
+                                        <field name="uom"/>
+                                        <field name="section_id"/>
+                                        <field name="group_id"/>
+                                        <field invisible="1" name="active"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
         <!-- form view of model -->
         <record id="product_datasheet_view_group_form" model="ir.ui.view">
             <field name="name">Product Datasheet Group</field>
@@ -115,6 +142,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.actions.act_window" id="product_datasheet.field_action_window">
+            <field name="name">Product Datasheet Field</field>
+            <field name="res_model">product.datasheet.field</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <!-- menu categories purchases -->
         <menuitem name="Datasheets" id="product_datasheet.menu_purchases" parent="purchase.menu_purchase_config"/>
         <!-- actions -->
@@ -127,6 +160,10 @@
         <!-- actions -->
         <menuitem name="Sections" id="product_datasheet.menu_sales_sections_list" parent="product_datasheet.menu_sales"
                   action="product_datasheet.section_action_window"/>
+
+        <menuitem name="Fields" id="product_datasheet.menu_sales_fields_list" parent="product_datasheet.menu_sales"
+                  action="product_datasheet.field_action_window"/>
+
 
     </data>
 </odoo>
