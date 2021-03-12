@@ -55,7 +55,7 @@ class Field(models.Model):
     type = fields.Selection(
         [
             ("integer", "Integer"),
-            ("string", "String)"),
+            ("string", "String"),
             ("html", "HTML"),
         ], required=True, translate=True)
     uom = fields.Selection(
