@@ -57,10 +57,12 @@ class Field(models.Model):
             ("integer", "Integer"),
             ("string", "String"),
             ("html", "HTML"),
+            ("selection", "Selection"),
         ], required=True, translate=True)
     uom = fields.Selection(
         [
             ("gr", _("Gr")),
+            ("cfu/g", _("cfu/gr")),
             ("µg", _("µg")),
             ("mg", _("Mg")),
             ("kcal", _("Kcal")),
