@@ -62,7 +62,7 @@ class Field(models.Model):
     uom = fields.Selection(
         [
             ("gr", _("Gr")),
-            ("cfu/g", _("cfu/gr")),
+            ("cfu_g", _("cfu_gr")),
             ("m3", _("m3")),
             ("cm", _("Cm")),
             ("cm3", _("Cm3")),
