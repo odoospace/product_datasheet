@@ -63,7 +63,13 @@ class Field(models.Model):
         [
             ("gr", _("Gr")),
             ("cfu/g", _("cfu/gr")),
+            ("m3", _("m3")),
+            ("cm", _("Cm")),
+            ("cm3", _("Cm3")),
+            ("mm", _("Mm")),
+            ("ud", _("Ud")),
             ("µg", _("µg")),
+            ("caja", _("Caja")),
             ("mg", _("Mg")),
             ("kcal", _("Kcal")),
             ("KJ", _("KJ")),
