@@ -15,15 +15,15 @@
 
     # for the full list
     'category': 'Uncategorized',
-    'version': '13.0.1.0.19',
+    'version': '13.0.1.26.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'sale'],
+    'depends': ['base', 'sale'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        # 'views/templates.xml',
+        'views/templates.xml',
         'views/views.xml',
     ],
 }

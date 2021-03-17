@@ -1,0 +1,13 @@
+/*experimental stuff*/
+
+.tree_datasheet_info .o_list_view .o_column_sortable{
+    text-align: left !important;
+}
+
+.tree_datasheet_info .o_list_view .o_list_number{
+    text-align: left !important;
+}
+
+.tree_datasheet_info:nth-child(1) {
+    width: 200px;
+}
