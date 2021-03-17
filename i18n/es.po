@@ -294,7 +294,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__uom
 msgid "Uom"
-msgstr ""
+msgstr "U.Medida"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value
