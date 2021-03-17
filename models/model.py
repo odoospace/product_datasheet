@@ -62,18 +62,18 @@ class Field(models.Model):
     uom = fields.Selection(
         [
             ("gr", _("Gr")),
-            ("cfu_g", _("cfu_gr")),
+            ("cfu_g", _("Cfu/Gr")),
             ("m3", _("m3")),
             ("cm", _("Cm")),
             ("cm3", _("Cm3")),
             ("mm", _("Mm")),
             ("ud", _("Ud")),
             ("µg", _("µg")),
-            ("caja", _("Caja")),
+            ("box", _("Box")),
             ("mg", _("Mg")),
             ("kcal", _("Kcal")),
             ("KJ", _("KJ")),
-            ("unidad", _("Unidad")),
+            ("ud", _("Ud")),
             ("kg", _("Kg")),
             ("l", _("L")),
         ], translate=True)
