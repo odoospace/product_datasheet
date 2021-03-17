@@ -205,7 +205,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__name
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #. module: product_datasheet
 #: model:ir.model,name:product_datasheet.model_product_product
