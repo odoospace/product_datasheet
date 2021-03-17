@@ -105,7 +105,7 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='purchase']" position="after">
-                    <page string="Datasheets" name="datasheets">
+                    <page string="datasheets" name="datasheets">
                         <group>
                             <group name="datasheets">
                                 <field

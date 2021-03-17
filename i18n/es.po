@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0+e\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-17 12:49+0000\n"
-"PO-Revision-Date: 2021-03-17 12:49+0000\n"
+"POT-Creation-Date: 2021-03-17 16:19+0000\n"
+"PO-Revision-Date: 2021-03-17 16:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,6 @@ msgstr "Activo"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__box
 #, python-format
 msgid "Box"
 msgstr "Caja"
@@ -76,7 +75,6 @@ msgstr "Creado el"
 #. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_purchases
 #: model:ir.ui.menu,name:product_datasheet.menu_sales
-#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Datasheets"
 msgstr ""
 
@@ -175,7 +173,7 @@ msgstr "Modificado por última vez el"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_uid
-msgid "Actualizado por última vez por"
+msgid "Last Updated by"
 msgstr ""
 
 #. module: product_datasheet
@@ -300,6 +298,11 @@ msgstr "U.Medida"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value
 msgid "Value"
 msgstr "Valor"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+msgid "datasheets"
+msgstr ""
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
