@@ -1,0 +1,316 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_datasheet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-17 12:49+0000\n"
+"PO-Revision-Date: 2021-03-17 12:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__active
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__active
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__box
+#, python-format
+msgid "Box"
+msgstr "Caja"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__cfu_g
+#, python-format
+msgid "Cfu/Gr"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__cm
+#, python-format
+msgid "Cm"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__cm3
+#, python-format
+msgid "Cm3"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__code
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__code
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__code
+msgid "Code"
+msgstr "Código"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_uid
+msgid "Created by"
+msgstr "Creado Por"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: product_datasheet
+#: model:ir.ui.menu,name:product_datasheet.menu_purchases
+#: model:ir.ui.menu,name:product_datasheet.menu_sales
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+msgid "Datasheets"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__field_id
+msgid "Field"
+msgstr "Campo"
+
+#. module: product_datasheet
+#: model:ir.ui.menu,name:product_datasheet.menu_sales_fields_list
+msgid "Fields"
+msgstr "Campos"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__gr
+#, python-format
+msgid "Gr"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
+msgid "Group"
+msgstr "Grupo"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
+msgid "Groups"
+msgstr "Grupos"
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__html
+msgid "HTML"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__id
+msgid "ID"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__info_ids
+#: model:ir.model.fields,field_description:product_datasheet.field_product_product__info_ids
+msgid "Info"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__integer
+msgid "Integer"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__kj
+#, python-format
+msgid "KJ"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__kcal
+#, python-format
+msgid "Kcal"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__kg
+#, python-format
+msgid "Kg"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section____last_update
+msgid "Last Modified on"
+msgstr "Modificado por última vez el"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_uid
+msgid "Actualizado por última vez por"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_date
+msgid "Last Updated on"
+msgstr "Actualizado por última vez el"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__mg
+#, python-format
+msgid "Mg"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__mm
+#, python-format
+msgid "Mm"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__name
+msgid "Name"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_product
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.field_action_window
+#: model:ir.model,name:product_datasheet.model_product_datasheet_field
+msgid "Product Datasheet Field"
+msgstr ""
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
+msgid "Product Datasheet Fields"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.group_action_window
+#: model:ir.model,name:product_datasheet.model_product_datasheet_group
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_group_form
+msgid "Product Datasheet Group"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_info
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_form
+msgid "Product Datasheet Info"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_section
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
+msgid "Product Datasheet Section"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.section_action_window
+msgid "Product Datasheet Section "
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__section_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
+msgid "Section"
+msgstr "Sección"
+
+#. module: product_datasheet
+#: model:ir.ui.menu,name:product_datasheet.menu_purchases_sections_list
+#: model:ir.ui.menu,name:product_datasheet.menu_sales_sections_list
+msgid "Sections"
+msgstr "Secciones"
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__selection
+msgid "Selection"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__string
+msgid "String"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__timestamp
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__timestamp
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__timestamp
+msgid "Timestamp"
+msgstr "Fecha"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__type
+msgid "Type"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__ud
+#, python-format
+msgid "Ud"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__uom
+msgid "Uom"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__m3
+#, python-format
+msgid "m3"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__µg
+#, python-format
+msgid "µg"
+msgstr ""
