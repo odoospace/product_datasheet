@@ -22,6 +22,7 @@ class Section(models.Model):
 
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
 
+
 class Group(models.Model):
     _name = 'product.datasheet.group'
     _description = "Product Datasheet Group"
@@ -32,6 +33,7 @@ class Group(models.Model):
     active = fields.Boolean(default=True)
 
     section_id = fields.Many2one('product.datasheet.section')
+
 
 class Field(models.Model):
     _name = "product.datasheet.field"
@@ -44,7 +46,7 @@ class Field(models.Model):
             ("integer", "Integer"),
             ("string", "String"),
             ("html", "HTML"),
-            ("selection", "Selection"), #comma separated values or so
+            ("selection", "Selection"),  # comma separated values or so
         ], required=True, translate=True)
     uom = fields.Selection(
         [
@@ -70,6 +72,7 @@ class Field(models.Model):
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
 
+
 class Info(models.Model):
     _name = 'product.datasheet.info'
     _description = "Product Datasheet Info"
@@ -78,13 +81,11 @@ class Info(models.Model):
     def _compute_value_name(self):
         for record in self:
             # This will be called every time the value field changes
-            if len(record.value) > 50:
+            if record.value and len(record.value) > 50:
                 record.value_display = record.value[:47] + '...'
             else:
                 record.value_display = record.value
 
-
-    
     field_id = fields.Many2one('product.datasheet.field', required=True)
     value = fields.Text(translatable=True)
     value_display = fields.Text(compute=_compute_value_name)
@@ -103,6 +104,7 @@ class ProductProduct(models.Model):
 
     datasheet_note = fields.Text()
     country_ids = fields.Many2many('res.country', 'product_ids')
+
 
 class Country(models.Model):
     _inherit = 'res.country'
