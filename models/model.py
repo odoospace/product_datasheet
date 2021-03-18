@@ -78,11 +78,10 @@ class Info(models.Model):
     def _compute_value_name(self):
         for record in self:
             # This will be called every time the value field changes
-            if not isinstance(record.value, bool):
-                if len(record.value) > 50:
-                    record.value_display = record.value[:47] + '...'
-                else:
-                    record.value_display = record.value
+            if len(record.value) > 50:
+                record.value_display = record.value[:47] + '...'
+            else:
+                record.value_display = record.value
 
 
     
