@@ -15,7 +15,7 @@
 
     # for the full list
     'category': 'Uncategorized',
-    'version': '13.0.1.27.0',
+    'version': '13.0.1.28.0',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'sale'],
