@@ -216,7 +216,7 @@ msgstr ""
 #. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.product_list
 msgid "Products"
-msgstr "Prouctos"
+msgstr "Productos"
 
 #. module: product_datasheet
 #: model:ir.actions.act_window,name:product_datasheet.product_action_window
