@@ -62,6 +62,10 @@ class Field(models.Model):
             ("ud", _("unidades")),
             ("kg", _("kg")),
             ("l", _("l")),
+            ("min", _("min")),
+            ("seg", _("seg")),
+            ("day", _("day")),
+            ("month", _("month")),
         ])
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
