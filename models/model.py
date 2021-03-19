@@ -95,7 +95,7 @@ class Info(models.Model):
                 record.value_display = record.value
 
     field_id = fields.Many2one('product.datasheet.field', required=True)
-    value = fields.Text(translate=True, required=True)
+    value = fields.Text(translate=True)
     value_display = fields.Text(compute=_compute_value_name)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
