@@ -24,10 +24,26 @@
                     <group>
                         <field name="field_id"/>
                         <field name="value"/>
-                        <field name="group_id"/>
+                        <field name="value_display" invisible="1"/>
+                        <field name="uom"/>
                         <field name="section_id"/>
+                        <field name="group_id"/>
+                        <field name="timestamp" invisible="1"/>
                     </group>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_datasheet_view_section_list">
+            <field name="name">Product Datasheet Section</field>
+            <field name="model">product.datasheet.section</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="group_ids"/>
+                    <field name="timestamp"/>
+                </tree>
             </field>
         </record>
 
@@ -58,6 +74,19 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="product_datasheet_view_fields_list" >
+            <field name="name">Product Datasheet Fields</field>
+            <field name="model">product.datasheet.field</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="uom"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="product_datasheet_view_fields_form" model="ir.ui.view">
             <field name="name">Product Datasheet Fields</field>
             <field name="model">product.datasheet.field</field>
@@ -74,8 +103,10 @@
                             <field name="info_ids" nolabel="1">
                                 <tree create="0">
                                     <field name="field_id"/>
+                                    <field name="product_id"/>
                                     <field name="section_id"/>
                                     <field name="group_id"/>
+                                    <field name="timestamp"/>
                                 </tree>
                             </field>
                         </page>
@@ -108,7 +139,7 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='purchase']" position="after">
+                <xpath expr="//page[@name='general_information']" position="before">
                     <page string="Datasheet" name="datasheet">
                         <group>
                             <field string="Countries" name="country_ids" widget="many2many_tags"/>
@@ -122,11 +153,11 @@
                                         nolabel="1"
                                         context="{'default_info_ids': active_id, 'default_active': True}">
                                         <tree class="tree_datasheet_info">
-                                            <field name="field_id" style="width:50% !important"/>
-                                            <field name="value_display" style="width:20% !important"/>
+                                            <field name="field_id" style="width:20% !important"/>
+                                            <field name="value_display" string="Value" style="width:30% !important"/>
                                             <field name="uom"/>
                                             <field name="section_id"/>
-                                            <field name="group_id"/>
+                                            <field name="group_name"/>
                                             <field name="timestamp"/>
                                         </tree>
                                     </field>

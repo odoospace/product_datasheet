@@ -25,10 +25,19 @@ class Section(models.Model):
 
 class Group(models.Model):
     _name = 'product.datasheet.group'
+    _rec_name= 'fullname'
     _description = "Product Datasheet Group"
+
+    #@api.depends('name', 'section_id')
+    def _get_fullname(self):
+        for record in self:
+            print('>>>', record)
+            res = f'{self.name} ({self.section_id.name})'
+            record.fullname = res
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
+    fullname = fields.Text(compute=_get_fullname, store=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
 
@@ -87,7 +96,7 @@ class Info(models.Model):
                 record.value_display = record.value
 
     field_id = fields.Many2one('product.datasheet.field', required=True)
-    value = fields.Text(translatable=True)
+    value = fields.Text(translate=True, required=True)
     value_display = fields.Text(compute=_compute_value_name)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
@@ -95,6 +104,7 @@ class Info(models.Model):
     product_id = fields.Many2one('product.product')
     group_id = fields.Many2one('product.datasheet.group', required=True)
     # related fields
+    group_name = fields.Char(related='group_id.name')
     section_id = fields.Many2one(related='group_id.section_id')
     uom = fields.Selection(related='field_id.uom')
 
