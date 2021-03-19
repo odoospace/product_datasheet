@@ -31,8 +31,7 @@ class Group(models.Model):
     #@api.depends('name', 'section_id')
     def _get_fullname(self):
         for record in self:
-            print('>>>', record)
-            res = f'{self.name} ({self.section_id.name})'
+            res = f'{record.name} ({record.section_id.name})'
             record.fullname = res
 
     code = fields.Char(required=True)
