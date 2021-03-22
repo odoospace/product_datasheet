@@ -103,7 +103,7 @@ class Info(models.Model):
     product_id = fields.Many2one('product.product')
     group_id = fields.Many2one('product.datasheet.group', required=True)
     # related fields
-    group_name = fields.Char(related='group_id.name')
+    group_name = fields.Char(string=_('Group'), related='group_id.name')
     section_id = fields.Many2one(related='group_id.section_id')
     uom = fields.Selection(related='field_id.uom')
 

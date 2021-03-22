@@ -14,8 +14,8 @@
     'website': "https://impulso.xyz",
 
     # for the full list
-    'category': 'Uncategorized',
-    'version': '13.0.1.33.0',
+    'category': 'Extra Tools',
+    'version': '13.0.1.34.0',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'sale'],

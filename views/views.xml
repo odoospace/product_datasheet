@@ -157,7 +157,7 @@
                                             <field name="value_display" string="Value" style="width:30% !important"/>
                                             <field name="uom"/>
                                             <field name="section_id"/>
-                                            <field name="group_name"/>
+                                            <field name="group_name" string="Group"/>
                                             <field name="timestamp"/>
                                         </tree>
                                     </field>
