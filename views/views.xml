@@ -153,11 +153,11 @@
                                         nolabel="1"
                                         context="{'default_info_ids': active_id, 'default_active': True}">
                                         <tree class="tree_datasheet_info">
+                                            <field name="section_id"/>
+                                            <field name="group_name" string="Group"/>
                                             <field name="field_id" style="width:20% !important"/>
                                             <field name="value_display" string="Value" style="width:30% !important"/>
                                             <field name="uom"/>
-                                            <field name="section_id"/>
-                                            <field name="group_name" string="Group"/>
                                             <field name="timestamp"/>
                                         </tree>
                                     </field>
