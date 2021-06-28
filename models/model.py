@@ -4,13 +4,6 @@ from odoo import models, fields, api, _
 
 
 # TODO: write historic info
-
-class Product(models.Model):
-    _inherit = 'product.product'
-
-    info_ids = fields.One2many('product.datasheet.info', 'product_id')
-
-
 class Section(models.Model):
     _name = 'product.datasheet.section'
     _description = "Product Datasheet Section"
@@ -83,7 +76,8 @@ class Field(models.Model):
 
 class Info(models.Model):
     _name = 'product.datasheet.info'
-    _description = "Product Datasheet Info"
+    _description = 'Product Datasheet Info'
+    _order = 'sequence'
 
     @api.depends('value')
     def _compute_value_name(self):
@@ -106,13 +100,43 @@ class Info(models.Model):
     group_name = fields.Char(string=_('Group'), related='group_id.name')
     section_id = fields.Many2one(related='group_id.section_id')
     uom = fields.Selection(related='field_id.uom')
+    sequence = fields.Integer(default=1)
 
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    def filter_by_name(self):
+        res = [('field_id.name', 'ilike', self.filter_field)]
+        return res
+
+    info_ids = fields.One2many('product.datasheet.info', 'product_id', domain=filter_by_name)
+
     datasheet_note = fields.Text()
     country_ids = fields.Many2many('res.country', 'product_ids')
+
+    # filters
+    filter_field = fields.Char('Field')
+    filter_section = fields.Many2one('product.datasheet.section')
+    filter_group = fields.Many2one('product.datasheet.group')
+
+    # add the field itself to onchange to trigger this method in edit mode too
+    @api.onchange('filter_field') 
+    def onchange_filter_field(self):
+        print('***')
+        domain = []
+        if self.filter_field:
+            domain.append(('field_id.name', 'ilike', self.filter_field))
+        if self.filter_section:
+            domain.append(('field_id.section_id', 'ilike', self.filter_section))
+        if self.filter_group:
+            domain.append(('field_id.group_id', 'ilike', self.filter_group))
+        res = {'domain': {'info_ids': domain}}
+        print(res)
+        self.info_ids = []
+        return res
+
+
 
 
 class Country(models.Model):

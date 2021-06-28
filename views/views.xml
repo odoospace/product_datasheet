@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
 
@@ -74,7 +75,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="product_datasheet_view_fields_list" >
+        <record model="ir.ui.view" id="product_datasheet_view_fields_list">
             <field name="name">Product Datasheet Fields</field>
             <field name="model">product.datasheet.field</field>
             <field name="arch" type="xml">
@@ -112,9 +113,11 @@
                         </page>
                     </notebook>
                 </form>
+                <!--
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="editable" />
+                    <attribute name="editable"/>
                 </xpath>
+                -->
             </field>
         </record>
 
@@ -145,14 +148,17 @@
                             <field string="Countries" name="country_ids" widget="many2many_tags"/>
                             <field string="Note" name="datasheet_note"/>
                         </group>
+                        <group string="Filters">
+                            <field string="Field" name="filter_field"/>
+                            <field string="Section" name="filter_section"/>
+                            <field string="Group" name="filter_group"/>
+                        </group>
                         <notebook>
                             <page string="Data" name="data">
                                 <group>
-                                    <field
-                                        name="info_ids"
-                                        nolabel="1"
-                                        context="{'default_info_ids': active_id, 'default_active': True}">
+                                    <field name="info_ids" nolabel="1" context="{'default_info_ids': active_id, 'default_active': True}">
                                         <tree class="tree_datasheet_info">
+                                            <field name='sequence' widget='handle'/>
                                             <field name="section_id"/>
                                             <field name="group_name" string="Group"/>
                                             <field name="field_id" style="width:20% !important"/>
@@ -196,26 +202,13 @@
         <!-- menu categories -->
         <menuitem name="Datasheets" id="product_datasheet.menu"/>
 
-        <menuitem name="Products"
-            id="product_datasheet.product_list"
-            parent="product_datasheet.menu"
-            action="product_datasheet.product_action_window"
-            sequence="10"/>
+        <menuitem name="Products" id="product_datasheet.product_list" parent="product_datasheet.menu" action="product_datasheet.product_action_window" sequence="10"/>
 
-        <menuitem name="Config"
-            parent="product_datasheet.menu"
-            id="product_datasheet.menu_config"
-            sequence="20"/>
+        <menuitem name="Config" parent="product_datasheet.menu" id="product_datasheet.menu_config" sequence="20"/>
 
         <!-- actions -->
-        <menuitem name="Sections"
-            id="product_datasheet.menu_sections_list"
-            parent="product_datasheet.menu_config"
-            action="product_datasheet.section_action_window"/>
+        <menuitem name="Sections" id="product_datasheet.menu_sections_list" parent="product_datasheet.menu_config" action="product_datasheet.section_action_window"/>
 
-        <menuitem name="Fields" 
-            id="product_datasheet.menu_sales_fields_list" 
-            parent="product_datasheet.menu_config"
-            action="product_datasheet.field_action_window"/>
+        <menuitem name="Fields" id="product_datasheet.menu_sales_fields_list" parent="product_datasheet.menu_config" action="product_datasheet.field_action_window"/>
     </data>
 </odoo>

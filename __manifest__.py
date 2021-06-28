@@ -15,7 +15,7 @@
 
     # for the full list
     'category': 'Extra Tools',
-    'version': '13.0.1.34.0',
+    'version': '13.0.1.35',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'sale'],
