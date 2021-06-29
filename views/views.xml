@@ -142,6 +142,10 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="download_xlsx" type="object" class="btn btn-primary btn-sm o_list_button_add"
+                            string="Download Excel" invisible="1"/>
+                </xpath>
                 <xpath expr="//page[@name='general_information']" position="before">
                     <page string="Datasheet" name="datasheet">
                         <group>
@@ -156,7 +160,8 @@
                         <notebook>
                             <page string="Data" name="data">
                                 <group>
-                                    <field name="info_ids" nolabel="1" context="{'default_info_ids': active_id, 'default_active': True}">
+                                    <field name="info_ids" nolabel="1"
+                                           context="{'default_info_ids': active_id, 'default_active': True}">
                                         <tree class="tree_datasheet_info">
                                             <field name='sequence' widget='handle'/>
                                             <field name="section_id"/>
@@ -176,13 +181,13 @@
         </record>
 
         <record model="ir.actions.act_window" id="product_datasheet.product_action_window">
-            <field name="name">Products </field>
+            <field name="name">Products</field>
             <field name="res_model">product.product</field>
             <field name="view_mode">tree,form</field>
         </record>
 
         <record model="ir.actions.act_window" id="product_datasheet.section_action_window">
-            <field name="name">Product Datasheet Section </field>
+            <field name="name">Product Datasheet Section</field>
             <field name="res_model">product.datasheet.section</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -202,13 +207,16 @@
         <!-- menu categories -->
         <menuitem name="Datasheets" id="product_datasheet.menu"/>
 
-        <menuitem name="Products" id="product_datasheet.product_list" parent="product_datasheet.menu" action="product_datasheet.product_action_window" sequence="10"/>
+        <menuitem name="Products" id="product_datasheet.product_list" parent="product_datasheet.menu"
+                  action="product_datasheet.product_action_window" sequence="10"/>
 
         <menuitem name="Config" parent="product_datasheet.menu" id="product_datasheet.menu_config" sequence="20"/>
 
         <!-- actions -->
-        <menuitem name="Sections" id="product_datasheet.menu_sections_list" parent="product_datasheet.menu_config" action="product_datasheet.section_action_window"/>
+        <menuitem name="Sections" id="product_datasheet.menu_sections_list" parent="product_datasheet.menu_config"
+                  action="product_datasheet.section_action_window"/>
 
-        <menuitem name="Fields" id="product_datasheet.menu_sales_fields_list" parent="product_datasheet.menu_config" action="product_datasheet.field_action_window"/>
+        <menuitem name="Fields" id="product_datasheet.menu_sales_fields_list" parent="product_datasheet.menu_config"
+                  action="product_datasheet.field_action_window"/>
     </data>
 </odoo>

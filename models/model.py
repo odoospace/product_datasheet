@@ -1,6 +1,11 @@
 from datetime import datetime, date
 
 from odoo import models, fields, api, _
+from io import BytesIO
+import shortuuid
+import xlsxwriter
+import base64
+import json
 
 
 # TODO: write historic info
@@ -18,10 +23,10 @@ class Section(models.Model):
 
 class Group(models.Model):
     _name = 'product.datasheet.group'
-    _rec_name= 'fullname'
+    _rec_name = 'fullname'
     _description = "Product Datasheet Group"
 
-    #@api.depends('name', 'section_id')
+    # @api.depends('name', 'section_id')
     def _get_fullname(self):
         for record in self:
             res = f'{record.name} ({record.section_id.name})'
@@ -121,7 +126,7 @@ class ProductProduct(models.Model):
     filter_group = fields.Many2one('product.datasheet.group')
 
     # add the field itself to onchange to trigger this method in edit mode too
-    @api.onchange('filter_field') 
+    @api.onchange('filter_field')
     def onchange_filter_field(self):
         print('***')
         domain = []
@@ -136,7 +141,69 @@ class ProductProduct(models.Model):
         self.info_ids = []
         return res
 
+    def download_xlsx(self):
+        # TODO: reload page to refresh attachments
+        filename = f'{self.name}.xlsx'
+        output = BytesIO()
 
+        _info = {
+            'code': 'DataSheet',
+            'created': datetime.now().strftime('%Y/%m/%d')
+        }
+
+        HEADER = ['REF.', 'DESCRIPTION', 'KPI']
+
+        workbook = xlsxwriter.Workbook(output)
+        worksheets = []
+
+        black_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': 'black'})
+        orange_format = workbook.add_format({'font_color': 'black', 'bg_color': 'orange'})
+        green_format = workbook.add_format({'font_color': 'black', 'bg_color': 'green'})
+
+        row = 0
+        col = 0
+        n_worksheets = 0
+
+        worksheets.append(workbook.add_worksheet('TEST'))
+
+        worksheets[n_worksheets].set_column(1, 1, 40)  # product description column size
+
+        for header in HEADER:
+            worksheets[n_worksheets].write(row, col, header, black_format)
+            col += 1
+
+        info = _info
+        code = shortuuid.uuid()
+        info['worksheet'] = code
+
+        worksheets[n_worksheets].write_comment('A1', json.dumps(info))
+
+        worksheets[n_worksheets].write(1, 0, self.name, orange_format)
+
+        print('Saving excel...')
+        workbook.close()
+        output.seek(0)
+
+        data = output.read()
+        attachment = self.add_file_in_attachment(filename, data)
+        # TODO: refresh page
+        return {
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=ir.attachment&id=" + str(attachment.id) +
+                   f"&filename={self.name}.xlsx&field=datas&download=true&filename=" + attachment.name,
+            'target': 'new',
+        }
+
+    def add_file_in_attachment(self, filename, output):
+        attachment = self.env['ir.attachment'].create({
+            'name': filename,
+            'datas': base64.b64encode(output),
+            'db_datas': filename,
+            'res_model': 'product.product',
+            'res_id': self.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        return attachment
 
 
 class Country(models.Model):
