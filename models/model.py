@@ -196,9 +196,10 @@ class ProductProduct(models.Model):
                 'x_scale': 0.03,
                 'y_scale': 0.03
             })
-        worksheet.set_row(0, 70)  # Set height row
-        worksheet.set_column('A:A', 100)  # Set width column
-        worksheet.set_column('B:B', 50)  # Set width column
+        worksheet.set_row(0, 70)  # Set height of first row
+        worksheet.set_column('A:A', 100)  # Set width column A
+        worksheet.set_column('B:B', 50)  # Set width column B
+        worksheet.set_column('C:C', 50)  # Set width column C
         worksheet.write(0, 0, self.name, product_name_format)
         worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
 
@@ -209,7 +210,11 @@ class ProductProduct(models.Model):
         else:
             title_data_supplier = ['Supplier Data', 'Company Name', 'CIF', 'Health Register',
                                    'Fiscal Address', 'Contact', 'Website']
-        row_title_supplier = 2
+
+        row_start = 2
+        row_title_supplier = row_start
+        row_data_supplier = row_start + 1
+
         worksheet.write(row_title_supplier, 1, '', black_format)
 
         for title in title_data_supplier:
@@ -224,22 +229,24 @@ class ProductProduct(models.Model):
             seller = self.seller_ids[0]
             data_supplier = [seller.name.name, seller.name.vat, seller.name.vat, seller.name.street,
                              seller.name.email + '/' + seller.name.phone, seller.name.website]
-            row_data_supplier = 3
             for data in data_supplier:
                 worksheet.write(row_data_supplier, 1, data, normal_format)
                 row_data_supplier += 1
 
         # DATA OF PRODUCT
+        row_start = row_title_supplier + 1  # Space between tables
         if self._context['lang'] == 'es_ES':
             title_data_product = ['Información del Producto', 'Código Producto', 'Denominación Producto']
         else:
             title_data_product = ['Product Information', 'Product Code', 'Product Designation']
-        row_title_product = 10
+
+        row_title_product = row_start
+        row_data_product = row_start + 1
 
         worksheet.write(row_title_product, 1, '', black_format)
 
         for title in title_data_product:
-            if row_title_product == 10:
+            if row_title_product == row_start:
                 format_title = black_format
             else:
                 format_title = normal_format
@@ -247,7 +254,6 @@ class ProductProduct(models.Model):
             row_title_product += 1
 
         data_product = [self.default_code, self.name]
-        row_data_product = 11
 
         buf_image_product = BytesIO(base64.b64decode(self.image_1920))
         worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
@@ -259,6 +265,43 @@ class ProductProduct(models.Model):
         for data in data_product:
             worksheet.write(row_data_product, 1, data, normal_format)
             row_data_product += 1
+
+        # DATA OF NUTRITIONAL INFORMATION
+        row_start = row_title_product + 1  # Space between tables
+        if self._context['lang'] == 'es_ES':
+            title_data_nutritional = ['Información Nutricional', '', 'Energía: Kcal (Kj)']
+            columns_data_nutritional = ['Valores medios por 100gr de producto', 'IDR%']
+        else:
+            title_data_nutritional = ['Nutritional Information', '', 'Energy: Kcal (Kj)']
+            columns_data_nutritional = ['Average values per 100gr of product', 'IDR%']
+
+        row_title_nutritional = row_start
+        row_column_data_nutritional = row_start + 1  # Two extra columns
+        row_data_nutritional = row_start + 2  # There are two columns between info
+
+        worksheet.write(row_title_nutritional, 1, '', black_format)
+        worksheet.write(row_title_nutritional, 2, '', black_format)
+
+        for title in title_data_nutritional:
+            if row_title_nutritional == row_start:
+                format_title = black_format
+            else:
+                format_title = normal_format
+            # Control for insert two extra columns
+            if row_title_nutritional == row_column_data_nutritional:
+                worksheet.write(row_title_nutritional, 0, '', format_title)
+                worksheet.write(row_title_nutritional, 1, columns_data_nutritional[0], format_title)
+                worksheet.write(row_title_nutritional, 2, columns_data_nutritional[1], format_title)
+            else:
+                worksheet.write(row_title_nutritional, 0, title, format_title)
+            row_title_nutritional += 1
+
+        data_nutritional = [self.x_studio_valor_energtico_kj_1]
+
+        for data in data_nutritional:
+            worksheet.write(row_data_nutritional, 1, data, normal_format)
+            worksheet.write(row_data_nutritional, 2, data, normal_format)
+            row_data_nutritional += 1
 
         print('Saving excel...')
         workbook.close()
