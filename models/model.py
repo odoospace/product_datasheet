@@ -147,38 +147,118 @@ class ProductProduct(models.Model):
         output = BytesIO()
 
         _info = {
-            'code': 'DataSheet',
+            'code': 'DataSheet of Product',
             'created': datetime.now().strftime('%Y/%m/%d')
         }
 
-        HEADER = ['REF.', 'DESCRIPTION', 'KPI']
-
         workbook = xlsxwriter.Workbook(output)
-        worksheets = []
 
-        black_format = workbook.add_format({'bold': True, 'font_color': 'white', 'bg_color': 'black'})
-        orange_format = workbook.add_format({'font_color': 'black', 'bg_color': 'orange'})
-        green_format = workbook.add_format({'font_color': 'black', 'bg_color': 'green'})
+        product_name_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'black',
+            'bg_color': 'white',
+            'border': 1
+        })
+        product_name_format.set_font_size(20)
+        product_name_format.set_align('center')
+        product_name_format.set_align('vcenter')
+        black_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'white',
+            'bg_color': 'black'
+        })
+        normal_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white'
+        })
+        normal_center_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white'
+        })
+        normal_center_format.set_align('center')
+        normal_center_format.set_align('vcenter')
 
-        row = 0
-        col = 0
-        n_worksheets = 0
+        # TAB NAME
+        worksheet = workbook.add_worksheet(self.display_name)  # Tab with display_name of product
 
-        worksheets.append(workbook.add_worksheet('TEST'))
+        # COMMENTS
+        # info = _info
+        # code = shortuuid.uuid()
+        # info['worksheet'] = code
+        #
+        # worksheet.write_comment('A1', json.dumps(info))
 
-        worksheets[n_worksheets].set_column(1, 1, 40)  # product description column size
+        # INFO COMPANY HEADER
+        if self.env.user.company_id and self.env.user.company_id.logo:
+            buf_image_company = BytesIO(base64.b64decode(self.env.user.company_id.logo))
+            worksheet.insert_image('A1', "image_company.png", {
+                'image_data': buf_image_company,
+                'x_scale': 0.03,
+                'y_scale': 0.03
+            })
+        worksheet.set_row(0, 70)  # Set height row
+        worksheet.set_column('A:A', 100)  # Set width column
+        worksheet.set_column('B:B', 50)  # Set width column
+        worksheet.write(0, 0, self.name, product_name_format)
+        worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
 
-        for header in HEADER:
-            worksheets[n_worksheets].write(row, col, header, black_format)
-            col += 1
+        # DATA OF SUPPLIER
+        if self._context['lang'] == 'es_ES':
+            title_data_supplier = ['Datos del Proveedor', 'Nombre Empresa', 'CIF', 'Registro Sanitario',
+                                   'Dirección Fiscal', 'Contacto', 'Página Web']
+        else:
+            title_data_supplier = ['Supplier Data', 'Company Name', 'CIF', 'Health Register',
+                                   'Fiscal Address', 'Contact', 'Website']
+        row_title_supplier = 2
+        worksheet.write(row_title_supplier, 1, '', black_format)
 
-        info = _info
-        code = shortuuid.uuid()
-        info['worksheet'] = code
+        for title in title_data_supplier:
+            if row_title_supplier == 2:
+                format_title = black_format
+            else:
+                format_title = normal_format
+            worksheet.write(row_title_supplier, 0, title, format_title)
+            row_title_supplier += 1
 
-        worksheets[n_worksheets].write_comment('A1', json.dumps(info))
+        if self.seller_ids:
+            seller = self.seller_ids[0]
+            data_supplier = [seller.name.name, seller.name.vat, seller.name.vat, seller.name.street,
+                             seller.name.email + '/' + seller.name.phone, seller.name.website]
+            row_data_supplier = 3
+            for data in data_supplier:
+                worksheet.write(row_data_supplier, 1, data, normal_format)
+                row_data_supplier += 1
 
-        worksheets[n_worksheets].write(1, 0, self.name, orange_format)
+        # DATA OF PRODUCT
+        if self._context['lang'] == 'es_ES':
+            title_data_product = ['Información del Producto', 'Código Producto', 'Denominación Producto']
+        else:
+            title_data_product = ['Product Information', 'Product Code', 'Product Designation']
+        row_title_product = 10
+
+        worksheet.write(row_title_product, 1, '', black_format)
+
+        for title in title_data_product:
+            if row_title_product == 10:
+                format_title = black_format
+            else:
+                format_title = normal_format
+            worksheet.write(row_title_product, 0, title, format_title)
+            row_title_product += 1
+
+        data_product = [self.default_code, self.name]
+        row_data_product = 11
+
+        buf_image_product = BytesIO(base64.b64decode(self.image_1920))
+        worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
+            'image_data': buf_image_product,
+            'x_scale': 0.3,
+            'y_scale': 0.3
+        })  # Insert image product
+
+        for data in data_product:
+            worksheet.write(row_data_product, 1, data, normal_format)
+            row_data_product += 1
 
         print('Saving excel...')
         workbook.close()
