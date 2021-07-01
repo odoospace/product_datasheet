@@ -112,7 +112,9 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     def filter_by_name(self):
-        res = [('field_id.name', 'ilike', self.filter_field)]
+        res = []
+        if self.filter_field:
+            res = [('field_id.name', 'ilike', self.filter_field)]
         return res
 
     info_ids = fields.One2many('product.datasheet.info', 'product_id', domain=filter_by_name)
