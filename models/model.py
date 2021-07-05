@@ -169,13 +169,20 @@ class ProductProduct(models.Model):
             'font_color': 'white',
             'bg_color': 'black'
         })
+        gray_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'white',
+            'bg_color': 'gray'
+        })
         normal_format = workbook.add_format({
             'font_color': 'black',
-            'bg_color': 'white'
+            'bg_color': 'white',
+            'border': 1
         })
         normal_center_format = workbook.add_format({
             'font_color': 'black',
-            'bg_color': 'white'
+            'bg_color': 'white',
+            'border': 1
         })
         normal_center_format.set_align('center')
         normal_center_format.set_align('vcenter')
@@ -235,28 +242,8 @@ class ProductProduct(models.Model):
                 worksheet.write(row_data_supplier, 1, data, normal_format)
                 row_data_supplier += 1
 
-        # DATA OF PRODUCT
-        row_start = row_title_supplier + 1  # Space between tables
-        if self._context['lang'] == 'es_ES':
-            title_data_product = ['Información del Producto', 'Código Producto', 'Denominación Producto']
-        else:
-            title_data_product = ['Product Information', 'Product Code', 'Product Designation']
-
-        row_title_product = row_start
+        # IMAGE PRODUCT
         row_data_product = row_start + 1
-
-        worksheet.write(row_title_product, 1, '', black_format)
-
-        for title in title_data_product:
-            if row_title_product == row_start:
-                format_title = black_format
-            else:
-                format_title = normal_format
-            worksheet.write(row_title_product, 0, title, format_title)
-            row_title_product += 1
-
-        data_product = [self.default_code, self.name]
-
         buf_image_product = BytesIO(base64.b64decode(self.image_1920))
         worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
             'image_data': buf_image_product,
@@ -264,46 +251,45 @@ class ProductProduct(models.Model):
             'y_scale': 0.3
         })  # Insert image product
 
-        for data in data_product:
-            worksheet.write(row_data_product, 1, data, normal_format)
-            row_data_product += 1
+        # DATA OF PRODUCT
+        row_start = row_title_supplier + 1  # Space between tables
+        for section in self.env['product.datasheet.section'].search([]):
+            is_header_section = True
+            for group in section.group_ids:
+                is_header_group = True
+                for info in self.env['product.datasheet.info'].search(
+                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)]):
+                    if is_header_section:
+                        # Space between tables
+                        if row_start != row_title_supplier + 1:
+                            row_start += 2
+                        worksheet.write(row_start, 0, section.name, black_format)
+                        is_header_section = False
+                    if is_header_group:
+                        row_start += 1
+                        worksheet.write(row_start, 0, group.name, gray_format)
+                        is_header_group = False
+                    row_start += 1
+                    worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
-        # DATA OF NUTRITIONAL INFORMATION
-        row_start = row_title_product + 1  # Space between tables
-        if self._context['lang'] == 'es_ES':
-            title_data_nutritional = ['Información Nutricional', '', 'Energía: Kcal (Kj)']
-            columns_data_nutritional = ['Valores medios por 100gr de producto', 'IDR%']
-        else:
-            title_data_nutritional = ['Nutritional Information', '', 'Energy: Kcal (Kj)']
-            columns_data_nutritional = ['Average values per 100gr of product', 'IDR%']
+                    def isfloat(value):
+                        try:
+                            float(value)
+                            return True
+                        except ValueError:
+                            return False
 
-        row_title_nutritional = row_start
-        row_column_data_nutritional = row_start + 1  # Two extra columns
-        row_data_nutritional = row_start + 2  # There are two columns between info
-
-        worksheet.write(row_title_nutritional, 1, '', black_format)
-        worksheet.write(row_title_nutritional, 2, '', black_format)
-
-        for title in title_data_nutritional:
-            if row_title_nutritional == row_start:
-                format_title = black_format
-            else:
-                format_title = normal_format
-            # Control for insert two extra columns
-            if row_title_nutritional == row_column_data_nutritional:
-                worksheet.write(row_title_nutritional, 0, '', format_title)
-                worksheet.write(row_title_nutritional, 1, columns_data_nutritional[0], format_title)
-                worksheet.write(row_title_nutritional, 2, columns_data_nutritional[1], format_title)
-            else:
-                worksheet.write(row_title_nutritional, 0, title, format_title)
-            row_title_nutritional += 1
-
-        data_nutritional = [self.x_studio_valor_energtico_kj_1]
-
-        for data in data_nutritional:
-            worksheet.write(row_data_nutritional, 1, data, normal_format)
-            worksheet.write(row_data_nutritional, 2, data, normal_format)
-            row_data_nutritional += 1
+                    if info.value_display and info.value_display != 'False':
+                        uom = ''
+                        if info.uom:
+                            uom = info.uom
+                        if isfloat(info.value_display):
+                            info_display = str(round(float(info.value_display), 2)) + ' ' + uom
+                        else:
+                            info_display = info.value_display + ' ' + uom
+                    else:
+                        info_display = ''
+                    worksheet.write(row_start, 1, info_display, normal_format)
 
         print('Saving excel...')
         workbook.close()
