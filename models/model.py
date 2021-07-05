@@ -283,7 +283,9 @@ class ProductProduct(models.Model):
                     if info.value_display and info.value_display != 'False':
                         uom = ''
                         if info.uom:
-                            uom = info.uom
+                            uom = _(
+                                dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom']['selection'])[
+                                    info.uom])
                         if isfloat(info.value_display):
                             info_display = str(round(float(info.value_display), 2)) + ' ' + uom
                         else:
