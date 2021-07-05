@@ -243,13 +243,14 @@ class ProductProduct(models.Model):
                 row_data_supplier += 1
 
         # IMAGE PRODUCT
-        row_data_product = row_start + 1
-        buf_image_product = BytesIO(base64.b64decode(self.image_1920))
-        worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
-            'image_data': buf_image_product,
-            'x_scale': 0.3,
-            'y_scale': 0.3
-        })  # Insert image product
+        if self.image_1920:
+            row_data_product = row_start + 1
+            buf_image_product = BytesIO(base64.b64decode(self.image_1920))
+            worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
+                'image_data': buf_image_product,
+                'x_scale': 0.3,
+                'y_scale': 0.3
+            })  # Insert image product
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
