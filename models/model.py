@@ -234,10 +234,12 @@ class ProductProduct(models.Model):
             worksheet.write(row_title_supplier, 0, title, format_title)
             row_title_supplier += 1
 
-        if self.seller_ids:
-            seller = self.seller_ids[0]
-            data_supplier = [seller.name.name, seller.name.vat, seller.name.vat, seller.name.street,
-                             seller.name.email + '/' + seller.name.phone, seller.name.website]
+        foodsfortomorrow_company = self.env['res.company'].search([('id', '=', 1)])
+        if foodsfortomorrow_company:
+            direction = foodsfortomorrow_company.street + ' - ' + foodsfortomorrow_company.zip + ', ' + foodsfortomorrow_company.state_id.display_name
+            data_supplier = [foodsfortomorrow_company.name, foodsfortomorrow_company.vat,
+                             foodsfortomorrow_company.company_registry, direction,
+                             'calidad@heurafoods.com', foodsfortomorrow_company.website]
             for data in data_supplier:
                 worksheet.write(row_data_supplier, 1, data, normal_format)
                 row_data_supplier += 1
@@ -254,24 +256,53 @@ class ProductProduct(models.Model):
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
+        row_start_micro_analysis = 0
+        enc_row_start_micro_analysis = False
         for section in self.env['product.datasheet.section'].search([]):
             is_header_section = True
             for group in section.group_ids:
                 is_header_group = True
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)]):
+                    # HEADER NAME
                     if is_header_section:
                         # Space between tables
                         if row_start != row_title_supplier + 1:
                             row_start += 2
                         worksheet.write(row_start, 0, section.name, black_format)
+                        worksheet.write(row_start, 1, '', black_format)
                         is_header_section = False
+
+                    # GROUP NAME
                     if is_header_group:
-                        row_start += 1
-                        worksheet.write(row_start, 0, group.name, gray_format)
+                        if (section.name not in ['Análisis Microbiológico', 'Modo Empleo']) or (
+                                section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
+                                section.name == 'Modo Empleo' and group.name == '1'):
+                            row_start += 1
+                            worksheet.write(row_start, 0, group.name, gray_format)
+
+                        # SUBGROUP ONLY CASES
+                        if section.name == 'Alérgenos o intolerancias':
+                            worksheet.write(row_start, 1, '', gray_format)
+                            row_start += 1
+                            worksheet.write(row_start, 1, 'Presencia - Puede contener (Trazas)', normal_center_format)
+                        elif section.name == 'Análisis Microbiológico':
+                            if group.name == 'Normal':
+                                worksheet.write(row_start, 1, '', gray_format)
+                                worksheet.write(row_start, 2, '', gray_format)
+                                row_start += 1
+                                worksheet.write(row_start, 2, 'Referencia laboratorio', normal_center_format)
+                        else:
+                            worksheet.write(row_start, 1, '', gray_format)
+
                         is_header_group = False
-                    row_start += 1
-                    worksheet.write(row_start, 0, info.field_id.name, normal_format)
+
+                    # FIELD NAME
+                    if (section.name not in ['Análisis Microbiológico', 'Modo Empleo']) or (
+                            section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
+                            section.name == 'Modo Empleo' and group.name == '1'):
+                        row_start += 1
+                        worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
                     def isfloat(value):
                         try:
@@ -280,11 +311,13 @@ class ProductProduct(models.Model):
                         except ValueError:
                             return False
 
+                    # GET VALUE DISPLAY
                     if info.value_display and info.value_display != 'False':
                         uom = ''
-                        if info.uom:
+                        if info.uom and group.name != 'Referencia Laboratorio':
                             uom = _(
-                                dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom']['selection'])[
+                                dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
+                                         'selection'])[
                                     info.uom])
                         if isfloat(info.value_display):
                             info_display = str(round(float(info.value_display), 2)) + ' ' + uom
@@ -292,7 +325,21 @@ class ProductProduct(models.Model):
                             info_display = info.value_display + ' ' + uom
                     else:
                         info_display = ''
-                    worksheet.write(row_start, 1, info_display, normal_format)
+
+                    # PRINT VALUE DISPLAY WITH FORMAT COLUMN
+                    if section.name == 'Alérgenos o intolerancias':
+                        worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No', normal_format)
+                    elif section.name == 'Análisis Microbiológico':
+                        if group.name == 'Normal':
+                            worksheet.write(row_start, 1, info_display, normal_format)
+                            if not enc_row_start_micro_analysis:
+                                row_start_micro_analysis = row_start
+                                enc_row_start_micro_analysis = True
+                        elif group.name == 'Referencia Laboratorio':
+                            worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
+                            row_start_micro_analysis += 1
+                    else:
+                        worksheet.write(row_start, 1, info_display, normal_format)
 
         print('Saving excel...')
         workbook.close()
