@@ -17,6 +17,7 @@ class Section(models.Model):
     name = fields.Char(required=True, translate=True)
     active = fields.Boolean(default=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
+    export = fields.Boolean('Is it exported?')
 
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
 
@@ -37,6 +38,7 @@ class Group(models.Model):
     fullname = fields.Text(compute=_get_fullname, store=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
+    export = fields.Boolean('Is it exported?')
 
     section_id = fields.Many2one('product.datasheet.section')
 
@@ -75,6 +77,7 @@ class Field(models.Model):
             ("day", _("day")),
             ("month", _("month")),
         ])
+    export = fields.Boolean('Is it exported?')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
 
@@ -264,11 +267,10 @@ class ProductProduct(models.Model):
         enc_row_start_micro_analysis = False
         row_start_nut_information = 0
         enc_row_start_nut_information = False
-        for section in self.env['product.datasheet.section'].search([]):
+        for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
             is_header_section = True
-            for group in section.group_ids:
+            for group in section.group_ids.filtered(lambda m: m.export in [True]):
                 is_header_group = True
-                # FILTER IS SECTION IS ACTIVE
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)]):
                     # HEADER NAME
@@ -311,11 +313,12 @@ class ProductProduct(models.Model):
                         is_header_group = False
 
                     # FIELD NAME
-                    if (section.name not in ['Análisis Microbiológico', 'Modo Empleo',
-                                             'Información Nutricional']) or (
+                    if (info.field_id and info.field_id.export) and ((
+                            section.name not in ['Análisis Microbiológico', 'Modo Empleo',
+                                                 'Información Nutricional']) or (
                             section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
                             section.name == 'Modo Empleo' and group.name == '1') or (
-                            section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g'):
+                            section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g')):
                         row_start += 1
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
@@ -327,43 +330,44 @@ class ProductProduct(models.Model):
                             return False
 
                     # GET VALUE DISPLAY
-                    if info.value_display and info.value_display != 'False':
-                        uom = ''
-                        if info.uom and group.name != 'Referencia Laboratorio':
-                            uom = _(
-                                dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
-                                         'selection'])[
-                                    info.uom])
-                        if isfloat(info.value_display):
-                            info_display = str(round(float(info.value_display), 2)) + ' ' + uom
+                    if info.field_id and info.field_id.export:
+                        if info.value_display and info.value_display != 'False':
+                            uom = ''
+                            if info.uom and group.name != 'Referencia Laboratorio':
+                                uom = _(
+                                    dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
+                                             'selection'])[
+                                        info.uom])
+                            if isfloat(info.value_display):
+                                info_display = str(round(float(info.value_display), 2)) + ' ' + uom
+                            else:
+                                info_display = info.value_display + ' ' + uom
                         else:
-                            info_display = info.value_display + ' ' + uom
-                    else:
-                        info_display = '-'
+                            info_display = '-'
 
-                    # PRINT VALUE DISPLAY WITH FORMAT COLUMN
-                    if section.name == 'Alérgenos o intolerancias':
-                        worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No', normal_format)
-                    elif section.name == 'Análisis Microbiológico':
-                        if group.name == 'Normal':
+                        # PRINT VALUE DISPLAY WITH FORMAT COLUMN
+                        if section.name == 'Alérgenos o intolerancias':
+                            worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No', normal_format)
+                        elif section.name == 'Análisis Microbiológico':
+                            if group.name == 'Normal':
+                                worksheet.write(row_start, 1, info_display, normal_format)
+                                if not enc_row_start_micro_analysis:
+                                    row_start_micro_analysis = row_start
+                                    enc_row_start_micro_analysis = True
+                            elif group.name == 'Referencia Laboratorio':
+                                worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
+                                row_start_micro_analysis += 1
+                        elif section.name == 'Información Nutricional':
+                            if group.name == 'Valores medios por 100g':
+                                worksheet.write(row_start, 1, info_display, normal_format)
+                                if not enc_row_start_nut_information:
+                                    row_start_nut_information = row_start
+                                    enc_row_start_nut_information = True
+                            elif group.name == '%IR':
+                                worksheet.write(row_start_nut_information, 2, info_display, normal_format)
+                                row_start_nut_information += 1
+                        else:
                             worksheet.write(row_start, 1, info_display, normal_format)
-                            if not enc_row_start_micro_analysis:
-                                row_start_micro_analysis = row_start
-                                enc_row_start_micro_analysis = True
-                        elif group.name == 'Referencia Laboratorio':
-                            worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
-                            row_start_micro_analysis += 1
-                    elif section.name == 'Información Nutricional':
-                        if group.name == 'Valores medios por 100g':
-                            worksheet.write(row_start, 1, info_display, normal_format)
-                            if not enc_row_start_nut_information:
-                                row_start_nut_information = row_start
-                                enc_row_start_nut_information = True
-                        elif group.name == '%IR':
-                            worksheet.write(row_start_nut_information, 2, info_display, normal_format)
-                            row_start_nut_information += 1
-                    else:
-                        worksheet.write(row_start, 1, info_display, normal_format)
 
         # FOOTER
         worksheet.write(row_start + 2, 0, '*This is the footer text', footer_format)

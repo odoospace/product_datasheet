@@ -368,3 +368,10 @@ msgstr ""
 #, python-format
 msgid "µg"
 msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__export
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__export
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__export
+msgid "Is it exported?"
+msgstr "Exportar"
