@@ -186,6 +186,10 @@ class ProductProduct(models.Model):
         })
         normal_center_format.set_align('center')
         normal_center_format.set_align('vcenter')
+        footer_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white'
+        })
 
         # TAB NAME
         worksheet = workbook.add_worksheet(self.display_name)  # Tab with display_name of product
@@ -258,10 +262,13 @@ class ProductProduct(models.Model):
         row_start = row_title_supplier + 1  # Space between tables
         row_start_micro_analysis = 0
         enc_row_start_micro_analysis = False
+        row_start_nut_information = 0
+        enc_row_start_nut_information = False
         for section in self.env['product.datasheet.section'].search([]):
             is_header_section = True
             for group in section.group_ids:
                 is_header_group = True
+                # FILTER IS SECTION IS ACTIVE
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)]):
                     # HEADER NAME
@@ -271,15 +278,19 @@ class ProductProduct(models.Model):
                             row_start += 2
                         worksheet.write(row_start, 0, section.name, black_format)
                         worksheet.write(row_start, 1, '', black_format)
+
+                        if section.name in ['Análisis Microbiológico', 'Información Nutricional']:
+                            worksheet.write(row_start, 2, '', black_format)
+
                         is_header_section = False
 
                     # GROUP NAME
                     if is_header_group:
-                        if (section.name not in ['Análisis Microbiológico', 'Modo Empleo']) or (
-                                section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
-                                section.name == 'Modo Empleo' and group.name == '1'):
+                        if (section.name not in ['Análisis Microbiológico', 'Modo Empleo',
+                                                 'Información Nutricional']):
                             row_start += 1
                             worksheet.write(row_start, 0, group.name, gray_format)
+                            worksheet.write(row_start, 1, '', gray_format)
 
                         # SUBGROUP ONLY CASES
                         if section.name == 'Alérgenos o intolerancias':
@@ -288,19 +299,23 @@ class ProductProduct(models.Model):
                             worksheet.write(row_start, 1, 'Presencia - Puede contener (Trazas)', normal_center_format)
                         elif section.name == 'Análisis Microbiológico':
                             if group.name == 'Normal':
-                                worksheet.write(row_start, 1, '', gray_format)
-                                worksheet.write(row_start, 2, '', gray_format)
                                 row_start += 1
                                 worksheet.write(row_start, 2, 'Referencia laboratorio', normal_center_format)
-                        else:
-                            worksheet.write(row_start, 1, '', gray_format)
+                        elif section.name == 'Información Nutricional':
+                            if group.name == 'Valores medios por 100g':
+                                row_start += 1
+                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto',
+                                                normal_center_format)
+                                worksheet.write(row_start, 2, 'CDR%', normal_center_format)
 
                         is_header_group = False
 
                     # FIELD NAME
-                    if (section.name not in ['Análisis Microbiológico', 'Modo Empleo']) or (
+                    if (section.name not in ['Análisis Microbiológico', 'Modo Empleo',
+                                             'Información Nutricional']) or (
                             section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
-                            section.name == 'Modo Empleo' and group.name == '1'):
+                            section.name == 'Modo Empleo' and group.name == '1') or (
+                            section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g'):
                         row_start += 1
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
@@ -324,7 +339,7 @@ class ProductProduct(models.Model):
                         else:
                             info_display = info.value_display + ' ' + uom
                     else:
-                        info_display = ''
+                        info_display = '-'
 
                     # PRINT VALUE DISPLAY WITH FORMAT COLUMN
                     if section.name == 'Alérgenos o intolerancias':
@@ -338,8 +353,20 @@ class ProductProduct(models.Model):
                         elif group.name == 'Referencia Laboratorio':
                             worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
                             row_start_micro_analysis += 1
+                    elif section.name == 'Información Nutricional':
+                        if group.name == 'Valores medios por 100g':
+                            worksheet.write(row_start, 1, info_display, normal_format)
+                            if not enc_row_start_nut_information:
+                                row_start_nut_information = row_start
+                                enc_row_start_nut_information = True
+                        elif group.name == '%IR':
+                            worksheet.write(row_start_nut_information, 2, info_display, normal_format)
+                            row_start_nut_information += 1
                     else:
                         worksheet.write(row_start, 1, info_display, normal_format)
+
+        # FOOTER
+        worksheet.write(row_start + 2, 0, '*This is the footer text', footer_format)
 
         print('Saving excel...')
         workbook.close()
