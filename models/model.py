@@ -272,7 +272,8 @@ class ProductProduct(models.Model):
             for group in section.group_ids.filtered(lambda m: m.export in [True]):
                 is_header_group = True
                 for info in self.env['product.datasheet.info'].search(
-                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)]):
+                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
+                        order='sequence'):
                     # HEADER NAME
                     if is_header_section:
                         # Space between tables
@@ -314,11 +315,12 @@ class ProductProduct(models.Model):
 
                     # FIELD NAME
                     if (info.field_id and info.field_id.export) and ((
-                            section.name not in ['Análisis Microbiológico', 'Modo Empleo',
-                                                 'Información Nutricional']) or (
-                            section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
-                            section.name == 'Modo Empleo' and group.name == '1') or (
-                            section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g')):
+                                                                             section.name not in [
+                                                                         'Análisis Microbiológico', 'Modo Empleo',
+                                                                         'Información Nutricional']) or (
+                                                                             section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
+                                                                             section.name == 'Modo Empleo' and group.name == '1') or (
+                                                                             section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g')):
                         row_start += 1
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
@@ -347,7 +349,8 @@ class ProductProduct(models.Model):
 
                         # PRINT VALUE DISPLAY WITH FORMAT COLUMN
                         if section.name == 'Alérgenos o intolerancias':
-                            worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No', normal_format)
+                            worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No',
+                                            normal_format)
                         elif section.name == 'Análisis Microbiológico':
                             if group.name == 'Normal':
                                 worksheet.write(row_start, 1, info_display, normal_format)
