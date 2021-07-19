@@ -6,6 +6,7 @@ import shortuuid
 import xlsxwriter
 import base64
 import json
+import string
 
 
 # TODO: write historic info
@@ -111,6 +112,16 @@ class Info(models.Model):
     sequence = fields.Integer(default=1)
 
 
+class ProductDatasheetImage(models.Model):
+    _name = 'product.datasheet.image'
+    _description = 'Product Datasheet Image'
+    _order = 'section_id'
+
+    section_id = fields.Many2one('product.datasheet.section')
+    image = fields.Binary(string='Image file', required=True, attachment=False)
+    product_id = fields.Many2one('product.product')
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
@@ -121,6 +132,7 @@ class ProductProduct(models.Model):
         return res
 
     info_ids = fields.One2many('product.datasheet.info', 'product_id', domain=filter_by_name)
+    image_ids = fields.One2many('product.datasheet.image', 'product_id')
 
     datasheet_note = fields.Text()
     country_ids = fields.Many2many('res.country', 'product_ids')
@@ -216,6 +228,9 @@ class ProductProduct(models.Model):
         worksheet.set_column('A:A', 100)  # Set width column A
         worksheet.set_column('B:B', 50)  # Set width column B
         worksheet.set_column('C:C', 50)  # Set width column C
+        letter_column = list(string.ascii_uppercase)  # Array from A to Z
+        for letter in letter_column[3:]:  # Set width from D to Z
+            worksheet.set_column(letter + ':' + letter, 25)
         worksheet.write(0, 0, self.name, product_name_format)
         worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
 
@@ -284,6 +299,24 @@ class ProductProduct(models.Model):
 
                         if section.name in ['Análisis Microbiológico', 'Información Nutricional']:
                             worksheet.write(row_start, 2, '', black_format)
+                            cont_letter_column = 3  # Images starting in D column
+                        else:
+                            cont_letter_column = 2  # Images starting in C column
+
+                        # IMAGES SECTION
+                        for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
+                            if product_image.image:
+                                if cont_letter_column < len(letter_column):
+                                    buf_product_image = BytesIO(base64.b64decode(product_image.image))
+                                    worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
+                                                           "product_image.png", {
+                                                               'image_data': buf_product_image,
+                                                               'x_scale': 0.3,
+                                                               'y_scale': 0.3
+                                                           })  # Insert product image
+                                    cont_letter_column += 1
+                                else:
+                                    break
 
                         is_header_section = False
 

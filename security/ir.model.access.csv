@@ -3,4 +3,5 @@ access_product_product_user,product_datasheet.product.product,model_product_prod
 access_product_datasheet_section_user,product_datasheet.product.datasheet.section,model_product_datasheet_section,base.group_user,1,1,1,1
 access_product_datasheet_group_user,product_datasheet.product.datasheet.group,model_product_datasheet_group,base.group_user,1,1,1,1
 access_product_datasheet_info_user,product_datasheet.product.datasheet.info,model_product_datasheet_info,base.group_user,1,1,1,1
+access_product_datasheet_image_user,product_datasheet.product.datasheet.image,model_product_datasheet_image,base.group_user,1,1,1,1
 access_product_datasheet_field_user,product_datasheet.product.datasheet.field,model_product_datasheet_field,base.group_user,1,1,1,1

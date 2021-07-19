@@ -180,6 +180,22 @@
                                     </field>
                                 </group>
                             </page>
+                            <page string="Images" name="image">
+                                <group>
+                                    <field name="image_ids" nolabel="1">
+                                        <tree>
+                                            <field name='section_id'/>
+                                            <field name="image"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <field name='section_id'/>
+                                                <field name="image"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
                         </notebook>
                     </page>
                 </xpath>
