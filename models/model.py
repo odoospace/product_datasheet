@@ -297,7 +297,7 @@ class ProductProduct(models.Model):
                         worksheet.write(row_start, 0, section.name, black_format)
                         worksheet.write(row_start, 1, '', black_format)
 
-                        if section.name in ['Análisis Microbiológico', 'Información Nutricional']:
+                        if section.code in ['AM', 'IN']:
                             worksheet.write(row_start, 2, '', black_format)
                             cont_letter_column = 3  # Images starting in D column
                         else:
@@ -322,38 +322,39 @@ class ProductProduct(models.Model):
 
                     # GROUP NAME
                     if is_header_group:
-                        if (section.name not in ['Análisis Microbiológico', 'Modo Empleo',
-                                                 'Información Nutricional']):
+                        if (section.code not in ['AM', 'ME', 'IN']):
                             row_start += 1
                             worksheet.write(row_start, 0, group.name, gray_format)
                             worksheet.write(row_start, 1, '', gray_format)
 
                         # SUBGROUP ONLY CASES
-                        if section.name == 'Alérgenos o intolerancias':
+                        if section.code == 'AOI':
                             worksheet.write(row_start, 1, '', gray_format)
                             row_start += 1
-                            worksheet.write(row_start, 1, 'Presencia - Puede contener (Trazas)', normal_center_format)
-                        elif section.name == 'Análisis Microbiológico':
-                            if group.name == 'Normal':
+                            worksheet.write(row_start, 1, 'Presencia - Puede contener (Trazas)' if self._context[
+                                                                                                       'lang'] == 'es_ES' else 'Presence - May Contain (Traces)',
+                                            normal_center_format)
+                        elif section.code == 'AM':
+                            if group.code == 'N':
                                 row_start += 1
-                                worksheet.write(row_start, 2, 'Referencia laboratorio', normal_center_format)
-                        elif section.name == 'Información Nutricional':
-                            if group.name == 'Valores medios por 100g':
+                                worksheet.write(row_start, 2, 'Referencia laboratorio' if self._context[
+                                                                                              'lang'] == 'es_ES' else 'Laboratory reference',
+                                                normal_center_format)
+                        elif section.code == 'IN':
+                            if group.code == 'VM100':
                                 row_start += 1
-                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto',
+                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto' if self._context[
+                                                                                                            'lang'] == 'es_ES' else 'Average values per 100gr of product',
                                                 normal_center_format)
                                 worksheet.write(row_start, 2, 'CDR%', normal_center_format)
 
                         is_header_group = False
 
                     # FIELD NAME
-                    if (info.field_id and info.field_id.export) and ((
-                                                                             section.name not in [
-                                                                         'Análisis Microbiológico', 'Modo Empleo',
-                                                                         'Información Nutricional']) or (
-                                                                             section.name == 'Análisis Microbiológico' and group.name == 'Normal') or (
-                                                                             section.name == 'Modo Empleo' and group.name == '1') or (
-                                                                             section.name == 'Información Nutricional' and group.name == 'Valores medios por 100g')):
+                    if (info.field_id and info.field_id.export) and ((section.code not in ['AM', 'ME', 'IN']) or (
+                            section.code == 'AM' and group.code == 'N') or (
+                                                                             section.code == 'ME' and group.code == 'ME1') or (
+                                                                             section.code == 'IN' and group.code == 'VM100')):
                         row_start += 1
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
@@ -368,7 +369,7 @@ class ProductProduct(models.Model):
                     if info.field_id and info.field_id.export:
                         if info.value_display and info.value_display != 'False':
                             uom = ''
-                            if info.uom and group.name != 'Referencia Laboratorio':
+                            if info.uom and group.code != 'RL':
                                 uom = _(
                                     dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
                                              'selection'])[
@@ -381,25 +382,28 @@ class ProductProduct(models.Model):
                             info_display = '-'
 
                         # PRINT VALUE DISPLAY WITH FORMAT COLUMN
-                        if section.name == 'Alérgenos o intolerancias':
-                            worksheet.write(row_start, 1, 'Sí - Sí' if info_display == 'True' else 'No - No',
-                                            normal_format)
-                        elif section.name == 'Análisis Microbiológico':
-                            if group.name == 'Normal':
+                        if section.code == 'AOI':
+                            if self._context['lang'] == 'es_ES':
+                                value = 'Sí - Sí' if info_display == 'True' else 'No - No'
+                            else:
+                                value = 'Yes - Yes' if info_display == 'True' else 'No - No'
+                            worksheet.write(row_start, 1, value, normal_format)
+                        elif section.code == 'AM':
+                            if group.code == 'N':
                                 worksheet.write(row_start, 1, info_display, normal_format)
                                 if not enc_row_start_micro_analysis:
                                     row_start_micro_analysis = row_start
                                     enc_row_start_micro_analysis = True
-                            elif group.name == 'Referencia Laboratorio':
+                            elif group.code == 'RL':
                                 worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
                                 row_start_micro_analysis += 1
-                        elif section.name == 'Información Nutricional':
-                            if group.name == 'Valores medios por 100g':
+                        elif section.code == 'IN':
+                            if group.code == 'VM100':
                                 worksheet.write(row_start, 1, info_display, normal_format)
                                 if not enc_row_start_nut_information:
                                     row_start_nut_information = row_start
                                     enc_row_start_nut_information = True
-                            elif group.name == '%IR':
+                            elif group.code == 'IR':
                                 worksheet.write(row_start_nut_information, 2, info_display, normal_format)
                                 row_start_nut_information += 1
                         else:
