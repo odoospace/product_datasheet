@@ -410,8 +410,8 @@ class ProductProduct(models.Model):
                             worksheet.write(row_start, 1, info_display, normal_format)
 
         # FOOTER
-        worksheet.write(row_start + 2, 0, '*This is the footer text' if self._context[
-                                                                            'lang'] == 'es_ES' else '*Esto es el texto del pie de página',
+        worksheet.write(row_start + 2, 0, '*Esto es el texto del pie de página' if self._context[
+                                                                                       'lang'] == 'es_ES' else '*This is the footer text',
                         footer_format)
 
         print('Saving excel...')
