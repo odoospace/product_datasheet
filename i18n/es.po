@@ -101,8 +101,12 @@ msgid "Fields"
 msgstr "Campos"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+#, python-format
 msgid "Group"
 msgstr "Grupo"
 
@@ -123,6 +127,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__id
 msgid "ID"
 msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_product__image_ids
+msgid "Image"
+msgstr "Imagen"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__image
+msgid "Image file"
+msgstr "Imagen"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+msgid "Images"
+msgstr "Imágenes"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__info_ids
@@ -225,7 +244,9 @@ msgstr "Productos"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__section_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
 msgid "Section"
 msgstr "Sección"
@@ -270,6 +291,7 @@ msgstr "Uso"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Value"
 msgstr "Valor"
 
@@ -375,3 +397,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__export
 msgid "Is it exported?"
 msgstr "Exportar"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+msgid "Download Excel"
+msgstr "Descargar Excel"
