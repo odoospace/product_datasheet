@@ -367,17 +367,17 @@ class ProductProduct(models.Model):
 
                     # GET VALUE DISPLAY
                     if info.field_id and info.field_id.export:
-                        if info.value_display and info.value_display != 'False':
+                        if info.value and info.value != 'False':
                             uom = ''
                             if info.uom and group.code != 'RL':
                                 uom = _(
                                     dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
                                              'selection'])[
                                         info.uom])
-                            if isfloat(info.value_display):
-                                info_display = str(round(float(info.value_display), 2)) + ' ' + uom
+                            if isfloat(info.value):
+                                info_display = str(round(float(info.value), 2)) + ' ' + uom
                             else:
-                                info_display = info.value_display + ' ' + uom
+                                info_display = info.value + ' ' + uom
                         else:
                             info_display = '-'
 
@@ -410,7 +410,9 @@ class ProductProduct(models.Model):
                             worksheet.write(row_start, 1, info_display, normal_format)
 
         # FOOTER
-        worksheet.write(row_start + 2, 0, '*This is the footer text', footer_format)
+        worksheet.write(row_start + 2, 0, '*This is the footer text' if self._context[
+                                                                            'lang'] == 'es_ES' else '*Esto es el texto del pie de página',
+                        footer_format)
 
         print('Saving excel...')
         workbook.close()
