@@ -229,7 +229,7 @@ class ProductProduct(models.Model):
         worksheet.set_column('B:B', 50)  # Set width column B
         worksheet.set_column('C:C', 50)  # Set width column C
         letter_column = list(string.ascii_uppercase)  # Array from A to Z
-        for letter in letter_column[3:]:  # Set width from D to Z
+        for letter in letter_column[3:]:  # Set width column from D to Z
             worksheet.set_column(letter + ':' + letter, 25)
         worksheet.write(0, 0, self.name, product_name_format)
         worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
@@ -256,7 +256,7 @@ class ProductProduct(models.Model):
             worksheet.write(row_title_supplier, 0, title, format_title)
             row_title_supplier += 1
 
-        foodsfortomorrow_company = self.env['res.company'].search([('id', '=', 1)])
+        foodsfortomorrow_company = self.env['res.company'].sudo().search([('id', '=', 1)])
         if foodsfortomorrow_company:
             direction = foodsfortomorrow_company.street + ' - ' + foodsfortomorrow_company.zip + ', ' + foodsfortomorrow_company.state_id.display_name
             data_supplier = [foodsfortomorrow_company.name, foodsfortomorrow_company.vat,
