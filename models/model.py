@@ -7,6 +7,36 @@ import xlsxwriter
 import base64
 import json
 import string
+import html2text
+
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    regulation_footer = fields.Html('Regulations', help='Regulations in Footer of Excel', translate=True)
+    text_footer = fields.Html('Text Footer', help='Text in Footer of Excel', translate=True)
+
+    @api.model
+    def get_values(self):
+        res = super(ResConfigSettings, self).get_values()
+        res.update(
+            regulation_footer=self.env[
+                'ir.config_parameter'].sudo().get_param(
+                'product_datasheet.regulation_footer'),
+            text_footer=self.env[
+                'ir.config_parameter'].sudo().get_param(
+                'product_datasheet.text_footer'),
+        )
+        return res
+
+    def set_values(self):
+        super(ResConfigSettings, self).set_values()
+        self.env['ir.config_parameter'].sudo().set_param(
+            'product_datasheet.regulation_footer',
+            self.regulation_footer)
+        self.env['ir.config_parameter'].sudo().set_param(
+            'product_datasheet.text_footer',
+            self.text_footer)
 
 
 # TODO: write historic info
@@ -157,6 +187,13 @@ class ProductProduct(models.Model):
         print(res)
         self.info_ids = []
         return res
+
+    # @api.returns('self', lambda value: value.id)
+    # def copy(self, default=None):
+    #     rec = super(ProductProduct, self).copy(default)
+    #     for info in self.info_ids:
+    #         info.copy({'product_id': rec.id})
+    #     return rec
 
     def download_xlsx(self):
         # TODO: reload page to refresh attachments
@@ -410,9 +447,13 @@ class ProductProduct(models.Model):
                             worksheet.write(row_start, 1, info_display, normal_format)
 
         # FOOTER
-        worksheet.write(row_start + 2, 0, '*Esto es el texto del pie de página' if self._context[
-                                                                                       'lang'] == 'es_ES' else '*This is the footer text',
-                        footer_format)
+        # regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
+        # regulation_footer_template = html2text.html2text(regulation_footer)
+        # text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
+        # text_footer_template = html2text.html2text(text_footer)
+
+        worksheet.write(row_start + 2, 0, 'Regulations Block', footer_format)
+        worksheet.write(row_start + 3, 0, 'Text Footer Block', footer_format)
 
         print('Saving excel...')
         workbook.close()

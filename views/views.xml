@@ -2,6 +2,45 @@
 <odoo>
     <data>
 
+        <!-- <record id="product_datasheet_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">product.datasheet.res.config.settings.view.form.inherit.web.calendar</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="86"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" string="Product Datasheet" data-key="product_datasheet">
+                        <h2>Product Datasheet</h2>
+                        <div class="row mt16 o_settings_container" name="qualification_setting_container">
+                            <div class="col-12 col-lg-12 o_setting_box" id="product_datasheet">
+                                <label for="regulation_footer"/>
+                                <field name="regulation_footer"/>
+                                <label for="text_footer"/>
+                                <field name="text_footer"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+         <record id="action_product_datasheet_config_settings" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'product_datasheet', 'bin_size': False}</field>
+        </record>
+
+        <menuitem
+            id="menu_product_datasheet_general_settings"
+            name="Product Datasheet Settings"
+            parent="base.menu_administration"
+            sequence="1"
+            action="action_product_datasheet_config_settings"
+            groups="base.group_system"/> -->
+
         <record model="ir.ui.view" id="product_datasheet.list">
             <field name="name">Product Datasheet List</field>
             <field name="model">product.datasheet.info</field>
