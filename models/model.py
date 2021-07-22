@@ -188,12 +188,74 @@ class ProductProduct(models.Model):
         self.info_ids = []
         return res
 
-    # @api.returns('self', lambda value: value.id)
-    # def copy(self, default=None):
-    #     rec = super(ProductProduct, self).copy(default)
-    #     for info in self.info_ids:
-    #         info.copy({'product_id': rec.id})
-    #     return rec
+    @api.model
+    def duplicate_product(self):
+        for product_product in self:
+            # COPY PRODUCT TEMPLATE TO GENERATE PRODUCT VARIANT
+            product_template_copy = product_product.product_tmpl_id.copy()
+            product_product_copy = product_template_copy.product_variant_id
+
+            # DATASHEET INFO TAB
+            filter_field = product_product.filter_field
+            filter_section = product_product.filter_section.id if product_product.filter_section else False
+            filter_group = product_product.filter_group.id if product_product.filter_group else False
+            product_product_copy.country_ids = [(6, 0, product_product.country_ids.ids)]
+            product_product_copy.datasheet_note = product_product.datasheet_note
+            product_product_copy.filter_field = filter_field
+            product_product_copy.filter_section = filter_section
+            product_product_copy.filter_group = filter_group
+
+            product_datasheet_info = self.env['product.datasheet.info']
+            for info in product_datasheet_info.search([('product_id', '=', product_product.id)]):
+                product_datasheet_info.create({
+                    'sequence': info.sequence,
+                    'section_id': info.section_id.id if info.section_id else False,
+                    'group_id': info.group_id.id if info.group_id else False,
+                    'field_id': info.field_id.id if info.field_id else False,
+                    'value_display': info.value_display,
+                    'uom': info.uom,
+                    'product_id': product_product_copy.id,
+                })
+
+            product_datasheet_image = self.env['product.datasheet.image']
+            for image in product_product.image_ids:
+                product_datasheet_image.create({
+                    'section_id': image.section_id.id if image.section_id else False,
+                    'image': image.image,
+                    'product_id': product_product_copy.id,
+                })
+
+            # GENERAL INFO TAB
+            product_product_copy.standard_price = product_product.standard_price
+            product_secondary_unit = self.env['product.secondary.unit']
+            for secondary_uom in product_product.secondary_uom_ids:
+                product_secondary_unit.create({
+                    'code': secondary_uom.code,
+                    'name': secondary_uom.name,
+                    'factor': secondary_uom.factor,
+                    'uom_id': secondary_uom.uom_id.id if secondary_uom.uom_id else False,
+                    'product_tmpl_id': product_template_copy.id,
+                })
+
+            # PURCHASE INFO TAB
+            product_supplierinfo = self.env['product.supplierinfo']
+            for seller in product_product.seller_ids:
+                product_supplierinfo.create({
+                    'name': seller.name.id if seller.name else False,
+                    'product_name': seller.product_name,
+                    'product_code': seller.product_code,
+                    'x_studio_mtodo_de_transporte_1': seller.x_studio_mtodo_de_transporte_1,
+                    'x_studio_incoterm_1': seller.x_studio_incoterm_1,
+                    'delay': seller.delay,
+                    'min_qty': seller.min_qty,
+                    'product_uom': seller.product_uom.id if seller.product_uom else False,
+                    'price': seller.price,
+                    'currency_id': seller.currency_id.id if seller.currency_id else False,
+                    'date_start': seller.date_start,
+                    'date_end': seller.date_end,
+                    'product_id': product_product_copy.id if seller.product_id else False,
+                    'product_tmpl_id': product_template_copy.id,
+                })
 
     def download_xlsx(self):
         # TODO: reload page to refresh attachments
