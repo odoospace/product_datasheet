@@ -402,3 +402,8 @@ msgstr "Exportar"
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Download Excel"
 msgstr "Descargar Excel"
+
+#. module: product_datasheet
+#: model:ir.actions.server,name:product_datasheet.action_server_duplicate_product
+msgid "Duplicate Product"
+msgstr "Duplicar"
