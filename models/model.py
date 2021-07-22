@@ -207,6 +207,16 @@ class ProductProduct(models.Model):
 
         workbook = xlsxwriter.Workbook(output)
 
+        # TEXT FORMAT
+        bold = workbook.add_format({'bold': True})
+        italic = workbook.add_format({'italic': True})
+        italic.set_font_size(10)
+        red = workbook.add_format({'color': 'red'})
+        blue = workbook.add_format({'color': 'blue'})
+        center = workbook.add_format({'align': 'center'})
+        superscript = workbook.add_format({'font_script': 1})
+
+        # CELL FORMAT
         product_name_format = workbook.add_format({
             'bold': True,
             'font_color': 'black',
@@ -242,6 +252,7 @@ class ProductProduct(models.Model):
             'font_color': 'black',
             'bg_color': 'white'
         })
+        footer_format.set_font_size(10)
 
         # TAB NAME
         worksheet = workbook.add_worksheet(self.display_name)  # Tab with display_name of product
@@ -261,6 +272,7 @@ class ProductProduct(models.Model):
                 'x_scale': 0.03,
                 'y_scale': 0.03
             })
+
         worksheet.set_row(0, 70)  # Set height of first row
         worksheet.set_column('A:A', 100)  # Set width column A
         worksheet.set_column('B:B', 50)  # Set width column B
@@ -268,6 +280,7 @@ class ProductProduct(models.Model):
         letter_column = list(string.ascii_uppercase)  # Array from A to Z
         for letter in letter_column[3:]:  # Set width column from D to Z
             worksheet.set_column(letter + ':' + letter, 25)
+
         worksheet.write(0, 0, self.name, product_name_format)
         worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
 
@@ -452,8 +465,72 @@ class ProductProduct(models.Model):
         # text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
         # text_footer_template = html2text.html2text(text_footer)
 
-        worksheet.write(row_start + 2, 0, 'Regulations Block', footer_format)
-        worksheet.write(row_start + 3, 0, 'Text Footer Block', footer_format)
+        if self._context['lang'] == 'es_ES':
+            regulation_footer = '''
+                1.       Reglamento nº852/2004 relativo a la higiene de los productos alimenticios – y sus posteriores modificaciones
+        
+                2.       Reglamento nº2073/2005 relativo a los criterios microbiológicos aplicables a los productos alimenticios – y sus posteriores modificaciones
+                
+                3.       Reglamento nº1169/2011 sobre la información alimentaria facilitada al consumidor – y sus posteriores modificaciones
+                
+                4.       Reglamento nº1333/2008 sobre aditivos alimentarios – y sus posteriores modificaciones
+                
+                5.       Reglamento nº1925/2006 sobre la adición de vitaminas, minerales y otras sustancias determinadas a los alimentos – y sus posteriores modificaciones
+                
+                6.       Reglamento nº828/2014 relativo a los requisitos para la transmisión de información a los consumidores sobre la ausencia o la presencia reducida de gluten en los alimentos – y sus posteriores modificaciones
+                
+                7.       Reglamento nº1924/2006 relativo a las declaraciones nutricionales y de propiedades saludables en los alimentos – y sus posteriores modificaciones
+                
+                8.       Reglamento nº1881/2006 por el que se fija el contenido máximo de determinados contaminantes en los productos alimenticios – y sus posteriores modificaciones
+                
+                9.       Reglamento nº1935/2004 sobre los materiales y objetos destinados a entrar en contacto con alimentos – y sus posteriores modificaciones
+                
+                10.   Reglamento nº10/2011 sobre materiales y objetos plásticos destinados a entrar en contacto con alimentos – y sus posteriores modificaciones
+                
+                11.   Real Decreto 1109/1991 por el que se aprueba la norma general relativa a los alimentos ultracongelados destinado a la alimentación humana – y sus posteriores modificaciones
+            '''
+        else:
+            regulation_footer = '''
+                1.       Regulation No 852/2004 on the hygiene of foodstuffs – and successive amendments
+
+                2.       Regulation No 2073/2005 on the microbiological criteria for foodstuffs - and successive amendments
+                
+                3.       Regulation No 1169/2011 on the provision of food information to consumers - and successive amendments
+                
+                4.       Regulation No 1333/2008 on food additives - and successive amendments
+                
+                5.       Regulation No 1925/2006 on the addition of vitamins and minerals and of certain other substances to foods  - and successive amendments
+                
+                6.       Regulation No 828/2014 on the requirements for the provision of information to consumers on the absence or reduced presence of gluten in food - and successive amendments
+                
+                7.       Regulation No 1924/2006  on nutrition and health claims made on foods - and successive amendments
+                
+                8.       Regulation No 1881/2006 setting maximum levels for certain contaminants in foodstuff - and successive amendments
+                
+                9.       Regulation No 1935/2004 on materials and articles intended to come into contact with food - and successive amendments
+                
+                10.   Regulation No 10/2011 on plastic materials and articles intended to come into contact with food - and successive amendments
+                
+                11.   Royal Spanish Decree 1109/1991 approving the General Standard for deep-frozen foods intended for human consumption
+            '''
+        worksheet.set_row(row_start + 3, 250)  # Set height of row
+        worksheet.write(row_start + 3, 0, regulation_footer, footer_format)
+
+        worksheet.set_row(row_start + 4, 70)  # Set height of row
+        if self._context['lang'] == 'es_ES':
+            worksheet.write_rich_string('A' + str(row_start + 5),
+                                        bold, 'Foods for Tomorrow, SL. Pstg. de Gaiolà 13, 08013 Barcelona, España.\n',
+                                        italic,
+                                        'Este documento se genera automáticamente, válido sin firma y sustituye a versiones anteriores.\n',
+                                        'Aprobado por Dpto. de Calidad; tel. 609 810 189, email calidad@heurafoods.com;\n',
+                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d'))
+        else:
+            worksheet.write_rich_string('A' + str(row_start + 5),
+                                        bold, 'Foods for Tomorrow, SL. Pstg. de Gaiolà 13, 08013 Barcelona, España.\n',
+                                        italic,
+                                        'This document is automatically generated, valid without signature and supersedes previous versions.\n',
+                                        'Approved by the Quality Department; tel. 609 810 189, email calidad@heurafoods.com;\n',
+                                        'Approval date: ' + datetime.now().strftime('%Y/%m/%d'))
 
         print('Saving excel...')
         workbook.close()
