@@ -257,6 +257,13 @@ class ProductProduct(models.Model):
                     'product_tmpl_id': product_template_copy.id,
                 })
 
+    @api.model
+    def change_sequence_datasheet(self):
+        for product_product in self:
+            print(product_product.name)
+            products = self.env['product.product'].search([('id', '!=', product_product.id)])
+            print(str(len(products)))
+
     def download_xlsx(self):
         # TODO: reload page to refresh attachments
         filename = f'{self.name}.xlsx'
