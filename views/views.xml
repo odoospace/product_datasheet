@@ -190,7 +190,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                record.duplicate_product()
+                    record.duplicate_product()
             </field>
         </record>
 
@@ -202,7 +202,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                record.change_sequence_datasheet()
+                    record.change_sequence_datasheet()
             </field>
         </record>
 
