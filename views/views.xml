@@ -190,7 +190,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                    record.duplicate_product()
+                record.duplicate_product()
             </field>
         </record>
 
@@ -202,7 +202,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                    record.change_sequence_datasheet()
+                record.change_sequence_datasheet()
             </field>
         </record>
 
@@ -290,7 +290,8 @@
         </record>
 
         <!-- menu categories -->
-        <menuitem name="Datasheets" id="product_datasheet.menu"/>
+        <menuitem name="Datasheets" id="product_datasheet.menu"
+                  groups="product_datasheet.group_product_datasheet_manager,product_datasheet.group_product_datasheet_user"/>
 
         <menuitem name="Products" id="product_datasheet.product_list" parent="product_datasheet.menu"
                   action="product_datasheet.product_action_window" sequence="10"/>

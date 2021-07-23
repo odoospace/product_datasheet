@@ -407,3 +407,29 @@ msgstr "Descargar Excel"
 #: model:ir.actions.server,name:product_datasheet.action_server_duplicate_product
 msgid "Duplicate Product"
 msgstr "Duplicar"
+
+#. module: product_datasheet
+#: model:ir.module.category,name:product_datasheet.module_category_product_datasheet
+msgid "Product Datasheet"
+msgstr "Ficha Técnica"
+
+#. module: product_datasheet
+#: model:res.groups,name:product_datasheet.group_product_datasheet_manager
+msgid "Administrator"
+msgstr "Administrador"
+
+#. module: product_datasheet
+#: model:res.groups,name:product_datasheet.group_product_datasheet_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: product_datasheet
+#: model:ir.module.category,description:product_datasheet.module_category_product_datasheet
+msgid ""
+"\n"
+"                Helps you manage your product datasheet\n"
+"            "
+msgstr ""
+"\n"
+"                Permite gestionar el módulo de Ficha Técnica\n"
+"            "
