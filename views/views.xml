@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <!-- <record id="product_datasheet_res_config_settings_view_form" model="ir.ui.view">
+        <record id="product_datasheet_res_config_settings_view_form" model="ir.ui.view">
             <field name="name">product.datasheet.res.config.settings.view.form.inherit.web.calendar</field>
             <field name="model">res.config.settings</field>
             <field name="priority" eval="86"/>
@@ -39,7 +39,7 @@
             parent="base.menu_administration"
             sequence="1"
             action="action_product_datasheet_config_settings"
-            groups="base.group_system"/> -->
+            groups="base.group_system"/>
 
         <record model="ir.ui.view" id="product_datasheet.list">
             <field name="name">Product Datasheet List</field>

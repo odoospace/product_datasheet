@@ -13,8 +13,8 @@ import html2text
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    regulation_footer = fields.Html('Regulations', help='Regulations in Footer of Excel', translate=True)
-    text_footer = fields.Html('Text Footer', help='Text in Footer of Excel', translate=True)
+    regulation_footer = fields.Text('Regulations', help='Regulations in Footer of Excel', translate=True)
+    text_footer = fields.Text('Text Footer', help='Text in Footer of Excel', translate=True)
 
     @api.model
     def get_values(self):
@@ -55,23 +55,22 @@ class Section(models.Model):
 
 class Group(models.Model):
     _name = 'product.datasheet.group'
-    _rec_name = 'fullname'
     _description = "Product Datasheet Group"
-
-    # @api.depends('name', 'section_id')
-    def _get_fullname(self):
-        for record in self:
-            res = f'{record.name} ({record.section_id.name})'
-            record.fullname = res
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
-    fullname = fields.Text(compute=_get_fullname, store=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
     export = fields.Boolean('Is it exported?')
 
     section_id = fields.Many2one('product.datasheet.section')
+
+    def name_get(self):
+        result = []
+        for group in self:
+            name = f'{group.name} ({group.section_id.name})'
+            result.append((group.id, name))
+        return result
 
 
 class Field(models.Model):
@@ -529,77 +528,23 @@ class ProductProduct(models.Model):
                             worksheet.write(row_start, 1, info_display, normal_format)
 
         # FOOTER
-        # regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
-        # regulation_footer_template = html2text.html2text(regulation_footer)
-        # text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
-        # text_footer_template = html2text.html2text(text_footer)
+        regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
+        regulation_footer_template = html2text.html2text(regulation_footer)
+        text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
+        text_footer_template = html2text.html2text(text_footer)
 
-        if self._context['lang'] == 'es_ES':
-            regulation_footer = '''
-                1.       Reglamento nº852/2004 relativo a la higiene de los productos alimenticios – y sus posteriores modificaciones
-        
-                2.       Reglamento nº2073/2005 relativo a los criterios microbiológicos aplicables a los productos alimenticios – y sus posteriores modificaciones
-                
-                3.       Reglamento nº1169/2011 sobre la información alimentaria facilitada al consumidor – y sus posteriores modificaciones
-                
-                4.       Reglamento nº1333/2008 sobre aditivos alimentarios – y sus posteriores modificaciones
-                
-                5.       Reglamento nº1925/2006 sobre la adición de vitaminas, minerales y otras sustancias determinadas a los alimentos – y sus posteriores modificaciones
-                
-                6.       Reglamento nº828/2014 relativo a los requisitos para la transmisión de información a los consumidores sobre la ausencia o la presencia reducida de gluten en los alimentos – y sus posteriores modificaciones
-                
-                7.       Reglamento nº1924/2006 relativo a las declaraciones nutricionales y de propiedades saludables en los alimentos – y sus posteriores modificaciones
-                
-                8.       Reglamento nº1881/2006 por el que se fija el contenido máximo de determinados contaminantes en los productos alimenticios – y sus posteriores modificaciones
-                
-                9.       Reglamento nº1935/2004 sobre los materiales y objetos destinados a entrar en contacto con alimentos – y sus posteriores modificaciones
-                
-                10.   Reglamento nº10/2011 sobre materiales y objetos plásticos destinados a entrar en contacto con alimentos – y sus posteriores modificaciones
-                
-                11.   Real Decreto 1109/1991 por el que se aprueba la norma general relativa a los alimentos ultracongelados destinado a la alimentación humana – y sus posteriores modificaciones
-            '''
-        else:
-            regulation_footer = '''
-                1.       Regulation No 852/2004 on the hygiene of foodstuffs – and successive amendments
-
-                2.       Regulation No 2073/2005 on the microbiological criteria for foodstuffs - and successive amendments
-                
-                3.       Regulation No 1169/2011 on the provision of food information to consumers - and successive amendments
-                
-                4.       Regulation No 1333/2008 on food additives - and successive amendments
-                
-                5.       Regulation No 1925/2006 on the addition of vitamins and minerals and of certain other substances to foods  - and successive amendments
-                
-                6.       Regulation No 828/2014 on the requirements for the provision of information to consumers on the absence or reduced presence of gluten in food - and successive amendments
-                
-                7.       Regulation No 1924/2006  on nutrition and health claims made on foods - and successive amendments
-                
-                8.       Regulation No 1881/2006 setting maximum levels for certain contaminants in foodstuff - and successive amendments
-                
-                9.       Regulation No 1935/2004 on materials and articles intended to come into contact with food - and successive amendments
-                
-                10.   Regulation No 10/2011 on plastic materials and articles intended to come into contact with food - and successive amendments
-                
-                11.   Royal Spanish Decree 1109/1991 approving the General Standard for deep-frozen foods intended for human consumption
-            '''
         worksheet.set_row(row_start + 3, 250)  # Set height of row
         worksheet.write(row_start + 3, 0, regulation_footer, footer_format)
 
         worksheet.set_row(row_start + 4, 70)  # Set height of row
-        if self._context['lang'] == 'es_ES':
+        text_footer_splitted = text_footer.split('\n')
+        if len(text_footer_splitted) == 3:
             worksheet.write_rich_string('A' + str(row_start + 5),
-                                        bold, 'Foods for Tomorrow, SL. Pstg. de Gaiolà 13, 08013 Barcelona, España.\n',
+                                        bold, text_footer_splitted[0] + '\n',
                                         italic,
-                                        'Este documento se genera automáticamente, válido sin firma y sustituye a versiones anteriores.\n',
-                                        'Aprobado por Dpto. de Calidad; tel. 609 810 189, email calidad@heurafoods.com;\n',
-                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d'))
-        else:
-            worksheet.write_rich_string('A' + str(row_start + 5),
-                                        bold, 'Foods for Tomorrow, SL. Pstg. de Gaiolà 13, 08013 Barcelona, España.\n',
-                                        italic,
-                                        'This document is automatically generated, valid without signature and supersedes previous versions.\n',
-                                        'Approved by the Quality Department; tel. 609 810 189, email calidad@heurafoods.com;\n',
-                                        'Approval date: ' + datetime.now().strftime('%Y/%m/%d'))
+                                        text_footer_splitted[1] + '\n',
+                                        text_footer_splitted[2] + '\n',
+                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d') if self._context['lang'] == 'es_ES' else 'Approval date: ' + datetime.now().strftime('%Y/%m/%d'))
 
         print('Saving excel...')
         workbook.close()
