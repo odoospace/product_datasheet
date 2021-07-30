@@ -400,44 +400,52 @@ class ProductProduct(models.Model):
         enc_row_start_micro_analysis = False
         row_start_nut_information = 0
         enc_row_start_nut_information = False
-        for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
-            is_header_section = True
-            for group in section.group_ids.filtered(lambda m: m.export in [True]):
-                is_header_group = True
-                for info in self.env['product.datasheet.info'].search(
-                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
-                        order='sequence'):
-                    # HEADER NAME
-                    if is_header_section:
-                        # Space between tables
-                        if row_start != row_title_supplier + 1:
-                            row_start += 2
-                        worksheet.write(row_start, 0, section.name, black_format)
-                        worksheet.write(row_start, 1, '', black_format)
+        header_section_old = False
+        header_group_old = False
 
-                        if section.code in ['AM', 'IN']:
-                            worksheet.write(row_start, 2, '', black_format)
-                            cont_letter_column = 3  # Images starting in D column
-                        else:
-                            cont_letter_column = 2  # Images starting in C column
+        for info in self.env['product.datasheet.info'].search([('product_id', '=', self.id)], order='sequence'):
+            # SECTION BLOCK
+            section = info.section_id
+            if section and section.export:
+                if header_section_old != section.id:
+                    is_header_section = True
 
-                        # IMAGES SECTION
-                        for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
-                            if product_image.image:
-                                if cont_letter_column < len(letter_column):
-                                    buf_product_image = BytesIO(base64.b64decode(product_image.image))
-                                    worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
-                                                           "product_image.png", {
-                                                               'image_data': buf_product_image,
-                                                               'x_scale': 0.3,
-                                                               'y_scale': 0.3
-                                                           })  # Insert product image
-                                    cont_letter_column += 1
-                                else:
-                                    break
+                # HEADER NAME
+                if is_header_section:
+                    # Space between tables
+                    if row_start != row_title_supplier + 1:
+                        row_start += 2
+                    worksheet.write(row_start, 0, section.name, black_format)
+                    worksheet.write(row_start, 1, '', black_format)
 
-                        is_header_section = False
+                    if section.code in ['AM', 'IN']:
+                        worksheet.write(row_start, 2, '', black_format)
+                        cont_letter_column = 3  # Images starting in D column
+                    else:
+                        cont_letter_column = 2  # Images starting in C column
 
+                    # IMAGES SECTION
+                    for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
+                        if product_image.image:
+                            if cont_letter_column < len(letter_column):
+                                buf_product_image = BytesIO(base64.b64decode(product_image.image))
+                                worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
+                                                       "product_image.png", {
+                                                           'image_data': buf_product_image,
+                                                           'x_scale': 0.3,
+                                                           'y_scale': 0.3
+                                                       })  # Insert product image
+                                cont_letter_column += 1
+                            else:
+                                break
+
+                    is_header_section = False
+
+                # GROUP BLOCK
+                group = info.group_id
+                if group and group.export:
+                    if header_group_old != group.id:
+                        is_header_group = True
                     # GROUP NAME
                     if is_header_group:
                         if (section.code not in ['AM', 'ME', 'IN']):
@@ -526,6 +534,9 @@ class ProductProduct(models.Model):
                                 row_start_nut_information += 1
                         else:
                             worksheet.write(row_start, 1, info_display, normal_format)
+
+                    header_group_old = group.id
+                header_section_old = section.id
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
