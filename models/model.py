@@ -258,10 +258,28 @@ class ProductProduct(models.Model):
 
     @api.model
     def change_sequence_datasheet(self):
+        print('START!')
+        product_datasheet_info = self.env['product.datasheet.info']
         for product_product in self:
             print(product_product.name)
             products = self.env['product.product'].search([('id', '!=', product_product.id)])
             print(str(len(products)))
+            for product_to_edit in products:
+                print(f'Product ID: {str(product_to_edit.id)}')
+                for info_product_product in product_product.info_ids:
+                    info_product_to_edit = product_datasheet_info.search([
+                        ('product_id', '=', product_to_edit.id),
+                        ('section_id', '=', info_product_product.section_id.id),
+                        ('group_id', '=', info_product_product.group_id.id),
+                        ('field_id', '=', info_product_product.field_id.id)
+                    ])
+                    if info_product_to_edit:
+                        print(f'Section: {str(info_product_to_edit.section_id.name)}, '
+                              f'Group: {str(info_product_to_edit.group_id.name)}, '
+                              f'Field: {str(info_product_to_edit.field_id.name)}, '
+                              f'Value: {str(info_product_to_edit.value_display)}')
+                        info_product_to_edit.sequence = info_product_product.sequence
+        print('END!')
 
     def download_xlsx(self):
         # TODO: reload page to refresh attachments
@@ -408,10 +426,7 @@ class ProductProduct(models.Model):
             section = info.section_id
             if section and section.export:
                 if header_section_old != section.id:
-                    is_header_section = True
-
-                # HEADER NAME
-                if is_header_section:
+                    # HEADER NAME
                     # Space between tables
                     if row_start != row_title_supplier + 1:
                         row_start += 2
@@ -439,15 +454,11 @@ class ProductProduct(models.Model):
                             else:
                                 break
 
-                    is_header_section = False
-
                 # GROUP BLOCK
                 group = info.group_id
                 if group and group.export:
                     if header_group_old != group.id:
-                        is_header_group = True
-                    # GROUP NAME
-                    if is_header_group:
+                        # GROUP NAME
                         if (section.code not in ['AM', 'ME', 'IN']):
                             row_start += 1
                             worksheet.write(row_start, 0, group.name, gray_format)
@@ -473,8 +484,6 @@ class ProductProduct(models.Model):
                                                                                                             'lang'] == 'es_ES' else 'Average values per 100gr of product',
                                                 normal_center_format)
                                 worksheet.write(row_start, 2, 'CDR%', normal_center_format)
-
-                        is_header_group = False
 
                     # FIELD NAME
                     if (info.field_id and info.field_id.export) and ((section.code not in ['AM', 'ME', 'IN']) or (
@@ -555,7 +564,9 @@ class ProductProduct(models.Model):
                                         italic,
                                         text_footer_splitted[1] + '\n',
                                         text_footer_splitted[2] + '\n',
-                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d') if self._context['lang'] == 'es_ES' else 'Approval date: ' + datetime.now().strftime('%Y/%m/%d'))
+                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d') if self._context[
+                                                                                                             'lang'] == 'es_ES' else 'Approval date: ' + datetime.now().strftime(
+                                            '%Y/%m/%d'))
 
         print('Saving excel...')
         workbook.close()
