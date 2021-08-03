@@ -74,6 +74,19 @@
             </field>
         </record>
 
+        <record id="product_datasheet_view_info_search" model="ir.ui.view">
+            <field name="name">Product Datasheet Search</field>
+            <field name="model">product.datasheet.info</field>
+            <field name="arch" type="xml">
+                <search string="Product Datasheet Info">
+                    <field name="product_id"/>
+                    <field name="section_id"/>
+                    <field name="group_id"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="product_datasheet_view_section_list">
             <field name="name">Product Datasheet Section</field>
             <field name="model">product.datasheet.section</field>
