@@ -289,6 +289,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.actions.act_window" id="product_datasheet.info_action_window">
+            <field name="name">Product Datasheet Info</field>
+            <field name="res_model">product.datasheet.info</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <!-- menu categories -->
         <menuitem name="Datasheets" id="product_datasheet.menu"
                   groups="product_datasheet.group_product_datasheet_manager,product_datasheet.group_product_datasheet_user"/>
@@ -304,5 +310,9 @@
 
         <menuitem name="Fields" id="product_datasheet.menu_sales_fields_list" parent="product_datasheet.menu_config"
                   action="product_datasheet.field_action_window"/>
+
+        <menuitem name="Info" id="product_datasheet.menu_info_list" parent="product_datasheet.menu_config"
+                  action="product_datasheet.info_action_window"/>
+
     </data>
 </odoo>

@@ -146,8 +146,9 @@ msgstr "Imágenes"
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__info_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_product__info_ids
+#: model:ir.ui.menu,name:product_datasheet.menu_info_list
 msgid "Info"
-msgstr ""
+msgstr "Datos"
 
 #. module: product_datasheet
 #: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__integer
