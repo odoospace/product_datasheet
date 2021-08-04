@@ -4,6 +4,7 @@ from odoo import models, fields, api, _
 from io import BytesIO
 import shortuuid
 import xlsxwriter
+import openpyxl
 import base64
 import json
 import string
@@ -549,9 +550,9 @@ class ProductProduct(models.Model):
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
-        regulation_footer_template = html2text.html2text(regulation_footer)
+        # regulation_footer_template = html2text.html2text(regulation_footer)
         text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
-        text_footer_template = html2text.html2text(text_footer)
+        # text_footer_template = html2text.html2text(text_footer)
 
         worksheet.set_row(row_start + 3, 250)  # Set height of row
         worksheet.write(row_start + 3, 0, regulation_footer, footer_format)
@@ -581,6 +582,16 @@ class ProductProduct(models.Model):
                    f"&filename={self.name}.xlsx&field=datas&download=true&filename=" + attachment.name,
             'target': 'new',
         }
+
+    def read_xlsx(self):
+        path = '/home/file.xlsx'
+        wb_obj = openpyxl.load_workbook(path)
+        sheet_obj = wb_obj.active
+        cell_obj = sheet_obj.cell(row=1, column=1)
+        print(cell_obj.value)
+        cell_obj.value = 'New text'
+        print(cell_obj.value)
+        wb_obj.save('home/file.xlsx')
 
     def add_file_in_attachment(self, filename, output):
         attachment = self.env['ir.attachment'].create({
