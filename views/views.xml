@@ -207,7 +207,7 @@
             </field>
         </record>
 
-        <record id="action_server_change_sequence_datasheet_product" model="ir.actions.server">
+        <!-- <record id="action_server_change_sequence_datasheet_product" model="ir.actions.server">
             <field name="name">Change Sequence Datasheet</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_product_product"/>
@@ -217,7 +217,7 @@
                 for record in records:
                     record.change_sequence_datasheet()
             </field>
-        </record>
+        </record> -->
 
         <record id="product_datasheet_tab" model="ir.ui.view">
             <field name="name">product.product.datasheet</field>
