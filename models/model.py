@@ -583,7 +583,7 @@ class ProductProduct(models.Model):
         worksheet.write(row_start + 3, 0, regulation_footer, footer_format)
 
         worksheet.set_row(row_start + 4, 70)  # Set height of row
-        text_footer_splitted = text_footer.split('\n')
+        text_footer_splitted = text_footer.split('\n') if text_footer and '\n' in text_footer else ''
         if len(text_footer_splitted) == 3:
             worksheet.write_rich_string('A' + str(row_start + 5),
                                         bold, text_footer_splitted[0] + '\n',
