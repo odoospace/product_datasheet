@@ -45,7 +45,7 @@
             <field name="name">Product Datasheet List</field>
             <field name="model">product.datasheet.info</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree multi_edit="1">
                     <field name="field_id"/>
                     <field name="value"/>
                     <field name="active"/>
@@ -75,7 +75,7 @@
         </record>
 
         <record id="product_datasheet_view_info_search" model="ir.ui.view">
-            <field name="name">Product Datasheet Search</field>
+            <field name="name">Product Datasheet Info Search</field>
             <field name="model">product.datasheet.info</field>
             <field name="arch" type="xml">
                 <search string="Product Datasheet Info">
@@ -91,7 +91,7 @@
             <field name="name">Product Datasheet Section</field>
             <field name="model">product.datasheet.section</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree multi_edit="1">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="group_ids"/>
@@ -130,15 +130,29 @@
             </field>
         </record>
 
+        <record id="product_datasheet_view_section_search" model="ir.ui.view">
+            <field name="name">Product Datasheet Section Search</field>
+            <field name="model">product.datasheet.section</field>
+            <field name="arch" type="xml">
+                <search string="Product Datasheet Section">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="product_datasheet_view_fields_list">
             <field name="name">Product Datasheet Fields</field>
             <field name="model">product.datasheet.field</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree multi_edit="1">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="type"/>
                     <field name="uom"/>
+                    <field name="section_id"/>
+                    <field name="group_id"/>
                     <field name="export"/>
                 </tree>
             </field>
@@ -154,6 +168,8 @@
                         <field name="name"/>
                         <field name="type"/>
                         <field name="uom"/>
+                        <field name="section_id"/>
+                        <field name="group_id"/>
                         <field name="export"/>
                     </group>
                     <notebook>
@@ -175,6 +191,20 @@
                     <attribute name="editable"/>
                 </xpath>
                 -->
+            </field>
+        </record>
+
+        <record id="product_datasheet_view_field_search" model="ir.ui.view">
+            <field name="name">Product Datasheet Field Search</field>
+            <field name="model">product.datasheet.field</field>
+            <field name="arch" type="xml">
+                <search string="Product Datasheet Field">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="section_id"/>
+                    <field name="group_id"/>
+                    <separator/>
+                </search>
             </field>
         </record>
 

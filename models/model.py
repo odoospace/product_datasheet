@@ -78,6 +78,14 @@ class Field(models.Model):
     _name = "product.datasheet.field"
     _description = "Product Datasheet Field"
 
+    @api.depends('info_ids')
+    def _compute_section_group(self):
+        for record in self:
+            record.section_id = record.info_ids[-1].section_id.id if record.info_ids and record.info_ids[
+                -1].section_id else False
+            record.group_id = record.info_ids[-1].group_id.id if record.info_ids and record.info_ids[
+                -1].group_id else False
+
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
     type = fields.Selection(
@@ -111,6 +119,8 @@ class Field(models.Model):
     export = fields.Boolean('Is it exported?')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
+    section_id = fields.Many2one('product.datasheet.section', compute=_compute_section_group, store=True)
+    group_id = fields.Many2one('product.datasheet.group', compute=_compute_section_group, store=True)
 
 
 class Info(models.Model):
