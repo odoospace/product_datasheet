@@ -488,10 +488,10 @@ class ProductProduct(models.Model):
                                                                                                'lang'] == 'es_ES' else 'May Contain (Traces)',
                                                 normal_center_format)
                         elif section.code == 'AM':
-                            if group.code == 'N':
+                            if group.code == 'M':
                                 row_start += 1
-                                worksheet.write(row_start, 2, 'Referencia laboratorio' if self._context[
-                                                                                              'lang'] == 'es_ES' else 'Laboratory reference',
+                                worksheet.write(row_start, 2, 'Referencia' if self._context[
+                                                                                              'lang'] == 'es_ES' else 'Reference',
                                                 normal_center_format)
                         elif section.code == 'IN':
                             if group.code == 'VM100':
@@ -504,7 +504,7 @@ class ProductProduct(models.Model):
                     # FIELD NAME
                     if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
                                                                      (section.code == 'AOI' and group.code == 'ALD') or
-                                                                     (section.code == 'AM' and group.code == 'N') or
+                                                                     (section.code == 'AM' and group.code == 'M') or
                                                                      (section.code == 'ME' and group.code == 'ME1') or
                                                                      (section.code == 'IN' and group.code == 'VM100')):
                         row_start += 1
@@ -550,7 +550,7 @@ class ProductProduct(models.Model):
                                 worksheet.write(row_start_allergen, 2, value, normal_format)
                                 row_start_allergen += 1
                         elif section.code == 'AM':
-                            if group.code == 'N':
+                            if group.code == 'M':
                                 worksheet.write(row_start, 1, info_display, normal_format)
                                 if not enc_row_start_micro_analysis:
                                     row_start_micro_analysis = row_start
