@@ -426,6 +426,8 @@ class ProductProduct(models.Model):
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
         row_start_micro_analysis = 0
+        enc_row_start_allergen = False
+        row_start_allergen = 0
         enc_row_start_micro_analysis = False
         row_start_nut_information = 0
         enc_row_start_nut_information = False
@@ -444,7 +446,7 @@ class ProductProduct(models.Model):
                     worksheet.write(row_start, 0, section.name, black_format)
                     worksheet.write(row_start, 1, '', black_format)
 
-                    if section.code in ['AM', 'IN']:
+                    if section.code in ['AOI', 'AM', 'IN']:
                         worksheet.write(row_start, 2, '', black_format)
                         cont_letter_column = 3  # Images starting in D column
                     else:
@@ -470,18 +472,21 @@ class ProductProduct(models.Model):
                 if group and group.export:
                     if header_group_old != group.id:
                         # GROUP NAME
-                        if (section.code not in ['AM', 'ME', 'IN']):
+                        if (section.code not in ['AOI', 'AM', 'ME', 'IN']):
                             row_start += 1
                             worksheet.write(row_start, 0, group.name, gray_format)
                             worksheet.write(row_start, 1, '', gray_format)
 
                         # SUBGROUP ONLY CASES
                         if section.code == 'AOI':
-                            worksheet.write(row_start, 1, '', gray_format)
-                            row_start += 1
-                            worksheet.write(row_start, 1, 'Presencia - Puede contener (Trazas)' if self._context[
-                                                                                                       'lang'] == 'es_ES' else 'Presence - May Contain (Traces)',
-                                            normal_center_format)
+                            if group.code == 'ALD':
+                                row_start += 1
+                                worksheet.write(row_start, 1, 'Presencia' if self._context[
+                                                                                 'lang'] == 'es_ES' else 'Presence',
+                                                normal_center_format)
+                                worksheet.write(row_start, 2, 'Puede contener (Trazas)' if self._context[
+                                                                                               'lang'] == 'es_ES' else 'May Contain (Traces)',
+                                                normal_center_format)
                         elif section.code == 'AM':
                             if group.code == 'N':
                                 row_start += 1
@@ -497,10 +502,11 @@ class ProductProduct(models.Model):
                                 worksheet.write(row_start, 2, 'CDR%', normal_center_format)
 
                     # FIELD NAME
-                    if (info.field_id and info.field_id.export) and ((section.code not in ['AM', 'ME', 'IN']) or (
-                            section.code == 'AM' and group.code == 'N') or (
-                                                                             section.code == 'ME' and group.code == 'ME1') or (
-                                                                             section.code == 'IN' and group.code == 'VM100')):
+                    if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
+                                                                     (section.code == 'AOI' and group.code == 'ALD') or
+                                                                     (section.code == 'AM' and group.code == 'N') or
+                                                                     (section.code == 'ME' and group.code == 'ME1') or
+                                                                     (section.code == 'IN' and group.code == 'VM100')):
                         row_start += 1
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
 
@@ -521,19 +527,28 @@ class ProductProduct(models.Model):
                                              'selection'])[
                                         info.uom])
                             if isfloat(info.value):
-                                info_display = str(round(float(info.value), 2)) + ' ' + uom
+                                info_display = str(round(float(info.value), 2))
+                                info_display += ' ' + uom if uom else ''
                             else:
-                                info_display = info.value + ' ' + uom
+                                info_display = info.value
+                                info_display += ' ' + uom if uom else ''
                         else:
                             info_display = '-'
 
                         # PRINT VALUE DISPLAY WITH FORMAT COLUMN
                         if section.code == 'AOI':
                             if self._context['lang'] == 'es_ES':
-                                value = 'Sí - Sí' if info_display == 'True' else 'No - No'
+                                value = 'Sí' if info_display == 'True' else 'No'
                             else:
-                                value = 'Yes - Yes' if info_display == 'True' else 'No - No'
-                            worksheet.write(row_start, 1, value, normal_format)
+                                value = 'Yes' if info_display == 'True' else 'No'
+                            if group.code == 'ALD':
+                                worksheet.write(row_start, 1, value, normal_format)
+                                if not enc_row_start_allergen:
+                                    row_start_allergen = row_start
+                                    enc_row_start_allergen = True
+                            elif group.code == 'ALI':
+                                worksheet.write(row_start_allergen, 2, value, normal_format)
+                                row_start_allergen += 1
                         elif section.code == 'AM':
                             if group.code == 'N':
                                 worksheet.write(row_start, 1, info_display, normal_format)
