@@ -490,8 +490,11 @@ class ProductProduct(models.Model):
                         elif section.code == 'AM':
                             if group.code == 'M':
                                 row_start += 1
+                                worksheet.write(row_start, 1, 'Máximo' if self._context[
+                                                                              'lang'] == 'es_ES' else 'Maximum',
+                                                normal_center_format)
                                 worksheet.write(row_start, 2, 'Referencia' if self._context[
-                                                                                              'lang'] == 'es_ES' else 'Reference',
+                                                                                  'lang'] == 'es_ES' else 'Reference',
                                                 normal_center_format)
                         elif section.code == 'IN':
                             if group.code == 'VM100':
@@ -499,7 +502,7 @@ class ProductProduct(models.Model):
                                 worksheet.write(row_start, 1, 'Valores medios por 100gr de producto' if self._context[
                                                                                                             'lang'] == 'es_ES' else 'Average values per 100gr of product',
                                                 normal_center_format)
-                                worksheet.write(row_start, 2, 'CDR%', normal_center_format)
+                                worksheet.write(row_start, 2, '% CDR', normal_center_format)
 
                     # FIELD NAME
                     if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
