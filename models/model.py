@@ -611,6 +611,295 @@ class ProductProduct(models.Model):
             'target': 'new',
         }
 
+    def generate_template_xlsx(self):
+        # TODO: reload page to refresh attachments
+        filename = f'{self.name}.xlsx'
+        output = BytesIO()
+
+        _info = {
+            'code': 'DataSheet of Product',
+            'created': datetime.now().strftime('%Y/%m/%d')
+        }
+
+        workbook = xlsxwriter.Workbook(output)
+
+        # TEXT FORMAT
+        bold = workbook.add_format({'bold': True})
+        italic = workbook.add_format({'italic': True})
+        italic.set_font_size(10)
+        red = workbook.add_format({'color': 'red'})
+        blue = workbook.add_format({'color': 'blue'})
+        center = workbook.add_format({'align': 'center'})
+        superscript = workbook.add_format({'font_script': 1})
+
+        # CELL FORMAT
+        product_name_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'black',
+            'bg_color': 'white',
+            'border': 1
+        })
+        product_name_format.set_font_size(20)
+        product_name_format.set_align('center')
+        product_name_format.set_align('vcenter')
+        black_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'white',
+            'bg_color': 'black'
+        })
+        gray_format = workbook.add_format({
+            'bold': True,
+            'font_color': 'white',
+            'bg_color': 'gray'
+        })
+        normal_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white',
+            'border': 1
+        })
+        normal_center_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white',
+            'border': 1
+        })
+        normal_center_format.set_align('center')
+        normal_center_format.set_align('vcenter')
+        footer_format = workbook.add_format({
+            'font_color': 'black',
+            'bg_color': 'white'
+        })
+        footer_format.set_font_size(10)
+
+        # TAB NAME
+        worksheet = workbook.add_worksheet('{{o.display_name}}')  # Tab with display_name of product
+
+        # COMMENTS
+        # info = _info
+        # code = shortuuid.uuid()
+        # info['worksheet'] = code
+        #
+        # worksheet.write_comment('A1', json.dumps(info))
+
+        # INFO COMPANY HEADER
+        if self.env.user.company_id and self.env.user.company_id.logo:
+            buf_image_company = BytesIO(base64.b64decode(self.env.user.company_id.logo))
+            worksheet.insert_image('A1', "image_company.png", {
+                'image_data': buf_image_company,
+                'x_scale': 0.03,
+                'y_scale': 0.03
+            })
+
+        worksheet.set_row(0, 70)  # Set height of first row
+        worksheet.set_column('A:A', 100)  # Set width column A
+        worksheet.set_column('B:B', 50)  # Set width column B
+        worksheet.set_column('C:C', 50)  # Set width column C
+        letter_column = list(string.ascii_uppercase)  # Array from A to Z
+        for letter in letter_column[3:]:  # Set width column from D to Z
+            worksheet.set_column(letter + ':' + letter, 25)
+
+        worksheet.write(0, 0, f'{{{{ o.name }}}}', product_name_format)
+        worksheet.write(0, 1, f'{{{{ h.date }}}}', normal_center_format)
+
+        # DATA OF SUPPLIER
+        if self._context['lang'] == 'es_ES':
+            title_data_supplier = ['Datos del Proveedor', 'Nombre Empresa', 'CIF', 'Registro Sanitario',
+                                   'Dirección Fiscal', 'Contacto', 'Página Web']
+        else:
+            title_data_supplier = ['Supplier Data', 'Company Name', 'CIF', 'Health Register',
+                                   'Fiscal Address', 'Contact', 'Website']
+
+        row_start = 2
+        row_title_supplier = row_start
+        row_data_supplier = row_start + 1
+
+        worksheet.write(row_title_supplier, 1, '', black_format)
+
+        for title in title_data_supplier:
+            if row_title_supplier == 2:
+                format_title = black_format
+            else:
+                format_title = normal_format
+            worksheet.write(row_title_supplier, 0, title, format_title)
+            row_title_supplier += 1
+
+        foodsfortomorrow_company = self.env['res.company'].sudo().search([('id', '=', 1)])
+        if foodsfortomorrow_company:
+            direction = foodsfortomorrow_company.street + ' - ' + foodsfortomorrow_company.zip + ', ' + foodsfortomorrow_company.state_id.display_name
+            data_supplier = [foodsfortomorrow_company.name, foodsfortomorrow_company.vat,
+                             foodsfortomorrow_company.company_registry, direction,
+                             'calidad@heurafoods.com', foodsfortomorrow_company.website]
+            for data in data_supplier:
+                worksheet.write(row_data_supplier, 1, data, normal_format)
+                row_data_supplier += 1
+
+        # IMAGE PRODUCT
+        if self.image_1920:
+            row_data_product = row_start + 1
+            buf_image_product = BytesIO(base64.b64decode(self.image_1920))
+            worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
+                'image_data': buf_image_product,
+                'x_scale': 0.3,
+                'y_scale': 0.3
+            })  # Insert image product
+
+        # DATA OF PRODUCT
+        row_start = row_title_supplier + 1  # Space between tables
+        row_start_micro_analysis = 0
+        enc_row_start_allergen = False
+        row_start_allergen = 0
+        enc_row_start_micro_analysis = False
+        row_start_nut_information = 0
+        enc_row_start_nut_information = False
+        header_section_old = False
+        header_group_old = False
+
+        for info in self.env['product.datasheet.info'].search([('product_id', '=', self.id)], order='sequence'):
+            # SECTION BLOCK
+            section = info.section_id
+            if section and section.export:
+                if header_section_old != section.id:
+                    # HEADER NAME
+                    # Space between tables
+                    if row_start != row_title_supplier + 1:
+                        row_start += 2
+                    worksheet.write(row_start, 0, f'{{{{ i.section.{section.code} }}}}', black_format)
+                    worksheet.write(row_start, 1, '', black_format)
+
+                    if section.code in ['AOI', 'AM', 'IN']:
+                        worksheet.write(row_start, 2, '', black_format)
+                        cont_letter_column = 3  # Images starting in D column
+                    else:
+                        cont_letter_column = 2  # Images starting in C column
+
+                    # IMAGES SECTION
+                    for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
+                        if product_image.image:
+                            if cont_letter_column < len(letter_column):
+                                buf_product_image = BytesIO(base64.b64decode(product_image.image))
+                                worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
+                                                       "product_image.png", {
+                                                           'image_data': buf_product_image,
+                                                           'x_scale': 0.3,
+                                                           'y_scale': 0.3
+                                                       })  # Insert product image
+                                cont_letter_column += 1
+                            else:
+                                break
+
+                # GROUP BLOCK
+                group = info.group_id
+                if group and group.export:
+                    if header_group_old != group.id:
+                        # GROUP NAME
+                        if (section.code not in ['AOI', 'AM', 'ME', 'IN']):
+                            row_start += 1
+                            worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
+                            worksheet.write(row_start, 1, '', gray_format)
+
+                        # SUBGROUP ONLY CASES
+                        if section.code == 'AOI':
+                            if group.code == 'ALD':
+                                row_start += 1
+                                worksheet.write(row_start, 1, 'Presencia' if self._context[
+                                                                                 'lang'] == 'es_ES' else 'Presence',
+                                                normal_center_format)
+                                worksheet.write(row_start, 2, 'Puede contener (Trazas)' if self._context[
+                                                                                               'lang'] == 'es_ES' else 'May Contain (Traces)',
+                                                normal_center_format)
+                        elif section.code == 'AM':
+                            if group.code == 'M':
+                                row_start += 1
+                                worksheet.write(row_start, 1, 'Máximo' if self._context[
+                                                                              'lang'] == 'es_ES' else 'Maximum',
+                                                normal_center_format)
+                                worksheet.write(row_start, 2, 'Referencia' if self._context[
+                                                                                  'lang'] == 'es_ES' else 'Reference',
+                                                normal_center_format)
+                        elif section.code == 'IN':
+                            if group.code == 'VM100':
+                                row_start += 1
+                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto' if self._context[
+                                                                                                            'lang'] == 'es_ES' else 'Average values per 100gr of product',
+                                                normal_center_format)
+                                worksheet.write(row_start, 2, '% CDR', normal_center_format)
+
+                    # FIELD NAME
+                    if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
+                                                                     (section.code == 'AOI' and group.code == 'ALD') or
+                                                                     (section.code == 'AM' and group.code == 'M') or
+                                                                     (section.code == 'ME' and group.code == 'ME1') or
+                                                                     (section.code == 'IN' and group.code == 'VM100')):
+                        row_start += 1
+                        worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
+
+                    # GET VALUE DISPLAY
+                    if info.field_id and info.field_id.export:
+                        if info.value:
+                            info_display = f'{{{{ i.field.{info.field_id.code} | value }}}}'
+                        else:
+                            info_display = '-'
+
+                        # PRINT VALUE DISPLAY WITH FORMAT COLUMN
+                        if section.code == 'AOI':
+                            value = info_display
+                            if group.code == 'ALD':
+                                worksheet.write(row_start, 1, value, normal_format)
+                                if not enc_row_start_allergen:
+                                    row_start_allergen = row_start
+                                    enc_row_start_allergen = True
+                            elif group.code == 'ALI':
+                                worksheet.write(row_start_allergen, 2, value, normal_format)
+                                row_start_allergen += 1
+                        elif section.code == 'AM':
+                            if group.code == 'M':
+                                worksheet.write(row_start, 1, info_display, normal_format)
+                                if not enc_row_start_micro_analysis:
+                                    row_start_micro_analysis = row_start
+                                    enc_row_start_micro_analysis = True
+                            elif group.code == 'RL':
+                                worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
+                                row_start_micro_analysis += 1
+                        elif section.code == 'IN':
+                            if group.code == 'VM100':
+                                worksheet.write(row_start, 1, info_display, normal_format)
+                                if not enc_row_start_nut_information:
+                                    row_start_nut_information = row_start
+                                    enc_row_start_nut_information = True
+                            elif group.code == 'IR':
+                                worksheet.write(row_start_nut_information, 2, info_display, normal_format)
+                                row_start_nut_information += 1
+                        else:
+                            worksheet.write(row_start, 1, info_display, normal_format)
+
+                    header_group_old = group.id
+                header_section_old = section.id
+
+        # FOOTER
+        regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
+        # regulation_footer_template = html2text.html2text(regulation_footer)
+        text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
+        # text_footer_template = html2text.html2text(text_footer)
+
+        worksheet.set_row(row_start + 3, 250)  # Set height of row
+        worksheet.write(row_start + 3, 0, f'{{{{ regulation_footer }}}}', footer_format)
+
+        worksheet.set_row(row_start + 4, 70)  # Set height of row
+        worksheet.write(row_start + 5, 0, f'{{{{ text_footer }}}}', footer_format)
+
+        print('Saving excel...')
+        workbook.close()
+        output.seek(0)
+
+        data = output.read()
+        attachment = self.add_file_in_attachment(filename, data)
+        # TODO: refresh page
+        return {
+            'type': 'ir.actions.act_url',
+            'url': "web/content/?model=ir.attachment&id=" + str(attachment.id) +
+                   f"&filename={self.name}.xlsx&field=datas&download=true&filename=" + attachment.name,
+            'target': 'new',
+        }
+
     def read_xlsx(self):
         path = '/home/file.xlsx'
         wb_obj = openpyxl.load_workbook(path)
