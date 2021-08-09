@@ -668,9 +668,6 @@ class ProductProduct(models.Model):
                         row_start += 1
 
         # FOOTER
-        regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
-        text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
-
         worksheet.set_row(row_start + 3, 250)  # Set height of row
         worksheet.write(row_start + 3, 0, f'{{{{ regulation_footer }}}}', footer_format)
 
