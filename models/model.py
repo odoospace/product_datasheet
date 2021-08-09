@@ -447,9 +447,35 @@ class ProductProduct(models.Model):
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
                         order='sequence'):
-                    worksheet.write(row_start, 0, info.field_id.name, normal_format)
-                    worksheet.write(row_start, 1, info.value, normal_format)
-                    row_start += 1
+
+                    def isfloat(value):
+                        try:
+                            float(value)
+                            return True
+                        except ValueError:
+                            return False
+
+                    # GET VALUE DISPLAY
+                    if info.field_id and info.field_id.export:
+                        if info.value and info.value != 'False':
+                            uom = ''
+                            if info.uom:
+                                uom = _(
+                                    dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
+                                             'selection'])[
+                                        info.uom])
+                            if isfloat(info.value):
+                                info_display = str(round(float(info.value), 2))
+                                info_display += ' ' + uom if uom else ''
+                            else:
+                                info_display = info.value
+                                info_display += ' ' + uom if uom else ''
+                        else:
+                            info_display = '-'
+
+                        worksheet.write(row_start, 0, info.field_id.name, normal_format)
+                        worksheet.write(row_start, 1, info_display, normal_format)
+                        row_start += 1
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
@@ -636,9 +662,10 @@ class ProductProduct(models.Model):
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
                         order='sequence'):
-                    worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
-                    worksheet.write(row_start, 1, f'{{{{ i.field.{info.field_id.code} | value }}}}', normal_format)
-                    row_start += 1
+                    if info.field_id and info.field_id.export:
+                        worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
+                        worksheet.write(row_start, 1, f'{{{{ i.field.{info.field_id.code} | value }}}}', normal_format)
+                        row_start += 1
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
