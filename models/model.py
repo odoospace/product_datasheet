@@ -425,162 +425,35 @@ class ProductProduct(models.Model):
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
-        row_start_micro_analysis = 0
-        enc_row_start_allergen = False
-        row_start_allergen = 0
-        enc_row_start_micro_analysis = False
-        row_start_nut_information = 0
-        enc_row_start_nut_information = False
-        header_section_old = False
-        header_group_old = False
 
-        for info in self.env['product.datasheet.info'].search([('product_id', '=', self.id)], order='sequence'):
-            # SECTION BLOCK
-            section = info.section_id
-            if section and section.export:
-                if header_section_old != section.id:
-                    # HEADER NAME
-                    # Space between tables
-                    if row_start != row_title_supplier + 1:
-                        row_start += 2
-                    worksheet.write(row_start, 0, section.name, black_format)
-                    worksheet.write(row_start, 1, '', black_format)
-
-                    if section.code in ['AOI', 'AM', 'IN']:
-                        worksheet.write(row_start, 2, '', black_format)
-                        cont_letter_column = 3  # Images starting in D column
-                    else:
-                        cont_letter_column = 2  # Images starting in C column
-
-                    # IMAGES SECTION
-                    for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
-                        if product_image.image:
-                            if cont_letter_column < len(letter_column):
-                                buf_product_image = BytesIO(base64.b64decode(product_image.image))
-                                worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
-                                                       "product_image.png", {
-                                                           'image_data': buf_product_image,
-                                                           'x_scale': 0.3,
-                                                           'y_scale': 0.3
-                                                       })  # Insert product image
-                                cont_letter_column += 1
-                            else:
-                                break
-
-                # GROUP BLOCK
-                group = info.group_id
-                if group and group.export:
-                    if header_group_old != group.id:
-                        # GROUP NAME
-                        if (section.code not in ['AOI', 'AM', 'ME', 'IN']):
-                            row_start += 1
-                            worksheet.write(row_start, 0, group.name, gray_format)
-                            worksheet.write(row_start, 1, '', gray_format)
-
-                        # SUBGROUP ONLY CASES
-                        if section.code == 'AOI':
-                            if group.code == 'ALD':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Presencia' if self._context[
-                                                                                 'lang'] == 'es_ES' else 'Presence',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, 'Puede contener (Trazas)' if self._context[
-                                                                                               'lang'] == 'es_ES' else 'May Contain (Traces)',
-                                                normal_center_format)
-                        elif section.code == 'AM':
-                            if group.code == 'M':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Máximo' if self._context[
-                                                                              'lang'] == 'es_ES' else 'Maximum',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, 'Referencia' if self._context[
-                                                                                  'lang'] == 'es_ES' else 'Reference',
-                                                normal_center_format)
-                        elif section.code == 'IN':
-                            if group.code == 'VM100':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto' if self._context[
-                                                                                                            'lang'] == 'es_ES' else 'Average values per 100gr of product',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, '% CDR', normal_center_format)
-
-                    # FIELD NAME
-                    if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
-                                                                     (section.code == 'AOI' and group.code == 'ALD') or
-                                                                     (section.code == 'AM' and group.code == 'M') or
-                                                                     (section.code == 'ME' and group.code == 'ME1') or
-                                                                     (section.code == 'IN' and group.code == 'VM100')):
-                        row_start += 1
-                        worksheet.write(row_start, 0, info.field_id.name, normal_format)
-
-                    def isfloat(value):
-                        try:
-                            float(value)
-                            return True
-                        except ValueError:
-                            return False
-
-                    # GET VALUE DISPLAY
-                    if info.field_id and info.field_id.export:
-                        if info.value and info.value != 'False':
-                            uom = ''
-                            if info.uom and group.code != 'RL':
-                                uom = _(
-                                    dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
-                                             'selection'])[
-                                        info.uom])
-                            if isfloat(info.value):
-                                info_display = str(round(float(info.value), 2))
-                                info_display += ' ' + uom if uom else ''
-                            else:
-                                info_display = info.value
-                                info_display += ' ' + uom if uom else ''
-                        else:
-                            info_display = '-'
-
-                        # PRINT VALUE DISPLAY WITH FORMAT COLUMN
-                        if section.code == 'AOI':
-                            if self._context['lang'] == 'es_ES':
-                                value = 'Sí' if info_display == 'True' else 'No'
-                            else:
-                                value = 'Yes' if info_display == 'True' else 'No'
-                            if group.code == 'ALD':
-                                worksheet.write(row_start, 1, value, normal_format)
-                                if not enc_row_start_allergen:
-                                    row_start_allergen = row_start
-                                    enc_row_start_allergen = True
-                            elif group.code == 'ALI':
-                                worksheet.write(row_start_allergen, 2, value, normal_format)
-                                row_start_allergen += 1
-                        elif section.code == 'AM':
-                            if group.code == 'M':
-                                worksheet.write(row_start, 1, info_display, normal_format)
-                                if not enc_row_start_micro_analysis:
-                                    row_start_micro_analysis = row_start
-                                    enc_row_start_micro_analysis = True
-                            elif group.code == 'RL':
-                                worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
-                                row_start_micro_analysis += 1
-                        elif section.code == 'IN':
-                            if group.code == 'VM100':
-                                worksheet.write(row_start, 1, info_display, normal_format)
-                                if not enc_row_start_nut_information:
-                                    row_start_nut_information = row_start
-                                    enc_row_start_nut_information = True
-                            elif group.code == 'IR':
-                                worksheet.write(row_start_nut_information, 2, info_display, normal_format)
-                                row_start_nut_information += 1
-                        else:
-                            worksheet.write(row_start, 1, info_display, normal_format)
-
-                    header_group_old = group.id
-                header_section_old = section.id
+        for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
+            worksheet.write(row_start, 0, section.name, black_format)
+            worksheet.write(row_start, 1, '', black_format)
+            row_start += 1
+            # IMAGES SECTION
+            for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
+                if product_image.image:
+                    buf_product_image = BytesIO(base64.b64decode(product_image.image))
+                    worksheet.insert_image(letter_column[2] + str(row_start + 1),
+                                           "product_image.png", {
+                                               'image_data': buf_product_image,
+                                               'x_scale': 0.3,
+                                               'y_scale': 0.3
+                                           })  # Insert product image
+            for group in section.group_ids.filtered(lambda m: m.export in [True]):
+                worksheet.write(row_start, 0, group.name, gray_format)
+                worksheet.write(row_start, 1, '', gray_format)
+                row_start += 1
+                for info in self.env['product.datasheet.info'].search(
+                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
+                        order='sequence'):
+                    worksheet.write(row_start, 0, info.field_id.name, normal_format)
+                    worksheet.write(row_start, 1, info.value, normal_format)
+                    row_start += 1
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
-        # regulation_footer_template = html2text.html2text(regulation_footer)
         text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
-        # text_footer_template = html2text.html2text(text_footer)
 
         worksheet.set_row(row_start + 3, 250)  # Set height of row
         worksheet.write(row_start + 3, 0, regulation_footer, footer_format)
@@ -592,10 +465,7 @@ class ProductProduct(models.Model):
                                         bold, text_footer_splitted[0] + '\n',
                                         italic,
                                         text_footer_splitted[1] + '\n',
-                                        text_footer_splitted[2] + '\n',
-                                        'Fecha de aprobación: ' + datetime.now().strftime('%Y/%m/%d') if self._context[
-                                                                                                             'lang'] == 'es_ES' else 'Approval date: ' + datetime.now().strftime(
-                                            '%Y/%m/%d'))
+                                        text_footer_splitted[2] + '\n')
 
         print('Saving excel...')
         workbook.close()
@@ -671,7 +541,7 @@ class ProductProduct(models.Model):
         footer_format.set_font_size(10)
 
         # TAB NAME
-        worksheet = workbook.add_worksheet('{{o.display_name}}')  # Tab with display_name of product
+        worksheet = workbook.add_worksheet(f'{{{{ o.display_name }}}}')  # Tab with display_name of product
 
         # COMMENTS
         # info = _info
@@ -744,141 +614,35 @@ class ProductProduct(models.Model):
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
-        row_start_micro_analysis = 0
-        enc_row_start_allergen = False
-        row_start_allergen = 0
-        enc_row_start_micro_analysis = False
-        row_start_nut_information = 0
-        enc_row_start_nut_information = False
-        header_section_old = False
-        header_group_old = False
 
-        for info in self.env['product.datasheet.info'].search([('product_id', '=', self.id)], order='sequence'):
-            # SECTION BLOCK
-            section = info.section_id
-            if section and section.export:
-                if header_section_old != section.id:
-                    # HEADER NAME
-                    # Space between tables
-                    if row_start != row_title_supplier + 1:
-                        row_start += 2
-                    worksheet.write(row_start, 0, f'{{{{ i.section.{section.code} }}}}', black_format)
-                    worksheet.write(row_start, 1, '', black_format)
-
-                    if section.code in ['AOI', 'AM', 'IN']:
-                        worksheet.write(row_start, 2, '', black_format)
-                        cont_letter_column = 3  # Images starting in D column
-                    else:
-                        cont_letter_column = 2  # Images starting in C column
-
-                    # IMAGES SECTION
-                    for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
-                        if product_image.image:
-                            if cont_letter_column < len(letter_column):
-                                buf_product_image = BytesIO(base64.b64decode(product_image.image))
-                                worksheet.insert_image(letter_column[cont_letter_column] + str(row_start + 1),
-                                                       "product_image.png", {
-                                                           'image_data': buf_product_image,
-                                                           'x_scale': 0.3,
-                                                           'y_scale': 0.3
-                                                       })  # Insert product image
-                                cont_letter_column += 1
-                            else:
-                                break
-
-                # GROUP BLOCK
-                group = info.group_id
-                if group and group.export:
-                    if header_group_old != group.id:
-                        # GROUP NAME
-                        if (section.code not in ['AOI', 'AM', 'ME', 'IN']):
-                            row_start += 1
-                            worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
-                            worksheet.write(row_start, 1, '', gray_format)
-
-                        # SUBGROUP ONLY CASES
-                        if section.code == 'AOI':
-                            if group.code == 'ALD':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Presencia' if self._context[
-                                                                                 'lang'] == 'es_ES' else 'Presence',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, 'Puede contener (Trazas)' if self._context[
-                                                                                               'lang'] == 'es_ES' else 'May Contain (Traces)',
-                                                normal_center_format)
-                        elif section.code == 'AM':
-                            if group.code == 'M':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Máximo' if self._context[
-                                                                              'lang'] == 'es_ES' else 'Maximum',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, 'Referencia' if self._context[
-                                                                                  'lang'] == 'es_ES' else 'Reference',
-                                                normal_center_format)
-                        elif section.code == 'IN':
-                            if group.code == 'VM100':
-                                row_start += 1
-                                worksheet.write(row_start, 1, 'Valores medios por 100gr de producto' if self._context[
-                                                                                                            'lang'] == 'es_ES' else 'Average values per 100gr of product',
-                                                normal_center_format)
-                                worksheet.write(row_start, 2, '% CDR', normal_center_format)
-
-                    # FIELD NAME
-                    if (info.field_id and info.field_id.export) and ((section.code not in ['AOI', 'AM', 'ME', 'IN']) or
-                                                                     (section.code == 'AOI' and group.code == 'ALD') or
-                                                                     (section.code == 'AM' and group.code == 'M') or
-                                                                     (section.code == 'ME' and group.code == 'ME1') or
-                                                                     (section.code == 'IN' and group.code == 'VM100')):
-                        row_start += 1
-                        worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
-
-                    # GET VALUE DISPLAY
-                    if info.field_id and info.field_id.export:
-                        if info.value:
-                            info_display = f'{{{{ i.field.{info.field_id.code} | value }}}}'
-                        else:
-                            info_display = '-'
-
-                        # PRINT VALUE DISPLAY WITH FORMAT COLUMN
-                        if section.code == 'AOI':
-                            value = info_display
-                            if group.code == 'ALD':
-                                worksheet.write(row_start, 1, value, normal_format)
-                                if not enc_row_start_allergen:
-                                    row_start_allergen = row_start
-                                    enc_row_start_allergen = True
-                            elif group.code == 'ALI':
-                                worksheet.write(row_start_allergen, 2, value, normal_format)
-                                row_start_allergen += 1
-                        elif section.code == 'AM':
-                            if group.code == 'M':
-                                worksheet.write(row_start, 1, info_display, normal_format)
-                                if not enc_row_start_micro_analysis:
-                                    row_start_micro_analysis = row_start
-                                    enc_row_start_micro_analysis = True
-                            elif group.code == 'RL':
-                                worksheet.write(row_start_micro_analysis, 2, info_display, normal_format)
-                                row_start_micro_analysis += 1
-                        elif section.code == 'IN':
-                            if group.code == 'VM100':
-                                worksheet.write(row_start, 1, info_display, normal_format)
-                                if not enc_row_start_nut_information:
-                                    row_start_nut_information = row_start
-                                    enc_row_start_nut_information = True
-                            elif group.code == 'IR':
-                                worksheet.write(row_start_nut_information, 2, info_display, normal_format)
-                                row_start_nut_information += 1
-                        else:
-                            worksheet.write(row_start, 1, info_display, normal_format)
-
-                    header_group_old = group.id
-                header_section_old = section.id
+        for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
+            worksheet.write(row_start, 0, f'{{{{ i.section.{section.code} }}}}', black_format)
+            worksheet.write(row_start, 1, '', black_format)
+            row_start += 1
+            # IMAGES SECTION
+            for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
+                if product_image.image:
+                    buf_product_image = BytesIO(base64.b64decode(product_image.image))
+                    worksheet.insert_image(letter_column[2] + str(row_start + 1),
+                                           "product_image.png", {
+                                               'image_data': buf_product_image,
+                                               'x_scale': 0.3,
+                                               'y_scale': 0.3
+                                           })  # Insert product image
+            for group in section.group_ids.filtered(lambda m: m.export in [True]):
+                worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
+                worksheet.write(row_start, 1, '', gray_format)
+                row_start += 1
+                for info in self.env['product.datasheet.info'].search(
+                        [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
+                        order='sequence'):
+                    worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
+                    worksheet.write(row_start, 1, f'{{{{ i.field.{info.field_id.code} | value }}}}', normal_format)
+                    row_start += 1
 
         # FOOTER
         regulation_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.regulation_footer')
-        # regulation_footer_template = html2text.html2text(regulation_footer)
         text_footer = self.env['ir.config_parameter'].sudo().get_param('product_datasheet.text_footer')
-        # text_footer_template = html2text.html2text(text_footer)
 
         worksheet.set_row(row_start + 3, 250)  # Set height of row
         worksheet.write(row_start + 3, 0, f'{{{{ regulation_footer }}}}', footer_format)

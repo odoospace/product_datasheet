@@ -258,7 +258,7 @@
                     <button name="download_xlsx" type="object" class="btn btn-primary btn-sm o_list_button_add"
                             string="Download Excel" invisible="0"/>
                     <button name="generate_template_xlsx" type="object" class="btn btn-primary btn-sm o_list_button_add"
-                            string="Generate Template Excel" invisible="0"/>
+                            string="Generate Template Excel" invisible="1"/>
                     <button name="read_xlsx" type="object" class="btn btn-primary btn-sm o_list_button_add"
                             string="Read Excel" invisible="1"/>
                 </xpath>
