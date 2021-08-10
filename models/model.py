@@ -466,10 +466,9 @@ class ProductProduct(models.Model):
                                         info.uom])
                             if isfloat(info.value):
                                 info_display = str(round(float(info.value), 2))
-                                info_display += ' ' + uom if uom else ''
                             else:
                                 info_display = info.value
-                                info_display += ' ' + uom if uom else ''
+                            info_display += ' ' + uom if uom else ''
                         else:
                             info_display = '-'
 
