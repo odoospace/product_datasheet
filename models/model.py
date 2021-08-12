@@ -445,15 +445,17 @@ class ProductProduct(models.Model):
             worksheet.write(row_start, 1, '', black_format)
             row_start += 1
             # IMAGES SECTION
+            index_start = len(section.column_ids.filtered(lambda m: m.group_id.export in [True])) + 1 if section.column_ids else 2
             for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
                 if product_image.image:
                     buf_product_image = BytesIO(base64.b64decode(product_image.image))
-                    worksheet.insert_image(letter_column[2] + str(row_start + 1),
+                    worksheet.insert_image(letter_column[index_start] + str(row_start + 1),
                                            "product_image.png", {
                                                'image_data': buf_product_image,
                                                'x_scale': 0.3,
                                                'y_scale': 0.3
                                            })  # Insert product image
+                    index_start += 1
             for group in section.group_ids.filtered(lambda m: m.export in [True]):
                 worksheet.write(row_start, 0, group.name, gray_format)
                 worksheet.write(row_start, 1, '', gray_format)
@@ -590,13 +592,7 @@ class ProductProduct(models.Model):
         # worksheet.write_comment('A1', json.dumps(info))
 
         # INFO COMPANY HEADER
-        if self.env.user.company_id and self.env.user.company_id.logo:
-            buf_image_company = BytesIO(base64.b64decode(self.env.user.company_id.logo))
-            worksheet.insert_image('A1', "image_company.png", {
-                'image_data': buf_image_company,
-                'x_scale': 0.03,
-                'y_scale': 0.03
-            })
+        worksheet.write(0, 2, f'{{{{ h.logo }}}}', normal_center_format)
 
         worksheet.set_row(0, 70)  # Set height of first row
         worksheet.set_column('A:A', 100)  # Set width column A
@@ -642,14 +638,7 @@ class ProductProduct(models.Model):
                 row_data_supplier += 1
 
         # IMAGE PRODUCT
-        if self.image_1920:
-            row_data_product = row_start + 1
-            buf_image_product = BytesIO(base64.b64decode(self.image_1920))
-            worksheet.insert_image('C' + str(row_data_product), "image_product.png", {
-                'image_data': buf_image_product,
-                'x_scale': 0.3,
-                'y_scale': 0.3
-            })  # Insert image product
+        worksheet.write(row_start, 2, f'{{{{ o.image_1920 }}}}', normal_format)
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
@@ -658,16 +647,6 @@ class ProductProduct(models.Model):
             worksheet.write(row_start, 0, f'{{{{ i.section.{section.code} }}}}', black_format)
             worksheet.write(row_start, 1, '', black_format)
             row_start += 1
-            # IMAGES SECTION
-            for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
-                if product_image.image:
-                    buf_product_image = BytesIO(base64.b64decode(product_image.image))
-                    worksheet.insert_image(letter_column[2] + str(row_start + 1),
-                                           "product_image.png", {
-                                               'image_data': buf_product_image,
-                                               'x_scale': 0.3,
-                                               'y_scale': 0.3
-                                           })  # Insert product image
             for group in section.group_ids.filtered(lambda m: m.export in [True]):
                 worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
                 worksheet.write(row_start, 1, '', gray_format)
@@ -682,10 +661,10 @@ class ProductProduct(models.Model):
 
         # FOOTER
         worksheet.set_row(row_start + 3, 250)  # Set height of row
-        worksheet.write(row_start + 3, 0, f'{{{{ regulation_footer }}}}', footer_format)
+        worksheet.write(row_start + 3, 0, f'{{{{ h.regulation_footer }}}}', footer_format)
 
         worksheet.set_row(row_start + 4, 70)  # Set height of row
-        worksheet.write(row_start + 5, 0, f'{{{{ text_footer }}}}', footer_format)
+        worksheet.write(row_start + 5, 0, f'{{{{ h.text_footer }}}}', footer_format)
 
         print('Saving excel...')
         workbook.close()
