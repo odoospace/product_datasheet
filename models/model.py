@@ -438,14 +438,23 @@ class ProductProduct(models.Model):
             })  # Insert image product
 
         # DATA OF PRODUCT
-        row_start = row_title_supplier + 1  # Space between tables
+        row_start = row_title_supplier  # Space between tables
 
         for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
+            is_columns_section = False
+            columns_section = section.column_ids.filtered(lambda m: m.group_id.export in [True])
+            row_start += 2
             worksheet.write(row_start, 0, section.name, black_format)
-            worksheet.write(row_start, 1, '', black_format)
+
+            if columns_section:
+                for idx, val in enumerate(columns_section):
+                    worksheet.write(row_start, idx + 1, '', black_format)
+            else:
+                worksheet.write(row_start, 1, '', black_format)
             row_start += 1
+
             # IMAGES SECTION
-            index_start = len(section.column_ids.filtered(lambda m: m.group_id.export in [True])) + 1 if section.column_ids else 2
+            index_start = len(columns_section) + 1 if section.column_ids else 2
             for product_image in self.image_ids.filtered(lambda m: m.section_id.id == section.id):
                 if product_image.image:
                     buf_product_image = BytesIO(base64.b64decode(product_image.image))
@@ -457,9 +466,21 @@ class ProductProduct(models.Model):
                                            })  # Insert product image
                     index_start += 1
             for group in section.group_ids.filtered(lambda m: m.export in [True]):
-                worksheet.write(row_start, 0, group.name, gray_format)
-                worksheet.write(row_start, 1, '', gray_format)
+                # COLUMN FORMAT GROUP
+                if columns_section and group.id in columns_section.group_id.ids:
+                    if not is_columns_section:
+                        is_columns_section = True
+                        row_start_columns_section = row_start
+                    else:
+                        row_start = row_start_columns_section
+                    worksheet.write(row_start, 0, '', gray_format)
+                    worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1,
+                                    columns_section.filtered(lambda m: m.group_id.id == group.id).name, gray_format)
+                else:
+                    worksheet.write(row_start, 0, group.name, gray_format)
+                    worksheet.write(row_start, 1, '', gray_format)
                 row_start += 1
+
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
                         order='sequence'):
@@ -489,7 +510,12 @@ class ProductProduct(models.Model):
                             info_display = '-'
 
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
-                        worksheet.write(row_start, 1, info_display, normal_format)
+                        # COLUMN FORMAT FIELD
+                        if columns_section and group.id in columns_section.group_id.ids:
+                            worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1, info_display,
+                                            normal_format)
+                        else:
+                            worksheet.write(row_start, 1, info_display, normal_format)
                         row_start += 1
 
         # FOOTER
