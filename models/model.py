@@ -1,6 +1,7 @@
 from datetime import datetime, date
 
 from odoo import models, fields, api, _
+from odoo.osv import expression
 from io import BytesIO
 import shortuuid
 import xlsxwriter
@@ -52,6 +53,19 @@ class Section(models.Model):
     export = fields.Boolean('Is it exported?')
 
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
+    column_ids = fields.One2many('product.datasheet.section.column', 'section_id')
+
+
+class ProductDatasheetSectionColumn(models.Model):
+    _name = 'product.datasheet.section.column'
+    _description = 'Product Datasheet Section Column'
+    _order = 'sequence'
+
+    group_id = fields.Many2one('product.datasheet.group', required=True)
+    name = fields.Char(required=True, translate=True)
+    sequence = fields.Integer(default=1)
+
+    section_id = fields.Many2one('product.datasheet.section')
 
 
 class Group(models.Model):

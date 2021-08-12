@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-06 08:06+0000\n"
-"PO-Revision-Date: 2021-08-06 08:06+0000\n"
+"POT-Creation-Date: 2021-08-12 07:44+0000\n"
+"PO-Revision-Date: 2021-08-12 07:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,6 +46,16 @@ msgid "Code"
 msgstr "Código"
 
 #. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__column_ids
+msgid "Column"
+msgstr "Columna"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
+msgid "Columns"
+msgstr "Columnas"
+
+#. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_config
 msgid "Config"
 msgstr "Configuración"
@@ -72,6 +82,7 @@ msgstr "País"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__create_uid
 msgid "Created by"
 msgstr "Creado Por"
 
@@ -81,6 +92,7 @@ msgstr "Creado Por"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__create_date
 msgid "Created on"
 msgstr "Creado el"
 
@@ -110,6 +122,7 @@ msgstr "Ficha técnica"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -152,10 +165,16 @@ msgid "Filters"
 msgstr "Filtros"
 
 #. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+msgid "Generate Template Excel"
+msgstr "Generar Plantilla Excel"
+
+#. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__group_id
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 #, python-format
 msgid "Group"
@@ -182,6 +201,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__id
 msgid "ID"
 msgstr ""
 
@@ -225,6 +245,7 @@ msgstr "Exportar"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column____last_update
 msgid "Last Modified on"
 msgstr "Modificado por última vez el"
 
@@ -234,6 +255,7 @@ msgstr "Modificado por última vez el"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__write_uid
 msgid "Last Updated by"
 msgstr "ACtualizado por última vez por"
 
@@ -243,6 +265,7 @@ msgstr "ACtualizado por última vez por"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__write_date
 msgid "Last Updated on"
 msgstr "Actualizado por última vez el"
 
@@ -250,6 +273,7 @@ msgstr "Actualizado por última vez el"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__name
 msgid "Name"
 msgstr "Nombre"
 
@@ -313,6 +337,11 @@ msgid "Product Datasheet Section"
 msgstr "Secciones"
 
 #. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_section_column
+msgid "Product Datasheet Section Column"
+msgstr ""
+
+#. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_product_datasheet_general_settings
 msgid "Product Datasheet Settings"
 msgstr "Configuraciones"
@@ -343,6 +372,7 @@ msgstr "Regulaciones que irán en el Pie de Página del Excel"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__section_id
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
 msgid "Section"
@@ -360,6 +390,7 @@ msgstr "Selección"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__sequence
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__sequence
 msgid "Sequence"
 msgstr "Secuencia"
 

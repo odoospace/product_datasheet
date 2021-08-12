@@ -125,6 +125,17 @@
                                 </field>
                             </group>
                         </page>
+                        <page string="Columns" name="columns">
+                            <group>
+                                <field name="column_ids" options="{'no_open': True}" nolabel="1" context="{'group_ids': group_ids}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget='handle'/>
+                                        <field name="group_id" domain="[('id', 'in', context.get('group_ids', []))]" options="{'no_create': True}"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
                     </notebook>
                 </form>
             </field>
@@ -135,7 +146,7 @@
             <field name="model">product.datasheet.section</field>
             <field name="arch" type="xml">
                 <search string="Product Datasheet Section">
-                    <field name="code"/>
+                    <!-- <field name="code"/> -->
                     <field name="name"/>
                     <separator/>
                 </search>
@@ -199,7 +210,7 @@
             <field name="model">product.datasheet.field</field>
             <field name="arch" type="xml">
                 <search string="Product Datasheet Field">
-                    <field name="code"/>
+                    <!-- <field name="code"/> -->
                     <field name="name"/>
                     <field name="section_id"/>
                     <field name="group_id"/>
@@ -309,6 +320,18 @@
                         </notebook>
                     </page>
                 </xpath>
+                <xpath expr="//page[@name='sales']" position="attributes">
+                    <attribute name="invisible">context.get('hide_tabs', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='purchase']" position="attributes">
+                    <attribute name="invisible">context.get('hide_tabs', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='inventory']" position="attributes">
+                    <attribute name="invisible">context.get('hide_tabs', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='invoicing']" position="attributes">
+                    <attribute name="invisible">context.get('hide_tabs', False)</attribute>
+                </xpath>
             </field>
         </record>
 
@@ -316,6 +339,10 @@
             <field name="name">Products</field>
             <field name="res_model">product.product</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{
+                    'hide_tabs': True,
+                }
+            </field>
         </record>
 
         <record model="ir.actions.act_window" id="product_datasheet.section_action_window">
