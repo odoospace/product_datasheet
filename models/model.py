@@ -45,9 +45,11 @@ class ResConfigSettings(models.TransientModel):
 class Section(models.Model):
     _name = 'product.datasheet.section'
     _description = "Product Datasheet Section"
+    _order = 'sequence'
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
+    sequence = fields.Integer(default=1)
     active = fields.Boolean(default=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     export = fields.Boolean('Is it exported?')
@@ -71,9 +73,11 @@ class ProductDatasheetSectionColumn(models.Model):
 class Group(models.Model):
     _name = 'product.datasheet.group'
     _description = "Product Datasheet Group"
+    _order = 'sequence'
 
     code = fields.Char(required=True)
     name = fields.Char(required=True, translate=True)
+    sequence = fields.Integer(default=1)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
     export = fields.Boolean('Is it exported?')

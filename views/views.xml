@@ -92,6 +92,7 @@
             <field name="model">product.datasheet.section</field>
             <field name="arch" type="xml">
                 <tree multi_edit="1">
+                    <field name="sequence" widget='handle'/>
                     <field name="code"/>
                     <field name="name"/>
                     <field name="group_ids"/>
@@ -117,6 +118,7 @@
                             <group>
                                 <field name="group_ids" options="{'no_open': True}" nolabel="1">
                                     <tree editable="bottom">
+                                        <field name="sequence" widget='handle'/>
                                         <field name="code"/>
                                         <field name="name"/>
                                         <field name="timestamp"/>
