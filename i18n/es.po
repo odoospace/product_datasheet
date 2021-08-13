@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 07:44+0000\n"
-"PO-Revision-Date: 2021-08-12 07:44+0000\n"
+"POT-Creation-Date: 2021-08-13 09:44+0000\n"
+"PO-Revision-Date: 2021-08-13 09:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -171,7 +171,6 @@ msgstr "Generar Plantilla Excel"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
-#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__group_id
@@ -368,7 +367,6 @@ msgid "Regulations in Footer of Excel"
 msgstr "Regulaciones que irán en el Pie de Página del Excel"
 
 #. module: product_datasheet
-#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
@@ -389,7 +387,9 @@ msgid "Selection"
 msgstr "Selección"
 
 #. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__sequence
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__sequence
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__sequence
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__sequence
 msgid "Sequence"
 msgstr "Secuencia"
@@ -452,6 +452,42 @@ msgstr "Valor"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value_display
 msgid "Value Display"
 msgstr "Valor mostrado"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot create a field with this code, it already exists!"
+msgstr "No puedes crear un campo con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot create a group with this code, it already exists!"
+msgstr "No puedes crear un grupo con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot create a section with this code, it already exists!"
+msgstr "No puedes crear una sección con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot edit this field with this code, it already exists!"
+msgstr "No puedes editar un campo con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot edit this group with this code, it already exists!"
+msgstr "No puedes editar un grupo con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "You cannot edit this section with this code, it already exists!"
+msgstr "No puedes editar una sección con este código, ¡ya existe!"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0

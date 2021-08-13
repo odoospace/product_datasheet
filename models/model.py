@@ -2,6 +2,7 @@ from datetime import datetime, date
 
 from odoo import models, fields, api, _
 from odoo.osv import expression
+from odoo.exceptions import UserError
 from io import BytesIO
 import shortuuid
 import xlsxwriter
@@ -57,6 +58,17 @@ class Section(models.Model):
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
     column_ids = fields.One2many('product.datasheet.section.column', 'section_id')
 
+    @api.model
+    def create(self, vals):
+        if self.search([('code', '=', vals['code'])]):
+            raise UserError(_('You cannot create a section with this code, it already exists!'))
+        return super(Section, self).create(vals)
+
+    def write(self, values):
+        if values.get('code') and self.search([('id', '!=', self.id), ('code', '=', values['code'])]):
+            raise UserError(_('You cannot edit this section with this code, it already exists!'))
+        return super(Section, self).write(values)
+
 
 class ProductDatasheetSectionColumn(models.Model):
     _name = 'product.datasheet.section.column'
@@ -90,6 +102,17 @@ class Group(models.Model):
             name = f'{group.name} ({group.section_id.name})'
             result.append((group.id, name))
         return result
+
+    @api.model
+    def create(self, vals):
+        if self.search([('code', '=', vals['code'])]):
+            raise UserError(_('You cannot create a group with this code, it already exists!'))
+        return super(Group, self).create(vals)
+
+    def write(self, values):
+        if values.get('code') and self.search([('id', '!=', self.id), ('code', '=', values['code'])]):
+            raise UserError(_('You cannot edit this group with this code, it already exists!'))
+        return super(Group, self).write(values)
 
 
 class Field(models.Model):
@@ -129,6 +152,17 @@ class Field(models.Model):
     export = fields.Boolean('Is it exported?')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
+
+    @api.model
+    def create(self, vals):
+        if self.search([('code', '=', vals['code'])]):
+            raise UserError(_('You cannot create a field with this code, it already exists!'))
+        return super(Field, self).create(vals)
+
+    def write(self, values):
+        if values.get('code') and self.search([('id', '!=', self.id), ('code', '=', values['code'])]):
+            raise UserError(_('You cannot edit this field with this code, it already exists!'))
+        return super(Field, self).write(values)
 
 
 class Info(models.Model):
