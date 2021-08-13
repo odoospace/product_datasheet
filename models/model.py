@@ -658,25 +658,50 @@ class ProductProduct(models.Model):
                 row_data_supplier += 1
 
         # IMAGE PRODUCT
-        worksheet.write(row_start, 2, f'{{{{ o.image_1920 }}}}', normal_format)
+        worksheet.write(row_start, 2, f'{{{{ o.image.1920 }}}}', normal_format)
 
         # DATA OF PRODUCT
         row_start = row_title_supplier + 1  # Space between tables
 
-        for section in self.env['product.datasheet.section'].search([('export', '=', True)]):
+        for section in self.env['product.datasheet.section'].search([]):
+            is_columns_section = False
+            columns_section = section.column_ids
+            row_start += 2
             worksheet.write(row_start, 0, f'{{{{ i.section.{section.code} }}}}', black_format)
-            worksheet.write(row_start, 1, '', black_format)
+
+            if columns_section:
+                for idx, val in enumerate(columns_section):
+                    worksheet.write(row_start, idx + 1, '', black_format)
+            else:
+                worksheet.write(row_start, 1, '', black_format)
             row_start += 1
-            for group in section.group_ids.filtered(lambda m: m.export in [True]):
-                worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
-                worksheet.write(row_start, 1, '', gray_format)
+            for group in section.group_ids:
+                if columns_section and group.id in columns_section.group_id.ids:
+                    if not is_columns_section:
+                        is_columns_section = True
+                        row_start_columns_section = row_start
+                    else:
+                        row_start = row_start_columns_section
+                    worksheet.write(row_start, 0, '', gray_format)
+                    worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1,
+                                    f'{{{{ i.group.{group.code} }}}}', gray_format)
+                else:
+                    worksheet.write(row_start, 0, f'{{{{ i.group.{group.code} }}}}', gray_format)
+                    worksheet.write(row_start, 1, '', gray_format)
                 row_start += 1
                 for info in self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
                         order='sequence'):
-                    if info.field_id and info.field_id.export:
+                    if info.field_id and info.field_id:
                         worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
-                        worksheet.write(row_start, 1, f'{{{{ i.field.{info.field_id.code} | value }}}}', normal_format)
+                        # COLUMN FORMAT FIELD
+                        if columns_section and group.id in columns_section.group_id.ids:
+                            worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1,
+                                            f'{{{{ i.info.{info.field_id.code}.{info.id} | value }}}}',
+                                            normal_format)
+                        else:
+                            worksheet.write(row_start, 1, f'{{{{ i.info.{info.field_id.code}.{info.id} | value }}}}',
+                                            normal_format)
                         row_start += 1
 
         # FOOTER
