@@ -164,8 +164,6 @@
                     <field name="name"/>
                     <field name="type"/>
                     <field name="uom"/>
-                    <field name="section_id"/>
-                    <field name="group_id"/>
                     <field name="export"/>
                 </tree>
             </field>
@@ -181,8 +179,6 @@
                         <field name="name"/>
                         <field name="type"/>
                         <field name="uom"/>
-                        <field name="section_id"/>
-                        <field name="group_id"/>
                         <field name="export"/>
                     </group>
                     <notebook>
@@ -214,8 +210,6 @@
                 <search string="Product Datasheet Field">
                     <!-- <field name="code"/> -->
                     <field name="name"/>
-                    <field name="section_id"/>
-                    <field name="group_id"/>
                     <separator/>
                 </search>
             </field>
