@@ -131,7 +131,7 @@ class Field(models.Model):
             ("selection", "Selection"),
             ("date", "Date"),
             ("datetime", "Datetime"),
-        ], required=True, translate=True)
+        ], default='string', required=True, translate=True)
     uom = fields.Selection(
         [
             ("gr", _("gr")),
