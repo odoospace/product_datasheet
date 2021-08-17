@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-13 09:44+0000\n"
-"PO-Revision-Date: 2021-08-13 09:44+0000\n"
+"POT-Creation-Date: 2021-08-17 06:26+0000\n"
+"PO-Revision-Date: 2021-08-17 06:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -175,9 +175,15 @@ msgstr "Generar Plantilla Excel"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__group_id
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_search
 #, python-format
 msgid "Group"
 msgstr "Grupo"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_search
+msgid "Group By"
+msgstr "Agrupar por"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
@@ -372,6 +378,7 @@ msgstr "Regulaciones que irán en el Pie de Página del Excel"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__section_id
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_search
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_section_form
 msgid "Section"
 msgstr "Sección"
