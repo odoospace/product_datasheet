@@ -123,10 +123,14 @@ class Field(models.Model):
     name = fields.Char(required=True, translate=True)
     type = fields.Selection(
         [
-            ("integer", "Integer"),
+            ("number", "Number"),
             ("string", "String"),
             ("html", "HTML"),
             ("selection", "Selection"),  # comma separated values or so
+            ("boolean", "Boolean"),
+            ("selection", "Selection"),
+            ("date", "Date"),
+            ("datetime", "Datetime"),
         ], required=True, translate=True)
     uom = fields.Selection(
         [
@@ -513,24 +517,22 @@ class ProductProduct(models.Model):
                         [('product_id', '=', self.id), ('section_id', '=', section.id), ('group_id', '=', group.id)],
                         order='sequence'):
 
-                    def isfloat(value):
-                        try:
-                            float(value)
-                            return True
-                        except ValueError:
-                            return False
-
                     # GET VALUE DISPLAY
                     if info.field_id and info.field_id.export:
-                        if info.value and info.value != 'False':
+                        if info.value:
                             uom = ''
                             if info.uom:
                                 uom = _(
                                     dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
                                              'selection'])[
                                         info.uom])
-                            if isfloat(info.value):
+                            if info.field_id and info.field_id.type == 'number':
                                 info_display = str(round(float(info.value), 2))
+                            elif info.field_id and info.field_id.type == 'boolean':
+                                if info.value in ('0', 'True'):
+                                    info_display = _('Yes')
+                                else:
+                                    info_display = _('No')
                             else:
                                 info_display = info.value
                             info_display += ' ' + uom if uom else ''
