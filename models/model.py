@@ -762,14 +762,22 @@ class ProductProduct(models.Model):
         }
 
     def read_xlsx(self):
+        section_obj = self.env['product.datasheet.section']
         path = '/home/file.xlsx'
         wb_obj = openpyxl.load_workbook(path)
         sheet_obj = wb_obj.active
-        cell_obj = sheet_obj.cell(row=1, column=1)
-        print(cell_obj.value)
-        cell_obj.value = 'New text'
-        print(cell_obj.value)
-        wb_obj.save('home/file.xlsx')
+        for row in sheet_obj.iter_rows():
+            for cell in row:
+                cell_value = cell.value
+                if cell_value is not None:
+                    print(cell_value)
+                    if 'section' in cell_value:
+                        code = cell_value.replace('{{ ', '').replace(' }}', '').split('.')[2]
+                        section = section_obj.search([('code', '=', code)])
+                        if section:
+                            cell.value = section.name
+                    print(cell_value)
+        wb_obj.save('/home/file.xlsx')
 
     def add_file_in_attachment(self, filename, output):
         attachment = self.env['ir.attachment'].create({
