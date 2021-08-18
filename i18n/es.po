@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-17 06:26+0000\n"
-"PO-Revision-Date: 2021-08-17 06:26+0000\n"
+"POT-Creation-Date: 2021-08-18 10:06+0000\n"
+"PO-Revision-Date: 2021-08-18 10:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,17 @@ msgid "Administrator"
 msgstr "Administrador"
 
 #. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__boolean
+msgid "Boolean"
+msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "CIF"
+msgstr ""
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__code
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__code
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__code
@@ -56,6 +67,12 @@ msgid "Columns"
 msgstr "Columnas"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Company Name"
+msgstr "Nombre Empresa"
+
+#. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_config
 msgid "Config"
 msgstr "Configuración"
@@ -64,6 +81,12 @@ msgstr "Configuración"
 #: model:ir.model,name:product_datasheet.model_res_config_settings
 msgid "Config Settings"
 msgstr "Opciones de Configuración"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Contact"
+msgstr "Contacto"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
@@ -117,6 +140,16 @@ msgid "Datasheets"
 msgstr "Ficha técnica"
 
 #. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__date
+msgid "Date"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__datetime
+msgid "Datetime"
+msgstr ""
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__display_name
@@ -165,6 +198,12 @@ msgid "Filters"
 msgstr "Filtros"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Fiscal Address"
+msgstr "Dirección Fiscal"
+
+#. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Generate Template Excel"
 msgstr "Generar Plantilla Excel"
@@ -201,6 +240,12 @@ msgid "HTML"
 msgstr ""
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Health Register"
+msgstr "Registro Sanitario"
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__id
@@ -231,11 +276,6 @@ msgstr "Imágenes"
 #: model:ir.ui.menu,name:product_datasheet.menu_info_list
 msgid "Info"
 msgstr "Datos"
-
-#. module: product_datasheet
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__integer
-msgid "Integer"
-msgstr ""
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__export
@@ -283,9 +323,20 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "No"
+msgstr "No"
+
+#. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Note"
 msgstr "Nota"
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__number
+msgid "Number"
+msgstr ""
 
 #. module: product_datasheet
 #: model:ir.model,name:product_datasheet.model_product_product
@@ -412,6 +463,12 @@ msgid "String"
 msgstr ""
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Supplier Data"
+msgstr "Datos del Proveedor"
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_res_config_settings__text_footer
 msgid "Text Footer"
 msgstr "Texto Pie de Página"
@@ -459,6 +516,18 @@ msgstr "Valor"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__value_display
 msgid "Value Display"
 msgstr "Valor mostrado"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Website"
+msgstr "Página Web"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid "Yes"
+msgstr "Sí"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0

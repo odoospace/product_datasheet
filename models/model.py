@@ -428,12 +428,8 @@ class ProductProduct(models.Model):
         worksheet.write(0, 1, datetime.now().strftime('%Y/%m/%d'), normal_center_format)
 
         # DATA OF SUPPLIER
-        if self._context['lang'] == 'es_ES':
-            title_data_supplier = ['Datos del Proveedor', 'Nombre Empresa', 'CIF', 'Registro Sanitario',
-                                   'Dirección Fiscal', 'Contacto', 'Página Web']
-        else:
-            title_data_supplier = ['Supplier Data', 'Company Name', 'CIF', 'Health Register',
-                                   'Fiscal Address', 'Contact', 'Website']
+        title_data_supplier = [_('Supplier Data'), _('Company Name'), _('CIF'), _('Health Register'),
+                               _('Fiscal Address'), _('Contact'), _('Website')]
 
         row_start = 2
         row_title_supplier = row_start
@@ -662,12 +658,8 @@ class ProductProduct(models.Model):
         worksheet.write(0, 1, f'{{{{ h.date }}}}', normal_center_format)
 
         # DATA OF SUPPLIER
-        if self._context['lang'] == 'es_ES':
-            title_data_supplier = ['Datos del Proveedor', 'Nombre Empresa', 'CIF', 'Registro Sanitario',
-                                   'Dirección Fiscal', 'Contacto', 'Página Web']
-        else:
-            title_data_supplier = ['Supplier Data', 'Company Name', 'CIF', 'Health Register',
-                                   'Fiscal Address', 'Contact', 'Website']
+        title_data_supplier = [_('Supplier Data'), _('Company Name'), _('CIF'), _('Health Register'),
+                               _('Fiscal Address'), _('Contact'), _('Website')]
 
         row_start = 2
         row_title_supplier = row_start
@@ -762,20 +754,52 @@ class ProductProduct(models.Model):
         }
 
     def read_xlsx(self):
-        section_obj = self.env['product.datasheet.section']
         path = '/home/file.xlsx'
         wb_obj = openpyxl.load_workbook(path)
         sheet_obj = wb_obj.active
+        general_dict = {
+            'o.name': self.name,
+            'o.image_1920': self.image_1920,
+            'h.date': datetime.now().strftime('%Y/%m/%d'),
+            'h.logo': self.env.user.company_id.logo,
+            'h.regulation_footer': self.env['ir.config_parameter'].sudo().get_param(
+                'product_datasheet.regulation_footer'),
+            'h.text_footer': self.env['ir.config_parameter'].sudo().get_param(
+                'product_datasheet.text_footer'),
+        }
         for row in sheet_obj.iter_rows():
             for cell in row:
                 cell_value = cell.value
                 if cell_value is not None:
                     print(cell_value)
-                    if 'section' in cell_value:
-                        code = cell_value.replace('{{ ', '').replace(' }}', '').split('.')[2]
-                        section = section_obj.search([('code', '=', code)])
-                        if section:
-                            cell.value = section.name
+                    if cell_value.startswith('{{'):
+                        cell_value = cell_value.replace(' ', '').replace('{{', '').replace('}}', '')
+                        if 'i.' in cell_value:
+                            if '|' in cell_value:
+                                label = cell_value.split('|')[1]
+                                cell_value_splitted = cell_value.split('|')[0].split('.')
+                                model_obj = cell_value_splitted[1]
+                                code = cell_value_splitted[2]
+                                model_env = f'product.datasheet.{model_obj}'
+                                if label == 'name':
+                                    product_datasheet = self.env[model_env].search([('code', '=', code)])
+                                    if product_datasheet:
+                                        cell.value = product_datasheet.name
+                                else:
+                                    id_model = cell_value_splitted[3]
+                                    product_datasheet = self.env[model_env].search([('id', '=', id_model)])
+                                    if product_datasheet:
+                                        cell.value = product_datasheet.value
+                            else:
+                                cell_value_splitted = cell_value.split('.')
+                                model_obj = cell_value_splitted[1]
+                                code = cell_value_splitted[2]
+                                model_env = f'product.datasheet.{model_obj}'
+                                product_datasheet = self.env[model_env].search([('code', '=', code)])
+                                if product_datasheet:
+                                    cell.value = product_datasheet.name
+                        else:
+                            cell.value = general_dict[cell_value] if cell_value in general_dict else None
                     print(cell_value)
         wb_obj.save('/home/file.xlsx')
 
