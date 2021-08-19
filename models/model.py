@@ -753,7 +753,7 @@ class ProductProduct(models.Model):
             'target': 'new',
         }
 
-    def read_xlsx(self):
+    def read_template_xlsx(self):
         path = '/home/file.xlsx'
         wb_obj = openpyxl.load_workbook(path)
         sheet_obj = wb_obj.active

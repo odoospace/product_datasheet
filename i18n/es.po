@@ -410,8 +410,8 @@ msgstr "Productos"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
-msgid "Read Excel"
-msgstr "Leer Excel"
+msgid "Read Template Excel"
+msgstr "Leer Plantilla Excel"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_res_config_settings__regulation_footer
