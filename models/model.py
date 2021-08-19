@@ -154,6 +154,7 @@ class Field(models.Model):
             ("month", _("month")),
         ])
     export = fields.Boolean('Is it exported?')
+    related_field_product_id = fields.Many2one('ir.model.fields', 'Related field')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
 
@@ -196,6 +197,18 @@ class Info(models.Model):
     section_id = fields.Many2one(related='group_id.section_id', store=True)
     uom = fields.Selection(related='field_id.uom')
     sequence = fields.Integer(default=1)
+
+    @api.model
+    def create(self, vals):
+        res = super(Info, self).create(vals)
+        if vals.get('value') and res.field_id and res.field_id.related_field_product_id:
+            res.product_id.product_tmpl_id.write({res.field_id.related_field_product_id.name: vals['value']})
+        return res
+
+    def write(self, values):
+        if values.get('value') and self.field_id and self.field_id.related_field_product_id:
+            self.product_id.product_tmpl_id.write({self.field_id.related_field_product_id.name: values['value']})
+        return super(Info, self).write(values)
 
 
 class ProductDatasheetImage(models.Model):

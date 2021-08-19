@@ -170,6 +170,7 @@
                     <field name="type"/>
                     <field name="uom"/>
                     <field name="export"/>
+                    <field name="related_field_product_id"/>
                 </tree>
             </field>
         </record>
@@ -185,6 +186,7 @@
                         <field name="type"/>
                         <field name="uom"/>
                         <field name="export"/>
+                        <field name="related_field_product_id"/>
                     </group>
                     <notebook>
                         <page string="Usage">
