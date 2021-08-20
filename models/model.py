@@ -237,6 +237,26 @@ class ProductTemplate(models.Model):
                 model_field = self.env['ir.model.fields'].search(
                     [('name', '=', 'x_studio_total_cajas_ud'), ('model_id', '=', model_producttemplate.id)])
                 value_changed = self.x_studio_total_cajas_ud
+            elif values.get('x_studio_unidades_caja_ud') or values.get('x_studio_n_bolsas') or values.get('x_studio_peso_neto_unitario_gr'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_peso_umb_gr'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_peso_umb_gr
+            elif values.get('x_studio_largo_cm') or values.get('x_studio_ancho_cm') or values.get('x_studio_alto_cm'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_volumen_caja_cm3'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_volumen_caja_cm3
+            elif values.get('x_studio_tipo_pallet') or values.get('x_studio_altura_pallet_con_madera_cm'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_volumen_pallet_m3'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_volumen_pallet_m3
+            elif values.get('x_studio_alto_cm') or values.get('x_studio_n_capas_ud') or values.get('x_studio_altura_base_pallet_cm'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_altura_pallet_con_madera_cm'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_altura_pallet_con_madera_cm
+            elif values.get('x_studio_peso_umb_gr') or values.get('x_studio_total_cajas_ud'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_peso_pallet_kg'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_peso_pallet_kg
 
         if model_field and value_changed:
             datasheet_field = self.env['product.datasheet.field'].search(
