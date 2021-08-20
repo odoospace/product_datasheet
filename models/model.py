@@ -53,7 +53,7 @@ class Section(models.Model):
     sequence = fields.Integer(default=1)
     active = fields.Boolean(default=True)
     timestamp = fields.Datetime(default=fields.Datetime.now)
-    export = fields.Boolean('Is it exported?')
+    export = fields.Boolean('Is it exported?', help='If the field is marked, it will be visible in the export to excel')
 
     group_ids = fields.One2many('product.datasheet.group', 'section_id')
     column_ids = fields.One2many('product.datasheet.section.column', 'section_id')
@@ -92,7 +92,7 @@ class Group(models.Model):
     sequence = fields.Integer(default=1)
     timestamp = fields.Datetime(default=fields.Datetime.now)
     active = fields.Boolean(default=True)
-    export = fields.Boolean('Is it exported?')
+    export = fields.Boolean('Is it exported?', help='If the field is marked, it will be visible in the export to excel')
 
     section_id = fields.Many2one('product.datasheet.section')
 
@@ -153,8 +153,10 @@ class Field(models.Model):
             ("day", _("day")),
             ("month", _("month")),
         ])
-    export = fields.Boolean('Is it exported?')
-    related_field_product_id = fields.Many2one('ir.model.fields', 'Related field')
+    readonly_field = fields.Boolean('Read-only field?', help='If the field is marked, it cannot be edited')
+    export = fields.Boolean('Is it exported?', help='If the field is marked, it will be visible in the export to excel')
+    related_field_product_id = fields.Many2one('ir.model.fields', 'Related field',
+                                               help='Field to relate the datasheet model to the product model')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
 
@@ -185,6 +187,7 @@ class Info(models.Model):
                 record.value_display = record.value
 
     field_id = fields.Many2one('product.datasheet.field', required=True)
+    readonly_field = fields.Boolean(related='field_id.readonly_field')
     value = fields.Text(translate=True)
     value_display = fields.Text(compute=_compute_value_name)
     timestamp = fields.Datetime(default=fields.Datetime.now)

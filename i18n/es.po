@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 08:15+0000\n"
-"PO-Revision-Date: 2021-08-19 08:15+0000\n"
+"POT-Creation-Date: 2021-08-20 07:52+0000\n"
+"PO-Revision-Date: 2021-08-20 07:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -181,6 +181,11 @@ msgid "Field"
 msgstr "Campo"
 
 #. module: product_datasheet
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_field__related_field_product_id
+msgid "Field to relate the datasheet model to the product model"
+msgstr "Campo para relacionar el modelo de Ficha Técnica con el modelo de Producto"
+
+#. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_sales_fields_list
 msgid "Fields"
 msgstr "Campos"
@@ -259,6 +264,19 @@ msgstr "Registro Sanitario"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__id
 msgid "ID"
 msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_field__readonly_field
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_info__readonly_field
+msgid "If the field is marked, it cannot be edited"
+msgstr "Si el campo es marcado, no podrá ser editado"
+
+#. module: product_datasheet
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_field__export
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_group__export
+#: model:ir.model.fields,help:product_datasheet.field_product_datasheet_section__export
+msgid "If the field is marked, it will be visible in the export to excel"
+msgstr "Si el campo es marcado, será visible en la exportación a Excel"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_product__image_ids
@@ -418,6 +436,12 @@ msgstr "Productos"
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 msgid "Read Template Excel"
 msgstr "Leer Plantilla Excel"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__readonly_field
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__readonly_field
+msgid "Read-only field?"
+msgstr "Sólo lectura"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_res_config_settings__regulation_footer
