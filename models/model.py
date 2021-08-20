@@ -224,6 +224,31 @@ class ProductDatasheetImage(models.Model):
     product_id = fields.Many2one('product.product')
 
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    def write(self, values):
+        res = super(ProductTemplate, self).write(values)
+        model_field = False
+        value_changed = False
+        model_producttemplate = self.env['ir.model'].search([('model', '=', 'product.template')])
+        if model_producttemplate:
+            if values.get('x_studio_cajas_capa_ud') or values.get('x_studio_n_capas_ud'):
+                model_field = self.env['ir.model.fields'].search(
+                    [('name', '=', 'x_studio_total_cajas_ud'), ('model_id', '=', model_producttemplate.id)])
+                value_changed = self.x_studio_total_cajas_ud
+
+        if model_field and value_changed:
+            datasheet_field = self.env['product.datasheet.field'].search(
+                [('related_field_product_id', '=', model_field.id)])
+            if datasheet_field:
+                datasheet_info = self.env['product.datasheet.info'].search(
+                    [('product_id', '=', self.product_variant_id.id), ('field_id', '=', datasheet_field.id)])
+                if datasheet_info:
+                    datasheet_info.value = value_changed
+        return res
+
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
