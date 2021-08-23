@@ -24,6 +24,7 @@
     'data': [
         'security/product_datasheet_security.xml',
         'security/ir.model.access.csv',
+        'wizard/product_datasheet_template_wizard_view.xml',
         'views/templates.xml',
         'views/views.xml',
     ],
