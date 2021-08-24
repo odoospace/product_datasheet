@@ -17,6 +17,7 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
 
     template_id = fields.Many2one('product.datasheet.template', string='Template', required=True)
     product_id = fields.Many2one('product.product', string='Product')
+    file_generated = fields.Binary(string='Generated Excel file', attachment=False)
 
     def action_download_excel(self):
         print(f'You have chosen {self.template_id.name}')
@@ -119,6 +120,22 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                     print(cell_value)
 
         # wb_obj.save('/home/file.xlsx')
+        output = BytesIO()
+        wb_obj.save(output)
         wb_obj.close()
 
-        return {'type': 'ir.actions.do_nothing'}
+        # output.seek(0)
+        # data = output.read()
+        data = output.getvalue()
+        self.file_generated = base64.encodestring(data)
+
+        return {
+            'context': self.env.context,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.datasheet.template.wizard',
+            'res_id': self.id,
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+        }

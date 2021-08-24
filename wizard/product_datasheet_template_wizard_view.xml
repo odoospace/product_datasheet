@@ -9,6 +9,9 @@
                 <group>
                     <field name="template_id"/>
                 </group>
+                <group>
+                    <field name="file_generated" readonly="1" attrs="{'invisible': [('file_generated','=', False)]}"/>
+                </group>
                 <footer>
                     <button string="Download Excel" type="object" name="action_download_excel" class="btn-primary"/>
                     <button string="Cancel" special="cancel" class="btn-secondary"/>

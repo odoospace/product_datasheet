@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-23 07:46+0000\n"
-"PO-Revision-Date: 2021-08-23 07:46+0000\n"
+"POT-Creation-Date: 2021-08-24 08:21+0000\n"
+"PO-Revision-Date: 2021-08-24 08:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -241,6 +241,11 @@ msgid "Generate Template Excel"
 msgstr "Generar Plantilla Excel"
 
 #. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__file_generated
+msgid "Generated Excel file"
+msgstr "Excel generado"
+
+#. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
@@ -379,7 +384,7 @@ msgstr "Nombre"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
-#: code:addons/product_datasheet/models/model.py:0
+#: code:addons/product_datasheet/wizard/product_datasheet_template_wizard.py:0
 #, python-format
 msgid "No"
 msgstr ""
@@ -482,11 +487,6 @@ msgstr "Plantilla de producto"
 #: model:ir.ui.menu,name:product_datasheet.product_list
 msgid "Products"
 msgstr "Productos"
-
-#. module: product_datasheet
-#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
-msgid "Read Template Excel"
-msgstr "Leer Plantilla Excel"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__readonly_field
@@ -623,7 +623,7 @@ msgstr "Página Web"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
-#: code:addons/product_datasheet/models/model.py:0
+#: code:addons/product_datasheet/wizard/product_datasheet_template_wizard.py:0
 #, python-format
 msgid "Yes"
 msgstr "Sí"
