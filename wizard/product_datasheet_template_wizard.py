@@ -19,6 +19,10 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Product')
     file_generated = fields.Binary(string='Generated Excel file', attachment=False)
 
+    @api.onchange('template_id')
+    def onchange_template_id(self):
+        return {'value': {'file_generated': False}}
+
     def action_download_excel(self):
         print(f'You have chosen {self.template_id.name}')
 
@@ -28,6 +32,7 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
         # path = '/home/file.xlsx'
         wb_obj = openpyxl.load_workbook(fp.name)
         sheet_obj = wb_obj.active
+        sheet_obj.title = self.product_id.name
         general_dict = {
             'o.name': self.product_id.name,
             'o.image_1920': self.product_id.image_1920,
