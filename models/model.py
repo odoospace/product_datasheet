@@ -228,7 +228,7 @@ class ProductDatasheetTemplate(models.Model):
     _description = 'Product Datasheet Template'
     _order = 'name'
 
-    name = fields.Char('Name')
+    name = fields.Char('Name', required=True)
     file = fields.Binary(string='Excel file', required=True, attachment=False)
 
     def name_get(self):
