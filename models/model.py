@@ -617,10 +617,10 @@ class ProductProduct(models.Model):
                         worksheet.write(row_start, 0, info.field_id.name, normal_format)
                         # COLUMN FORMAT FIELD
                         if columns_section and group.id in columns_section.group_id.ids:
-                            worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1, info_display,
-                                            normal_format)
+                            id_column = columns_section.group_id.ids.index(group.id) + 1
                         else:
-                            worksheet.write(row_start, 1, info_display, normal_format)
+                            id_column = 1
+                        worksheet.write(row_start, id_column, info_display, normal_format)
                         row_start += 1
 
         # FOOTER
@@ -803,12 +803,12 @@ class ProductProduct(models.Model):
                         worksheet.write(row_start, 0, f'{{{{ i.field.{info.field_id.code} | name }}}}', normal_format)
                         # COLUMN FORMAT FIELD
                         if columns_section and group.id in columns_section.group_id.ids:
-                            worksheet.write(row_start, columns_section.group_id.ids.index(group.id) + 1,
-                                            f'{{{{ i.info.{info.field_id.code}.{info.id} | value }}}}',
-                                            normal_format)
+                            id_column = columns_section.group_id.ids.index(group.id) + 1
                         else:
-                            worksheet.write(row_start, 1, f'{{{{ i.info.{info.field_id.code}.{info.id} | value }}}}',
-                                            normal_format)
+                            id_column = 1
+                        worksheet.write(row_start, id_column,
+                                        f'{{{{ i.info.{section.code}.{group.code}.{info.field_id.code} | value }}}}',
+                                        normal_format)
                         row_start += 1
 
         # FOOTER

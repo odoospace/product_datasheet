@@ -62,8 +62,13 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                                     if product_datasheet:
                                         cell.value = product_datasheet.name
                                 else:
-                                    id_model = cell_value_splitted[3]
-                                    product_datasheet = self.env[model_env].search([('id', '=', id_model)])
+                                    section_code = cell_value_splitted[2]
+                                    group_code = cell_value_splitted[3]
+                                    field_code = cell_value_splitted[4]
+                                    product_datasheet = self.env[model_env].search(
+                                        [('product_id', '=', self.product_id.id),
+                                         ('section_id.code', '=', section_code), ('group_id.code', '=', group_code),
+                                         ('field_id.code', '=', field_code)])
                                     if product_datasheet:
                                         if product_datasheet.value:
                                             uom = ''
