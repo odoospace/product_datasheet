@@ -293,7 +293,11 @@ class ProductProduct(models.Model):
     def filter_by_name(self):
         res = []
         if self.filter_field:
-            res = [('field_id.name', 'ilike', self.filter_field)]
+            res.append(('field_id.name', 'ilike', self.filter_field))
+        if self.filter_section:
+            res.append(('section_id', '=', self.filter_section.id))
+        if self.filter_group:
+            res.append(('group_id', '=', self.filter_group.id))
         return res
 
     info_ids = fields.One2many('product.datasheet.info', 'product_id', domain=filter_by_name)
@@ -308,37 +312,34 @@ class ProductProduct(models.Model):
     filter_group = fields.Many2one('product.datasheet.group')
 
     # add the field itself to onchange to trigger this method in edit mode too
-    @api.onchange('filter_field')
+    @api.onchange('filter_field', 'filter_section', 'filter_group')
     def onchange_filter_field(self):
         print('***')
         domain = []
         if self.filter_field:
             domain.append(('field_id.name', 'ilike', self.filter_field))
         if self.filter_section:
-            domain.append(('field_id.section_id', 'ilike', self.filter_section))
+            domain.append(('section_id', '=', self.filter_section.id))
         if self.filter_group:
-            domain.append(('field_id.group_id', 'ilike', self.filter_group))
+            domain.append(('group_id', '=', self.filter_group.id))
         res = {'domain': {'info_ids': domain}}
         print(res)
         self.info_ids = []
         return res
 
-    @api.model
     def duplicate_product(self):
+        self.ensure_one()
         for product_product in self:
             # COPY PRODUCT TEMPLATE TO GENERATE PRODUCT VARIANT
             product_template_copy = product_product.product_tmpl_id.copy()
             product_product_copy = product_template_copy.product_variant_id
 
             # DATASHEET INFO TAB
-            filter_field = product_product.filter_field
-            filter_section = product_product.filter_section.id if product_product.filter_section else False
-            filter_group = product_product.filter_group.id if product_product.filter_group else False
             product_product_copy.country_ids = [(6, 0, product_product.country_ids.ids)]
             product_product_copy.datasheet_note = product_product.datasheet_note
-            product_product_copy.filter_field = filter_field
-            product_product_copy.filter_section = filter_section
-            product_product_copy.filter_group = filter_group
+            product_product_copy.filter_field = product_product.filter_field
+            product_product_copy.filter_section = product_product.filter_section.id if product_product.filter_section else False
+            product_product_copy.filter_group = product_product.filter_group.id if product_product.filter_group else False
 
             product_datasheet_info = self.env['product.datasheet.info']
             for info in product_datasheet_info.search([('product_id', '=', product_product.id)]):
@@ -347,7 +348,7 @@ class ProductProduct(models.Model):
                     'section_id': info.section_id.id if info.section_id else False,
                     'group_id': info.group_id.id if info.group_id else False,
                     'field_id': info.field_id.id if info.field_id else False,
-                    'value_display': info.value_display,
+                    'value': info.value,
                     'uom': info.uom,
                     'product_id': product_product_copy.id,
                 })
@@ -391,6 +392,16 @@ class ProductProduct(models.Model):
                     'product_id': product_product_copy.id if seller.product_id else False,
                     'product_tmpl_id': product_template_copy.id,
                 })
+
+            return {
+                'context': self.env.context,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'product.product',
+                'res_id': product_product_copy.id,
+                'view_id': [self.env.ref('product.product_normal_form_view').id, 'form'],
+                'type': 'ir.actions.act_window'
+            }
 
     @api.model
     def change_sequence_datasheet(self):

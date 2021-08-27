@@ -276,7 +276,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                    record.duplicate_product()
+                    action = record.duplicate_product()
             </field>
         </record>
 
@@ -328,7 +328,7 @@
                         <group string="Filters">
                             <field string="Field" name="filter_field"/>
                             <field string="Section" name="filter_section"/>
-                            <field string="Group" name="filter_group"/>
+                            <field string="Group" name="filter_group" domain="[('section_id','=', filter_section)]"/>
                         </group>
                         <notebook>
                             <page string="Data" name="data">
