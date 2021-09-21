@@ -18,13 +18,14 @@
     'version': '13.0.1.35',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'purchase', 'sale', 'stock'],
+    'depends': ['base', 'account', 'product', 'purchase', 'sale', 'stock'],
 
     # always loaded
     'data': [
         'security/product_datasheet_security.xml',
         'security/ir.model.access.csv',
         'wizard/product_datasheet_template_wizard_view.xml',
+        'wizard/product_datasheet_field_wizard_view.xml',
         'views/templates.xml',
         'views/views.xml',
     ],

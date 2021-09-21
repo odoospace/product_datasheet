@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-24 08:21+0000\n"
-"PO-Revision-Date: 2021-08-24 08:21+0000\n"
+"POT-Creation-Date: 2021-09-21 09:57+0000\n"
+"PO-Revision-Date: 2021-09-21 09:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,11 @@ msgstr ""
 "            "
 
 #. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__action_type
+msgid "Action Type"
+msgstr "Tipo de acción"
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__active
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__active
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__active
@@ -34,9 +39,30 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/wizard/product_datasheet_field_wizard.py:0
+#, python-format
+msgid "Add"
+msgstr "Añadir"
+
+#. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.action_product_datasheet_field_wizard
+msgid "Add/Delete Field in Datasheet"
+msgstr "Añadir/Eliminar Campo en Datos"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+msgid "Add/Remove Field in Datasheet"
+msgstr "Añadir/Eliminar Campo en Datos"
+
+#. module: product_datasheet
 #: model:res.groups,name:product_datasheet.group_product_datasheet_manager
 msgid "Administrator"
 msgstr "Administrador"
+
+#. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_wizard__action_type__add
+msgid "Añadir"
+msgstr ""
 
 #. module: product_datasheet
 #: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__type__boolean
@@ -51,6 +77,7 @@ msgid "CIF"
 msgstr ""
 
 #. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_template_wizard_form_view
 msgid "Cancel"
 msgstr "Cancelar"
@@ -90,6 +117,11 @@ msgid "Config Settings"
 msgstr "Opciones de Configuración"
 
 #. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
 #: code:addons/product_datasheet/models/model.py:0
 #, python-format
@@ -109,6 +141,7 @@ msgstr "País"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_uid
@@ -121,6 +154,7 @@ msgstr "Creado Por"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_date
@@ -163,6 +197,7 @@ msgstr ""
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__display_name
@@ -190,17 +225,28 @@ msgid "Duplicate Product"
 msgstr "Duplicar"
 
 #. module: product_datasheet
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_wizard__action_type__remove
+msgid "Eliminar"
+msgstr ""
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template__file
 msgid "Excel file"
 msgstr "Fichero Excel"
 
 #. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__field_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__field_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_product__filter_field
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
 msgid "Field"
 msgstr "Campo"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__field_after_id
+msgid "Field After"
+msgstr "Después del Campo"
 
 #. module: product_datasheet
 #: model:ir.model.fields,help:product_datasheet.field_product_datasheet_field__related_field_product_id
@@ -247,6 +293,7 @@ msgstr "Excel generado"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__group_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__group_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__group_id
@@ -255,6 +302,11 @@ msgstr "Excel generado"
 #, python-format
 msgid "Group"
 msgstr "Grupo"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__group_after_id
+msgid "Group After"
+msgstr "En el Grupo"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_search
@@ -285,6 +337,7 @@ msgstr "Registro Sanitario"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__id
@@ -339,6 +392,7 @@ msgstr "Exportar"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info____last_update
@@ -351,6 +405,7 @@ msgstr "Modificado por última vez el"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_uid
@@ -363,6 +418,7 @@ msgstr "ACtualizado por última vez por"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_date
@@ -484,6 +540,7 @@ msgstr "Plantilla de producto"
 
 #. module: product_datasheet
 #: model:ir.actions.act_window,name:product_datasheet.product_action_window
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__product_ids
 #: model:ir.ui.menu,name:product_datasheet.product_list
 msgid "Products"
 msgstr "Productos"
@@ -492,7 +549,7 @@ msgstr "Productos"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__readonly_field
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__readonly_field
 msgid "Read-only field?"
-msgstr "Solo lectura"
+msgstr "Sólo lectura"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_res_config_settings__regulation_footer
@@ -510,6 +567,14 @@ msgid "Related field"
 msgstr "Campo relacionado"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/wizard/product_datasheet_field_wizard.py:0
+#, python-format
+msgid "Remove"
+msgstr "Eliminar"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__section_after_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__section_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__section_id
@@ -576,6 +641,12 @@ msgid "Text in Footer of Excel"
 msgstr "Texto que irá en el Pie de Página del Excel"
 
 #. module: product_datasheet
+#: code:addons/product_datasheet/wizard/product_datasheet_field_wizard.py:0
+#, python-format
+msgid "The selected field is not related to the Product file"
+msgstr "El Campo seleccionado no está relacionado con la Ficha Producto"
+
+#. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__timestamp
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__timestamp
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__timestamp
@@ -620,6 +691,16 @@ msgstr "Valor mostrado"
 #, python-format
 msgid "Website"
 msgstr "Página Web"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+msgid "What action do you want to take?"
+msgstr "¿Qué acción deseas realizar?"
+
+#. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+msgid "Where do you want to place it?"
+msgstr "¿Dónde quieres situarlo?"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
@@ -768,6 +849,11 @@ msgstr "mes"
 #: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__m3
 #, python-format
 msgid "m³"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_field_wizard
+msgid "product.datasheet.field.wizard"
 msgstr ""
 
 #. module: product_datasheet
