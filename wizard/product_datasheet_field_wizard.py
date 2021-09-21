@@ -66,7 +66,8 @@ class ProductDatasheetFieldWizard(models.TransientModel):
                         if product_datasheet_info_group_after:
                             sequence = product_datasheet_info_group_after[-1].sequence + 1
                         else:
-                            sequence = product.info_ids[-1].sequence + 1 if product.info_ids else 0
+                            product_datasheet_info_all_after = product_datasheet_info_obj.search([('product_id', '=', product.id)])
+                            sequence = product_datasheet_info_all_after[-1].sequence + 1 if len(product_datasheet_info_all_after) != 0 else 0
                     product_datasheet_info.create({
                         'sequence': sequence,
                         'section_id': section_id.id,
