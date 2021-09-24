@@ -151,6 +151,8 @@ class Field(models.Model):
             ("seg", _("seg")),
             ("day", _("day")),
             ("month", _("month")),
+            ("percentage", _("%")),
+            ("percentage_vrn", _("% VRN")),
         ])
     readonly_field = fields.Boolean('Read-only field?', help='If the field is marked, it cannot be edited')
     export = fields.Boolean('Is it exported?', help='If the field is marked, it will be visible in the export to excel')
@@ -158,6 +160,7 @@ class Field(models.Model):
                                                help='Field to relate the datasheet model to the product model')
 
     info_ids = fields.One2many('product.datasheet.info', 'field_id')
+    uom_ids = fields.One2many('product.datasheet.field.uom', 'field_id')
 
     @api.model
     def create(self, vals):
@@ -169,6 +172,37 @@ class Field(models.Model):
         if values.get('code') and self.search([('id', '!=', self.id), ('code', '=', values['code'])]):
             raise UserError(_('You cannot edit this field with this code, it already exists!'))
         return super(Field, self).write(values)
+
+class ProductDatasheetFieldUom(models.Model):
+    _name = 'product.datasheet.field.uom'
+    _description = 'Product Datasheet Field UOM'
+
+    group_id = fields.Many2one('product.datasheet.group', required=True)
+    uom = fields.Selection(
+        [
+            ("gr", _("gr")),
+            ("cfu_g", _("cfu/gr")),
+            ("m3", _("m³")),
+            ("cm", _("cm")),
+            ("cm3", _("cm³")),
+            ("mm", _("mm")),
+            ("µg", _("µg")),
+            ("box", _("caja")),
+            ("mg", _("mg")),
+            ("kcal", _("kcal")),
+            ("KJ", _("kj")),
+            ("ud", _("unidades")),
+            ("kg", _("kg")),
+            ("l", _("l")),
+            ("min", _("min")),
+            ("seg", _("seg")),
+            ("day", _("day")),
+            ("month", _("month")),
+            ("percentage", _("%")),
+            ("percentage_vrn", _("% VRN")),
+        ], required=True)
+
+    field_id = fields.Many2one('product.datasheet.field')
 
 
 class Info(models.Model):
@@ -607,11 +641,19 @@ class ProductProduct(models.Model):
                     if info.field_id and info.field_id.export:
                         if info.value:
                             uom = ''
-                            if info.uom:
+                            uom_key = False
+                            if info.field_id.uom_ids:
+                                field_uom = info.field_id.uom_ids.filtered(lambda m: m.group_id.id == info.group_id.id)
+                                if field_uom:
+                                    uom_key = field_uom.uom
+                            else:
+                                if info.uom:
+                                    uom_key = info.uom
+                            if uom_key:
                                 uom = _(
                                     dict(self.env['product.datasheet.info'].fields_get(allfields=['uom'])['uom'][
                                              'selection'])[
-                                        info.uom])
+                                        uom_key])
                             if info.field_id and info.field_id.type == 'number':
                                 info_display = str(round(float(info.value), 2))
                             elif info.field_id and info.field_id.type == 'boolean':

@@ -24,7 +24,7 @@
             </field>
         </record>
 
-         <record id="action_product_datasheet_config_settings" model="ir.actions.act_window">
+        <record id="action_product_datasheet_config_settings" model="ir.actions.act_window">
             <field name="name">Settings</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.config.settings</field>
@@ -34,12 +34,12 @@
         </record>
 
         <menuitem
-            id="menu_product_datasheet_general_settings"
-            name="Product Datasheet Settings"
-            parent="base.menu_administration"
-            sequence="1"
-            action="action_product_datasheet_config_settings"
-            groups="base.group_system"/>
+                id="menu_product_datasheet_general_settings"
+                name="Product Datasheet Settings"
+                parent="base.menu_administration"
+                sequence="1"
+                action="action_product_datasheet_config_settings"
+                groups="base.group_system"/>
 
         <record model="ir.ui.view" id="product_datasheet.list">
             <field name="name">Product Datasheet List</field>
@@ -136,10 +136,12 @@
                         </page>
                         <page string="Columns" name="columns">
                             <group>
-                                <field name="column_ids" options="{'no_open': True}" nolabel="1" context="{'group_ids': group_ids}">
+                                <field name="column_ids" options="{'no_open': True}" nolabel="1"
+                                       context="{'group_ids': group_ids}">
                                     <tree editable="bottom">
                                         <field name="sequence" widget='handle'/>
-                                        <field name="group_id" domain="[('id', 'in', context.get('group_ids', []))]" options="{'no_create': True}"/>
+                                        <field name="group_id" domain="[('id', 'in', context.get('group_ids', []))]"
+                                               options="{'no_create': True}"/>
                                         <field name="name"/>
                                     </tree>
                                 </field>
@@ -203,6 +205,16 @@
                                     <field name="timestamp"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="UOM by Group" name="uom_by_group">
+                            <group>
+                                <field name="uom_ids" options="{'no_open': True}" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="group_id" options="{'no_create': True}"/>
+                                        <field name="uom"/>
+                                    </tree>
+                                </field>
+                            </group>
                         </page>
                     </notebook>
                 </form>
@@ -276,7 +288,7 @@
             <field name="state">code</field>
             <field name="code">
                 for record in records:
-                    action = record.duplicate_product()
+                action = record.duplicate_product()
             </field>
         </record>
 
@@ -316,7 +328,8 @@
                             string="Download Generic Excel" invisible="0"/>
                     <button name="generate_template_xlsx" type="object" class="btn btn-primary btn-sm o_list_button_add"
                             string="Generate Template Excel" invisible="0"/>
-                    <button name="%(action_product_datasheet_template_wizard)d" type="action" class="btn btn-primary btn-sm o_list_button_add"
+                    <button name="%(action_product_datasheet_template_wizard)d" type="action"
+                            class="btn btn-primary btn-sm o_list_button_add"
                             string="Printing assistant Excel template" invisible="0"/>
                 </xpath>
                 <xpath expr="//page[@name='general_information']" position="before">
@@ -341,7 +354,8 @@
                                             <field name="group_name" string="Group"/>
                                             <field name="field_id" style="width:20% !important"/>
                                             <field name="readonly_field" invisible="1"/>
-                                            <field name="value_display" string="Value" style="width:30% !important" attrs="{'readonly': [('readonly_field', '=', True)]}"/>
+                                            <field name="value_display" string="Value" style="width:30% !important"
+                                                   attrs="{'readonly': [('readonly_field', '=', True)]}"/>
                                             <field name="uom"/>
                                             <field name="timestamp"/>
                                         </tree>
@@ -387,7 +401,7 @@
             <field name="res_model">product.product</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{
-                    'hide_tabs': True,
+                'hide_tabs': True,
                 }
             </field>
         </record>

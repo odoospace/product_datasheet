@@ -72,12 +72,21 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                                     if product_datasheet:
                                         if product_datasheet.value:
                                             uom = ''
-                                            if product_datasheet.uom:
+                                            uom_key = False
+                                            if product_datasheet.field_id.uom_ids:
+                                                field_uom = product_datasheet.field_id.uom_ids.filtered(
+                                                    lambda m: m.group_id.id == product_datasheet.group_id.id)
+                                                if field_uom:
+                                                    uom_key = field_uom.uom
+                                            else:
+                                                if product_datasheet.uom:
+                                                    uom_key = product_datasheet.uom
+                                            if uom_key:
                                                 uom = _(
                                                     dict(self.env[model_env].fields_get(
                                                         allfields=['uom'])['uom'][
                                                              'selection'])[
-                                                        product_datasheet.uom])
+                                                        uom_key])
                                             if product_datasheet.field_id and product_datasheet.field_id.type == 'number':
                                                 info_display = str(round(float(product_datasheet.value), 2))
                                             elif product_datasheet.field_id and product_datasheet.field_id.type == 'boolean':
