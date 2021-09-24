@@ -684,15 +684,19 @@ msgstr "Tipo"
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
 msgid "UOM by Group"
-msgstr "U.Medida por Grupo"
+msgstr "U.M. por Grupo"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom
-#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_uom__uom
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__uom
 msgid "Uom"
-msgstr "U.Medida"
+msgstr "U. Medida"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom_ids
+msgid "Uom"
+msgstr "Unidades"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
