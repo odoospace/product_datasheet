@@ -26,6 +26,7 @@
         'security/ir.model.access.csv',
         'wizard/product_datasheet_template_wizard_view.xml',
         'wizard/product_datasheet_field_wizard_view.xml',
+        'wizard/product_datasheet_image_wizard_view.xml',
         'views/templates.xml',
         'views/views.xml',
     ],

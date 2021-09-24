@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 07:47+0000\n"
-"PO-Revision-Date: 2021-09-24 07:47+0000\n"
+"POT-Creation-Date: 2021-09-24 10:32+0000\n"
+"PO-Revision-Date: 2021-09-24 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -87,6 +87,7 @@ msgstr ""
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_image_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_template_wizard_form_view
 msgid "Cancel"
 msgstr "Cancelar"
@@ -127,6 +128,7 @@ msgstr "Opciones de Configuración"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_field_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_image_wizard_form_view
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -154,6 +156,7 @@ msgstr "País"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__create_uid
@@ -168,6 +171,7 @@ msgstr "Creado Por"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__create_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__create_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__create_date
@@ -212,6 +216,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__display_name
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__display_name
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__display_name
@@ -355,6 +360,7 @@ msgstr "Registro Sanitario"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__id
@@ -411,6 +417,7 @@ msgstr "Exportar"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image____last_update
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section____last_update
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column____last_update
@@ -425,6 +432,7 @@ msgstr "Modificado por última vez el"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_uid
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_uid
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__write_uid
@@ -439,6 +447,7 @@ msgstr "ACtualizado por última vez por"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__write_date
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section__write_date
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_section_column__write_date
@@ -446,6 +455,12 @@ msgstr "ACtualizado por última vez por"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__write_date
 msgid "Last Updated on"
 msgstr "Actualizado por última vez el"
+
+#. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.action_product_datasheet_image_wizard
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_image_wizard_form_view
+msgid "Massively Add Profile Image To Product"
+msgstr "Añadir masivamente Imagen del Producto"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__name
@@ -502,6 +517,11 @@ msgid "Product Datasheet Field"
 msgstr "Campos"
 
 #. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_field_uom
+msgid "Product Datasheet Field UOM"
+msgstr ""
+
+#. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
 msgid "Product Datasheet Fields"
 msgstr "Campos"
@@ -540,11 +560,6 @@ msgid "Product Datasheet Section Column"
 msgstr ""
 
 #. module: product_datasheet
-#: model:ir.model,name:product_datasheet.model_product_datasheet_field_uom
-msgid "Product Datasheet Feild UOM"
-msgstr ""
-
-#. module: product_datasheet
 #: model:ir.ui.menu,name:product_datasheet.menu_product_datasheet_general_settings
 msgid "Product Datasheet Settings"
 msgstr "Configuraciones"
@@ -564,9 +579,15 @@ msgstr "Plantilla de producto"
 #. module: product_datasheet
 #: model:ir.actions.act_window,name:product_datasheet.product_action_window
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__product_ids
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__product_ids
 #: model:ir.ui.menu,name:product_datasheet.product_list
 msgid "Products"
 msgstr "Productos"
+
+#. module: product_datasheet
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image_wizard__image
+msgid "Profile Image"
+msgstr "Imagen de Perfil"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__readonly_field
@@ -688,15 +709,11 @@ msgstr "U.M. por Grupo"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_uom__uom
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__uom
 msgid "Uom"
 msgstr "U. Medida"
-
-#. module: product_datasheet
-#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field__uom_ids
-msgid "Uom"
-msgstr "Unidades"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
@@ -916,6 +933,11 @@ msgstr ""
 #. module: product_datasheet
 #: model:ir.model,name:product_datasheet.model_product_datasheet_field_wizard
 msgid "product.datasheet.field.wizard"
+msgstr ""
+
+#. module: product_datasheet
+#: model:ir.model,name:product_datasheet.model_product_datasheet_image_wizard
+msgid "product.datasheet.image.wizard"
 msgstr ""
 
 #. module: product_datasheet
