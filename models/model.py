@@ -237,12 +237,12 @@ class Info(models.Model):
     @api.model
     def create(self, vals):
         res = super(Info, self).create(vals)
-        if vals.get('value') and res.field_id and res.field_id.related_field_product_id:
+        if 'value' in vals and res.field_id and res.field_id.related_field_product_id:
             res.product_id.product_tmpl_id.write({res.field_id.related_field_product_id.name: vals['value']})
         return res
 
     def write(self, values):
-        if values.get('value') and self.field_id and self.field_id.related_field_product_id:
+        if 'value' in values and self.field_id and self.field_id.related_field_product_id:
             self.product_id.product_tmpl_id.write({self.field_id.related_field_product_id.name: values['value']})
         return super(Info, self).write(values)
 
