@@ -306,8 +306,8 @@ msgstr "Generar Plantilla Excel"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__file_generated
-msgid "Generated Excel file"
-msgstr "Excel generado"
+msgid "Generated ZIP file"
+msgstr "ZIP generado"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
@@ -489,6 +489,7 @@ msgid "Number"
 msgstr ""
 
 #. module: product_datasheet
+#: model:ir.actions.act_window,name:product_datasheet.action_product_datasheet_template_wizard_button
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_tab
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_template_wizard_form_view
 msgid "Printing assistant Excel template"
