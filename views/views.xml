@@ -89,6 +89,7 @@
                     <group expand="0" string="Group By">
                         <filter string="Section" name="group_by_section" domain="" context="{'group_by':'section_id'}"/>
                         <filter string="Group" name="group_by_group" domain="" context="{'group_by':'group_id'}"/>
+                        <filter string="Value" name="group_by_value" domain="" context="{'group_by':'value'}"/>
                     </group>
                 </search>
             </field>
