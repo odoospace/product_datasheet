@@ -286,9 +286,16 @@ class ProductTemplate(models.Model):
                 datasheet_field = self.env['product.datasheet.field'].search(
                     [('related_field_product_id', '=', model_field.id)])
                 if datasheet_field:
+                    is_active = True
+                    if not self.active:
+                        is_active = False
+                        self.active = True
+
                     datasheet_info = self.env['product.datasheet.info'].search(
                         [('product_id', '=', self.product_variant_id.id), ('field_id', '=', datasheet_field.id)])
                     if datasheet_info:
+                        if not is_active:
+                            self.active = False
                         datasheet_info.value = value_changed
 
         if model_producttemplate:
