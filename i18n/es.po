@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-24 10:32+0000\n"
-"PO-Revision-Date: 2021-09-24 10:32+0000\n"
+"POT-Creation-Date: 2021-12-16 12:29+0000\n"
+"PO-Revision-Date: 2021-12-16 12:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -237,6 +237,11 @@ msgid "Download Generic Excel"
 msgstr "Descargar Excel Genérico"
 
 #. module: product_datasheet
+#: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_template_wizard_form_view
+msgid "Download Layout"
+msgstr "Descargar Layout"
+
+#. module: product_datasheet
 #: model:ir.actions.server,name:product_datasheet.action_server_duplicate_product
 msgid "Duplicate Product"
 msgstr "Duplicar"
@@ -307,7 +312,7 @@ msgstr "Generar Plantilla Excel"
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__file_generated
 msgid "Generated ZIP file"
-msgstr "ZIP generado"
+msgstr ""
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
@@ -325,7 +330,7 @@ msgstr "Grupo"
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__group_after_id
 msgid "Group After"
-msgstr "Después del Grupo"
+msgstr "En el Grupo"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_info_search
@@ -499,7 +504,7 @@ msgstr "Descargar Versión Plantilla Excel"
 #: model:ir.model,name:product_datasheet.model_product_product
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_image__product_id
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__product_id
-#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__product_id
+#: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_template_wizard__product_ids
 #: model:ir.model.fields,field_description:product_datasheet.field_res_country__product_ids
 msgid "Product"
 msgstr "Producto"
@@ -714,7 +719,7 @@ msgstr "U.M. por Grupo"
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_uom__uom
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_info__uom
 msgid "Uom"
-msgstr "U. Medida"
+msgstr "U.Medida"
 
 #. module: product_datasheet
 #: model_terms:ir.ui.view,arch_db:product_datasheet.product_datasheet_view_fields_form
@@ -797,6 +802,12 @@ msgstr "No puedes editar un grupo con este código, ¡ya existe!"
 #, python-format
 msgid "You cannot edit this section with this code, it already exists!"
 msgstr "No puedes editar una sección con este código, ¡ya existe!"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/wizard/product_datasheet_template_wizard.py:0
+#, python-format
+msgid "You don't select a Template!"
+msgstr "¡No has seleccionado una Plantilla!"
 
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0

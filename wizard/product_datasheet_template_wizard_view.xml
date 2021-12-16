@@ -14,6 +14,7 @@
                 </group>
                 <footer>
                     <button string="Download Excel" type="object" name="action_download_excel" class="btn-primary"/>
+                    <button string="Download Layout" type="object" name="action_download_layout" class="btn-primary"/>
                     <button string="Cancel" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
