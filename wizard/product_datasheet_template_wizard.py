@@ -344,7 +344,7 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                             pdinfo = pdinfo_obj.search([('product_id', '=', product.id),
                                                         ('field_id', '=', pdfield.id)])
 
-                        worksheet.write(i, j, pdinfo.value_display if pdinfo else '', normal_format)
+                        worksheet.write(i, j, pdinfo.value if pdinfo else '', normal_format)
                 j += 1
             print(product.name)
             i += 1
