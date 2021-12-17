@@ -313,12 +313,14 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                 if pdfield:
                     name_column = ''
                     name_column += pdgroup_obj.search([('code', '=', 'ALD')],
-                                                      limit=1).name + ' ' if 'ALD' in key else ''
+                                                      limit=1).name + ' - ' if 'ALD' in key else ''
                     name_column += pdgroup_obj.search([('code', '=', 'ALI')],
-                                                      limit=1).name + ' ' if 'ALI' in key else ''
+                                                      limit=1).name + ' - ' if 'ALI' in key else ''
                     name_column += pdfield.name
-                    name_column += ' (' + pdfield.uom + ')' if pdfield.uom else ''
+                    name_column += ' (' + dict(pdfield._fields['uom'].selection).get(
+                        pdfield.uom) + ')' if pdfield.uom else ''
                     worksheet.write(i, j, name_column, black_format)
+
             j += 1
 
         i += 1
