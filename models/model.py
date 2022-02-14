@@ -424,15 +424,15 @@ class ProductProduct(models.Model):
 
             # GENERAL INFO TAB
             product_product_copy.standard_price = product_product.standard_price
-            product_secondary_unit = self.env['product.secondary.unit']
-            for secondary_uom in product_product.secondary_uom_ids:
-                product_secondary_unit.create({
-                    'code': secondary_uom.code,
-                    'name': secondary_uom.name,
-                    'factor': secondary_uom.factor,
-                    'uom_id': secondary_uom.uom_id.id if secondary_uom.uom_id else False,
-                    'product_tmpl_id': product_template_copy.id,
-                })
+            # product_secondary_unit = self.env['product.secondary.unit']
+            # for secondary_uom in product_product.secondary_uom_ids:
+            #     product_secondary_unit.create({
+            #         'code': secondary_uom.code,
+            #         'name': secondary_uom.name,
+            #         'factor': secondary_uom.factor,
+            #         'uom_id': secondary_uom.uom_id.id if secondary_uom.uom_id else False,
+            #         'product_tmpl_id': product_template_copy.id,
+            #     })
 
             # PURCHASE INFO TAB
             product_supplierinfo = self.env['product.supplierinfo']
