@@ -201,7 +201,7 @@ class ProductDatasheetFieldUom(models.Model):
             ("month", _("month")),
             ("percentage", _("%")),
             ("percentage_vrn", _("% VRN")),
-        ], required=True)
+        ], required=False)
 
     field_id = fields.Many2one('product.datasheet.field')
 
