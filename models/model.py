@@ -277,6 +277,9 @@ class ProductDatasheetTemplate(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    x_studio_presentacin = fields.Char('Presentation')
+    x_studio_presentacin_usuario_final = fields.Char('Presentation Final User')
+
     def write(self, values):
         res = super(ProductTemplate, self).write(values)
         model_producttemplate = self.env['ir.model'].search([('model', '=', 'product.template')])
@@ -360,6 +363,9 @@ class ProductProduct(models.Model):
         if self.filter_group:
             res.append(('group_id', '=', self.filter_group.id))
         return res
+
+    x_studio_presentacin = fields.Char(related='product_tmpl_id.x_studio_presentacin', string='Presentation')
+    x_studio_presentacin_usuario_final = fields.Char(related='product_tmpl_id.x_studio_presentacin_usuario_final', string='Presentation Final User')
 
     info_ids = fields.One2many('product.datasheet.info', 'product_id', domain=filter_by_name)
     image_ids = fields.One2many('product.datasheet.image', 'product_id')
