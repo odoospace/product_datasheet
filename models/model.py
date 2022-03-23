@@ -133,7 +133,7 @@ class Field(models.Model):
         ], default='string', required=True, translate=True)
     uom = fields.Selection(
         [
-            ("gr", _("gr")),
+            ("gr", _("g")),
             ("cfu_g", _("cfu/gr")),
             ("m3", _("m³")),
             ("cm", _("cm")),
@@ -143,7 +143,7 @@ class Field(models.Model):
             ("box", _("caja")),
             ("mg", _("mg")),
             ("kcal", _("kcal")),
-            ("KJ", _("kj")),
+            ("KJ", _("kJ")),
             ("ud", _("unidades")),
             ("kg", _("kg")),
             ("l", _("l")),
@@ -181,7 +181,7 @@ class ProductDatasheetFieldUom(models.Model):
     group_id = fields.Many2one('product.datasheet.group', required=True)
     uom = fields.Selection(
         [
-            ("gr", _("gr")),
+            ("gr", _("g")),
             ("cfu_g", _("cfu/gr")),
             ("m3", _("m³")),
             ("cm", _("cm")),
@@ -191,7 +191,7 @@ class ProductDatasheetFieldUom(models.Model):
             ("box", _("caja")),
             ("mg", _("mg")),
             ("kcal", _("kcal")),
-            ("KJ", _("kj")),
+            ("KJ", _("kJ")),
             ("ud", _("unidades")),
             ("kg", _("kg")),
             ("l", _("l")),

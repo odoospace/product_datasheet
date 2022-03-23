@@ -861,10 +861,10 @@ msgstr ""
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
 #: code:addons/product_datasheet/models/model.py:0
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__gr
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_uom__uom__gr
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__g
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_uom__uom__g
 #, python-format
-msgid "gr"
+msgid "g"
 msgstr ""
 
 #. module: product_datasheet
@@ -888,10 +888,10 @@ msgstr ""
 #. module: product_datasheet
 #: code:addons/product_datasheet/models/model.py:0
 #: code:addons/product_datasheet/models/model.py:0
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__kj
-#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_uom__uom__kj
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field__uom__kJ
+#: model:ir.model.fields.selection,name:product_datasheet.selection__product_datasheet_field_uom__uom__kJ
 #, python-format
-msgid "kj"
+msgid "kJ"
 msgstr ""
 
 #. module: product_datasheet
