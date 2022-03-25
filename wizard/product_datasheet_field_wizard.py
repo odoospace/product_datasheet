@@ -66,14 +66,17 @@ class ProductDatasheetFieldWizard(models.TransientModel):
                         if product_datasheet_info_group_after:
                             sequence = product_datasheet_info_group_after[-1].sequence + 1
                         else:
-                            product_datasheet_info_all_after = product_datasheet_info_obj.search([('product_id', '=', product.id)])
-                            sequence = product_datasheet_info_all_after[-1].sequence + 1 if len(product_datasheet_info_all_after) != 0 else 0
+                            product_datasheet_info_all_after = product_datasheet_info_obj.search(
+                                [('product_id', '=', product.id)])
+                            sequence = product_datasheet_info_all_after[-1].sequence + 1 if len(
+                                product_datasheet_info_all_after) != 0 else 0
                     product_datasheet_info.create({
                         'sequence': sequence,
                         'section_id': section_id.id,
                         'group_id': group_id.id,
                         'field_id': field_id.id,
-                        'value': product.product_tmpl_id[field_id.related_field_product_id.name],
+                        'value': product.product_tmpl_id[
+                            field_id.related_field_product_id.name] if field_id.related_field_product_id else '',
                         'product_id': product.id,
                     })
         elif self.action_type == 'remove':
