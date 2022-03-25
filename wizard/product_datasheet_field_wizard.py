@@ -46,8 +46,8 @@ class ProductDatasheetFieldWizard(models.TransientModel):
         product_datasheet_info_obj = self.env['product.datasheet.info']
 
         if self.action_type == 'add':
-            if field_id and not field_id.related_field_product_id:
-                raise UserError(_("The selected field is not related to the Product file"))
+            # if field_id and not field_id.related_field_product_id:
+            #     raise UserError(_("The selected field is not related to the Product file"))
 
             for product in self.product_ids:
                 product_datasheet_info = product_datasheet_info_obj.search(
