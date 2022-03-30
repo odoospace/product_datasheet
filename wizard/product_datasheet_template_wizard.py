@@ -145,7 +145,7 @@ class ProductDatasheetTemplateWizard(models.TransientModel):
                                     if general_dict[cell_value]:
                                         buf_product_image = BytesIO(base64.b64decode(general_dict[cell_value]))
                                         image_drawing = openpyxl.drawing.image.Image(buf_product_image)
-                                        image_drawing.height = 100
+                                        image_drawing.height = 75
                                         image_drawing.width = 150
                                         sheet_obj.add_image(image_drawing, cell.coordinate)  # Insert product image
                                     cell.value = None
