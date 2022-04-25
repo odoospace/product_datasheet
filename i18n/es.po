@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-23 14:45+0000\n"
-"PO-Revision-Date: 2022-03-23 14:45+0000\n"
+"POT-Creation-Date: 2022-04-25 09:33+0000\n"
+"PO-Revision-Date: 2022-04-25 09:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,30 @@ msgstr ""
 #, python-format
 msgid "% VRN"
 msgstr ""
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid ""
+"%s value does not exist! Allowed values are %s\n"
+"\n"
+"Contact support"
+msgstr ""
+"¡El valor %s no existe! Los valores permitidos son %s\n"
+"\n"
+"Contacte con Soporte"
+
+#. module: product_datasheet
+#: code:addons/product_datasheet/models/model.py:0
+#, python-format
+msgid ""
+"%s value does not exist! The allowed values for this field are %s\n"
+"\n"
+"Contact support"
+msgstr ""
+"¡El valor %s no existe! Los valores permitidos son %s\n"
+"\n"
+"Contacte con Soporte"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_field_wizard__action_type
@@ -701,12 +725,6 @@ msgstr "Texto Pie de Página"
 #: model:ir.model.fields,help:product_datasheet.field_res_config_settings__text_footer
 msgid "Text in Footer of Excel"
 msgstr "Texto que irá en el Pie de Página del Excel"
-
-#. module: product_datasheet
-#: code:addons/product_datasheet/wizard/product_datasheet_field_wizard.py:0
-#, python-format
-msgid "The selected field is not related to the Product file"
-msgstr "El Campo seleccionado no está relacionado con la Ficha Producto"
 
 #. module: product_datasheet
 #: model:ir.model.fields,field_description:product_datasheet.field_product_datasheet_group__timestamp
