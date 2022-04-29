@@ -241,12 +241,12 @@ class Info(models.Model):
         if 'value' in vals and res.field_id and res.field_id.related_field_product_id:
             if res.field_id.related_field_product_id.ttype == 'selection':
                 values_selection = list(
-                    set(res.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
-                                                                                                                  '').replace(
-                        ')', '').replace(' ', '').replace("'", '').split(',')))
+                    set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
+                                                                                                                   '').replace(
+                        ')', '').replace(" '", '').replace("'", '').split(',')))
                 if vals['value'] not in values_selection:
                     raise UserError(_('%s value does not exist! Allowed values are %s\n\nContact support') % (
-                    vals['value'], values_selection,))
+                        vals['value'], values_selection,))
             res.product_id.product_tmpl_id.write({res.field_id.related_field_product_id.name: vals['value']})
         return res
 
@@ -256,11 +256,11 @@ class Info(models.Model):
                 values_selection = list(
                     set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
                                                                                                                    '').replace(
-                        ')', '').replace(' ', '').replace("'", '').split(',')))
+                        ')', '').replace(" '", '').replace("'", '').split(',')))
                 if values['value'] not in values_selection:
                     raise UserError(
                         _('%s value does not exist! The allowed values for this field are %s\n\nContact support') % (
-                        values['value'], values_selection,))
+                            values['value'], values_selection,))
             self.product_id.product_tmpl_id.write({self.field_id.related_field_product_id.name: values['value']})
         return super(Info, self).write(values)
 
