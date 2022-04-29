@@ -243,7 +243,8 @@ class Info(models.Model):
                 values_selection = list(
                     set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
                                                                                                                    '').replace(
-                        ')', '').replace(" '", '').replace("'", '').split(',')))
+                        ')', '').replace(" '", '').replace("'", '').split(
+                        ','))) if self.field_id.related_field_product_id.selection else []
                 if vals['value'] not in values_selection:
                     raise UserError(_('%s value does not exist! Allowed values are %s\n\nContact support') % (
                         vals['value'], values_selection,))
@@ -256,7 +257,8 @@ class Info(models.Model):
                 values_selection = list(
                     set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
                                                                                                                    '').replace(
-                        ')', '').replace(" '", '').replace("'", '').split(',')))
+                        ')', '').replace(" '", '').replace("'", '').split(
+                        ','))) if self.field_id.related_field_product_id.selection else []
                 if values['value'] not in values_selection:
                     raise UserError(
                         _('%s value does not exist! The allowed values for this field are %s\n\nContact support') % (
