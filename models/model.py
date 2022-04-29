@@ -239,12 +239,12 @@ class Info(models.Model):
     def create(self, vals):
         res = super(Info, self).create(vals)
         if 'value' in vals and res.field_id and res.field_id.related_field_product_id:
-            if res.field_id.related_field_product_id.ttype == 'selection':
+            if res.field_id.related_field_product_id.ttype == 'selection' and not res.field_id.related_field_product_id.related:
                 values_selection = list(
-                    set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
+                    set(res.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
                                                                                                                    '').replace(
                         ')', '').replace(" '", '').replace("'", '').split(
-                        ','))) if self.field_id.related_field_product_id.selection else []
+                        ','))) if res.field_id.related_field_product_id.selection else ['']
                 if vals['value'] not in values_selection:
                     raise UserError(_('%s value does not exist! Allowed values are %s\n\nContact support') % (
                         vals['value'], values_selection,))
@@ -253,12 +253,12 @@ class Info(models.Model):
 
     def write(self, values):
         if 'value' in values and self.field_id and self.field_id.related_field_product_id:
-            if self.field_id.related_field_product_id.ttype == 'selection':
+            if self.field_id.related_field_product_id.ttype == 'selection' and not self.field_id.related_field_product_id.related:
                 values_selection = list(
                     set(self.field_id.related_field_product_id.selection.replace('[', '').replace(']', '').replace('(',
                                                                                                                    '').replace(
                         ')', '').replace(" '", '').replace("'", '').split(
-                        ','))) if self.field_id.related_field_product_id.selection else []
+                        ','))) if self.field_id.related_field_product_id.selection else ['']
                 if values['value'] not in values_selection:
                     raise UserError(
                         _('%s value does not exist! The allowed values for this field are %s\n\nContact support') % (
