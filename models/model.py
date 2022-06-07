@@ -241,9 +241,9 @@ class Info(models.Model):
         if 'value' in vals and res.field_id and res.field_id.related_field_product_id:
             if res.field_id.related_field_product_id.ttype == 'selection' and not res.field_id.related_field_product_id.related:
                 values_selection = res.field_id.related_field_product_id.selection if res.field_id.related_field_product_id.selection else ['']
-                if vals['value'] not in values_selection:
+                if not vals['value'] or vals['value'] not in values_selection:
                     raise UserError(_('%s value does not exist! Allowed values are %s\n\nContact support') % (
-                        vals['value'], values_selection,))
+                        vals['value'] if vals['value'] else 'Empty', values_selection,))
             res.product_id.product_tmpl_id.write({res.field_id.related_field_product_id.name: vals['value']})
         return res
 
@@ -251,10 +251,10 @@ class Info(models.Model):
         if 'value' in values and self.field_id and self.field_id.related_field_product_id:
             if self.field_id.related_field_product_id.ttype == 'selection' and not self.field_id.related_field_product_id.related:
                 values_selection = self.field_id.related_field_product_id.selection if self.field_id.related_field_product_id.selection else ['']
-                if values['value'] not in values_selection:
+                if not values['value'] or values['value'] not in values_selection:
                     raise UserError(
                         _('%s value does not exist! The allowed values for this field are %s\n\nContact support') % (
-                            values['value'], values_selection,))
+                            values['value'] if values['value'] else 'Empty', values_selection,))
             self.product_id.product_tmpl_id.write({self.field_id.related_field_product_id.name: values['value']})
         return super(Info, self).write(values)
 
