@@ -349,7 +349,7 @@
                                 <group>
                                     <field name="info_ids" nolabel="1"
                                            context="{'default_info_ids': active_id, 'default_active': True}">
-                                        <tree class="tree_datasheet_info">
+                                        <tree class="tree_datasheet_info" limit="250">
                                             <field name='sequence' widget='handle'/>
                                             <field name="section_id"/>
                                             <field name="group_name" string="Group"/>
